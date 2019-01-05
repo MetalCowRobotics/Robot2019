@@ -33,3 +33,5 @@ To setup your worstation, please go to the following link
 http://first.wpi.edu/FRC/roborio/release/docs/java/
 
 # MetalCow Robotics 2019 - Code Details
+
+*Note, add LifeBoat and SRX setup stuff
