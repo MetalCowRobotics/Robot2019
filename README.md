@@ -34,4 +34,13 @@ http://first.wpi.edu/FRC/roborio/release/docs/java/
 
 # MetalCow Robotics 2019 - Code Details
 
+## Stickler is setup on this project
+If it stops working...
+1. Login to Stickler
+2. Give it permissions on all MetalCow Repositories
+3. Add a .stickler.yml file to the root of the project
+4. Add the google checkstyle to ./resources folder
+5. In a pull request or a Push it should auto-run stickler and add comments on the push.
+
+## Talon SRX Motor Controllers
 *Note, add LifeBoat and SRX setup stuff
