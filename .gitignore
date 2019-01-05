@@ -1,3 +1,7 @@
+# Project files to ignore
+.gradle/
+build/
+
 # Compiled class file
 *.class
 
