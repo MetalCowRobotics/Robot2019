@@ -23,10 +23,13 @@ To setup your worstation, please go to the following link
 
 1. Install [Github Dekstop](https://desktop.github.com/)
     - Learn about the [GitHub flow](https://guides.github.com/introduction/flow/)
-2. Go to the MCR Github and [clone the code](https://github.com/MetalCowRobotics/Robot2019) 
-4. In VSCode choose `File>Open` navigate to the folder where you cloned the Robot Code in step 2. Click `OK`
-5. Debug a program [tips here](https://wpilib.screenstepslive.com/s/currentCS/m/java/l/242588-debugging-a-robot-program)
-6. Deploy the Robot code with [these steps](https://wpilib.screenstepslive.com/s/currentCS/m/java/l/1027063-building-and-deploying-to-a-roborio)
+2. Open Github Desktop.
+3. Login as `metalcow-student` via `File>Options` ask for the password on [team Slack](www.metalcowrobotics.comm/slack)
+4. Choose the `Repository` dropdown and then `Add>Clone Repository...`
+5. Select `2019Robot` from the list and choose 'Clone'.
+6. In VSCode choose `File>Open` navigate to the folder `C:\Users\teamm\OneDrive\Documents\GitHub\Robot2019` where you cloned the Robot Code in step 2. Click `OK`
+7. Debug a program [tips here](https://wpilib.screenstepslive.com/s/currentCS/m/java/l/242588-debugging-a-robot-program)
+8. Deploy the Robot code with [these steps](https://wpilib.screenstepslive.com/s/currentCS/m/java/l/1027063-building-and-deploying-to-a-roborio)
 
 # Read the WPI Java Lib
 
