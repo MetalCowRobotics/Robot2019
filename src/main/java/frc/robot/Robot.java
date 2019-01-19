@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    System.out.println("This is a test");
+    // System.out.println("This is a test");
     logger.info("Teleop Periodic!");
     driveTrain.drive();
   }

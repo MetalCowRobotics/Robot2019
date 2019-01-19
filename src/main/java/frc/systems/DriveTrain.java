@@ -57,6 +57,7 @@ public class DriveTrain {
 		SmartDashboard.putNumber("forward speed", controller.forwardSpeed());
 		SmartDashboard.putNumber("getSelectedSensorPosition", rightMotor.getSelectedSensorPosition());
 		SmartDashboard.putBoolean("Digital", Gabe.get());
+		printRightEncoder();
 	}
 
 	/**
@@ -99,19 +100,11 @@ public class DriveTrain {
 	 */
 	private double getThrottle() {
 		if (controller.isCrawlToggle()) {
-
-			System.out.println("crawling---------");
-
 			return RobotMap.Drivetrain.CRAWL_SPEED;
-
 		} else if (controller.isSprintToggle()) {
-
 			return RobotMap.Drivetrain.SPRINT_SPEED;
-
 		} else {
-
 			return RobotMap.Drivetrain.NORMAL_SPEED;
-
 		}
 
 	}
