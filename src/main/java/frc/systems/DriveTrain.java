@@ -45,7 +45,13 @@ public class DriveTrain {
 	}
 
 	public void drive() {
-		drive.arcadeDrive(controller.forwardSpeed(), controller.direction());
+		if (controller.invertDrive()) {
+
+			invert();
+
+		}
+		double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted;
+		drive.arcadeDrive(speed, controller.direction());
 		SmartDashboard.putNumber("forward speed", controller.forwardSpeed());
 		SmartDashboard.putNumber("getSelectedSensorPosition", rightMotor.getSelectedSensorPosition());
 		SmartDashboard.putBoolean("Digital", Gabe.get());
