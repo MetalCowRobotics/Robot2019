@@ -5,7 +5,7 @@ import java.util.logging.Level;
 public class RobotMap {
 
 	public final class DriverController {
-		public static final int USB_PORT = 0;
+		public static final int 	USB_PORT = 0;
 	}
 
 	public final class OperatorController {

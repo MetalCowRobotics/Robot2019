@@ -5,9 +5,11 @@ import java.util.logging.Logger;
 // import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
 
 public class DriveTrain {
@@ -15,17 +17,18 @@ public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
 	private static final ADXRS450_Gyro ADXRS450_GYRO = new ADXRS450_Gyro();
 
-	private static MCR_SRX RightMotor = new MCR_SRX(1);
-	private static MCR_SRX LeftMotor = new MCR_SRX(2);
+	private static MCR_SRX rightMotor = new MCR_SRX(1);
+	private static MCR_SRX leftMotor = new MCR_SRX(10);
+	private static DigitalInput Gabe=new DigitalInput(9);
 
 	MasterControls controller = MasterControls.getInstance();
 
 
 	//private static final Encoder rightEncoder = new Encoder(RobotMap.Drivetrain.RIGHT_ENCODER_1,
 	//		RobotMap.Drivetrain.RIGHT_ENCODER_2, false, EncodingType.k4X);
-	//private static final Encoder leftEncoder = new Encoder(RobotMap.Drivetrain.LEFT_ENCODER_1,
-	//		RobotMap.Drivetrain.LEFT_ENCODER_2, true, EncodingType.k4X);
-	private static final DifferentialDrive drive = new DifferentialDrive(LeftMotor, RightMotor);
+	// private static final Encoder rightEncoder = new Encoder(1,
+	// 	RobotMap.Drivetrain.LEFT_ENCODER_2, true, EncodingType.k4X);
+	private static final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
 
 	private static final ADXRS450_Gyro GYRO = ADXRS450_GYRO;
 
@@ -43,6 +46,9 @@ public class DriveTrain {
 
 	public void drive() {
 		drive.arcadeDrive(controller.forwardSpeed(), controller.direction());
+		SmartDashboard.putNumber("forward speed", controller.forwardSpeed());
+		SmartDashboard.putNumber("getSelectedSensorPosition", rightMotor.getSelectedSensorPosition());
+		SmartDashboard.putBoolean("Digital", Gabe.get());
 	}
 
 	/**

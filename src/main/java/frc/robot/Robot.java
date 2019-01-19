@@ -40,11 +40,12 @@ public class Robot extends TimedRobot {
     logger.entering(this.getClass().getName(), "robotInit");
     
     // Initialize Robot
-		driverStation = DriverStation.getInstance();
-    CameraServer.getInstance().startAutomaticCapture(0);
+    driverStation = DriverStation.getInstance();
+    driveTrain = DriveTrain.getInstance();
+    //CameraServer.getInstance().startAutomaticCapture(0);
     
     //calibrate Gyro
-		driveTrain.calibrateGyro();
+		//driveTrain.calibrateGyro();
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
 
   }
