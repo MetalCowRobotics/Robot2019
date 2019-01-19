@@ -18,8 +18,10 @@ public class Elevator {
 	private static final Elevator instance = new Elevator();
 	private static final MasterControls controller = MasterControls.getInstance();
 
+	//private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
+	//		new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
 	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
-			new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
+			new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1));
 	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1,
 			RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
 	private DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
@@ -133,7 +135,7 @@ public class Elevator {
 	}
 
 	public double getEncoderTics() {
-		return elevatorEncoder.getDistance();
+		return new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1).getSelectedSensorPosition();
 	}
 
 	private void logParameters() {
