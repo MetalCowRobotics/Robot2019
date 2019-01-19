@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
 import frc.lib14.PDController;
 import frc.lib14.UtilityMethods;
@@ -17,13 +18,13 @@ public class Elevator {
 	private static final RobotDashboard dash = RobotDashboard.getInstance();
 	private static final Elevator instance = new Elevator();
 	private static final MasterControls controller = MasterControls.getInstance();
-
+	private static final MCR_SRX motor1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
 	//private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
 	//		new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
 	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
-			new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1));
-	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1,
-			RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
+		motor1);
+	// private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1,
+	// 		RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
 	private DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 
@@ -42,6 +43,7 @@ public class Elevator {
 	}
 
 	public void execute() {
+		// System.out.println("Elevator");
 		logger.info("================== elevator iteration ==============================");
 		logger.info("Elevator Up: " + this.isElevatorAtTop() + " Elevator Down: " + this.isElevatorAtBottom());
 		logger.info("elevator encoder tics:" + getEncoderTics());
@@ -65,6 +67,8 @@ public class Elevator {
 			setPositionTics(getEncoderTics());
 		}
 		dash.pushElevatorPID(holdPID);
+		SmartDashboard.putNumber("current", getEncoderTics());
+		SmartDashboard.putNumber("Top", topTics);
 	}
 
 	public void setPositionTics(double tics) {
@@ -135,7 +139,7 @@ public class Elevator {
 	}
 
 	public double getEncoderTics() {
-		return new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1).getSelectedSensorPosition();
+		return motor1.getSelectedSensorPosition();
 	}
 
 	private void logParameters() {

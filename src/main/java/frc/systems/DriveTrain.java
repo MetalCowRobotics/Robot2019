@@ -19,7 +19,7 @@ public class DriveTrain {
 
 	private static MCR_SRX rightMotor = new MCR_SRX(1);
 	private static MCR_SRX leftMotor = new MCR_SRX(10);
-	private static DigitalInput Gabe=new DigitalInput(9);
+	private static DigitalInput Gabe=new DigitalInput(10);
 
 	MasterControls controller = MasterControls.getInstance();
 

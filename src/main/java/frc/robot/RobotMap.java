@@ -77,13 +77,13 @@ public class RobotMap {
 		public static final int ANGLE_MOTOR_CHANNEL = 7; // CAN
 		// public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
-		public static final int BOX_SENSOR = 9; // DIO
+		//public static final int BOX_SENSOR = 9; // DIO
 	}
 
 	public final class Elevator {
 //		public static final double UP_SPEED = 0.2;// motor is reversed
 //		public static final double DOWN_SPEED = -0.8;// motor is reversed
-		public static final int ELEVATOR_CHANNEL1 = 5;// CAN
+		public static final int ELEVATOR_CHANNEL1 = 1;// CAN
 		public static final int ELEVATOR_CHANNEL2 = 6;// CAN
 		public static final int LIMIT_SWITCH_TOP = 9; // DIO 
 		public static final int LIMIT_SWITCH_BOTTOM = 8; // DIO 
@@ -113,7 +113,7 @@ public class RobotMap {
 	public final class Climber {
 		public static final int CLIMBER_MOTOR_CHANNEL =  2; // PWM - using Y-cable only needs 1 port
 		public static final int CLIMBER_HELPER_SERVO_CHANNEL = 3;
-		public static final int LIMIT_SWITCH = 8; // DIO 
+		//public static final int LIMIT_SWITCH = 8; // DIO 
 	}
 	
 	public static final class Autonomous {
@@ -135,7 +135,7 @@ public class RobotMap {
 	}
 
 	public static final class LogLevels {
-		public static final Level robotClass = Level.WARNING;
+		public static final Level robotClass = Level.INFO;
 		public static final Level hamburgerDashboardClass = Level.WARNING;
 		public static final Level masterControlsClass = Level.WARNING;
 		public static final Level driveTrainClass = Level.FINEST;
