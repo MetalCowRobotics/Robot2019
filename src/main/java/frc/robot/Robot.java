@@ -7,9 +7,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.systems.DriveTrain;
+import java.util.logging.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,11 +21,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends IterativeRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+// public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
+  private static final Logger logger = Logger.getLogger(Robot.class.getName());
+
+  DriverStation driverStation;
+
+  // Systems
+  DriveTrain driveTrain;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -30,9 +36,17 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+		logger.setLevel(RobotMap.LogLevels.robotClass);
+    logger.entering(this.getClass().getName(), "robotInit");
+    
+    // Initialize Robot
+		driverStation = DriverStation.getInstance();
+    CameraServer.getInstance().startAutomaticCapture(0);
+    
+    //calibrate Gyro
+		driveTrain.calibrateGyro();
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+
   }
 
   /**
@@ -60,10 +74,7 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+
   }
 
   /**
@@ -71,15 +82,12 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+
+  }
+
+  @Override
+  public void teleopInit() {
+
   }
 
   /**
@@ -88,6 +96,8 @@ public class Robot extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     System.out.println("This is a test");
+    logger.info("Teleop Periodic!");
+    driveTrain.drive();
   }
 
   /**
