@@ -105,5 +105,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    //write a "back to the pit" self-check script here
+    //something we an run that moves all the mechanisms one at a time or tests sensors
+    //like asks for us to press limit switches so we know they are still wired in
   }
 }
