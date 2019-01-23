@@ -15,13 +15,12 @@ import frc.lib14.MCR_SRX;
 import frc.robot.RobotMap;
 
 public class DriveTrain {
+	private static MCR_SRX rightMotor = new MCR_SRX(1);
+	private static MCR_SRX leftMotor = new MCR_SRX(10);
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
 	private static final DriveTrain instance = new DriveTrain();
 	private static final ADXRS450_Gyro ADXRS450_GYRO = new ADXRS450_Gyro();
 
-	private static MCR_SRX rightMotor = new MCR_SRX(1);
-	private static MCR_SRX leftMotor = new MCR_SRX(10);
-	
 	MasterControls controller = MasterControls.getInstance();
 
 	// private static final Encoder rightEncoder = new
@@ -37,6 +36,8 @@ public class DriveTrain {
 
 	// Singleton
 	protected DriveTrain() {
+		rightMotor.configOpenloopRamp(.5);
+		leftMotor.configOpenloopRamp(.5);
 		// logger.setLevel(RobotMap.LogLevels.driveTrainClass);
 	}
 

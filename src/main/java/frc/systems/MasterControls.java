@@ -64,8 +64,8 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		SmartDashboard.putNumber("Throttle", operator.getRY());
-		return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
+		return UtilityMethods.deadZoneCalculation(operator.getRY());
+		//return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
 
 	public boolean raiseIntake() {
