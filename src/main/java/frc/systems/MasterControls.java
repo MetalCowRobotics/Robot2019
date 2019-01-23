@@ -2,6 +2,7 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import frc.lib14.UtilityMethods;
 import frc.lib14.XboxControllerMetalCow;
 import frc.robot.RobotMap;
 
@@ -60,7 +61,8 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
+		return UtilityMethods.deadZoneCalculation(operator.getRY());
+		//return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
 	
 	public boolean raiseIntake() {
