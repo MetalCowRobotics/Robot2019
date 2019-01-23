@@ -6,7 +6,7 @@ abstract class TimedCommand {
     private Timer timer = new Timer();
     private double targetTime = 3;
 
-    protected double setTargetTime(double seconds) {
+    protected void setTargetTime(double seconds) {
         this.targetTime = seconds;
     }
 
@@ -15,9 +15,9 @@ abstract class TimedCommand {
         timer.start();
     }
 
-protected void endTimer() {
-	timer.stop;
-}
+    protected void endTimer() {
+	    timer.stop();
+    }
 
     protected boolean timerUp() {
         return timer.get() > targetTime;

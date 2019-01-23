@@ -1,5 +1,7 @@
 package frc.systems;
 
+import java.util.logging.Logger;
+
 public class Climber {
     private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 	private static final Climber instance = new Climber();
