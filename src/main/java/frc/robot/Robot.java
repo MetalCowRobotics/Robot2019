@@ -33,8 +33,8 @@ public class Robot extends TimedRobot {
 
   // Systems
   Compressor c = new Compressor();
-  DriveTrain driveTrain;
-  Elevator elevator;
+  //DriveTrain driveTrain;
+  //Elevator elevator;
   HatchHandler hatchHandler;
 
   /**
@@ -48,15 +48,16 @@ public class Robot extends TimedRobot {
     
     // Initialize Robot
     driverStation = DriverStation.getInstance();
-    driveTrain = DriveTrain.getInstance();
-    elevator = Elevator.getInstance();
+    //driveTrain = DriveTrain.getInstance();
+    //elevator = Elevator.getInstance();
     hatchHandler = HatchHandler.getInstance();
     //CameraServer.getInstance().startAutomaticCapture(0);
     
     //calibrate Gyro
-		//driveTrain.calibrateGyro();
-		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+    //driveTrain.calibrateGyro();
     c.setClosedLoopControl(true);
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+   
   }
 
   /**
@@ -105,7 +106,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // System.out.println("This is a test");
+    System.out.println("This is a test");
     // logger.info("Teleop Periodic!");
     //driveTrain.drive();
     //elevator.execute();
