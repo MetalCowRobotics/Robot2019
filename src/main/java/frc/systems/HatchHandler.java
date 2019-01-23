@@ -8,8 +8,8 @@ public class HatchHandler {
     private static final MasterControls controller = MasterControls.getInstance();
     private static final Logger logger = Logger.getLogger(HatchHandler.class.getName());
     private static final HatchHandler instance = new HatchHandler();
-    private DoubleSolenoid arm=new DoubleSolenoid(0, 1);
-    //private DoubleSolenoid grabber=new DoubleSolenoid(3,4);
+    private DoubleSolenoid arm = new DoubleSolenoid(0, 1);
+    // private DoubleSolenoid grabber=new DoubleSolenoid(3,4);
 
     enum ArmStatus {
         extended, retracted
@@ -18,6 +18,7 @@ public class HatchHandler {
     private ArmStatus armStatus = ArmStatus.retracted;
 
     private HatchHandler() {
+        arm.set(DoubleSolenoid.Value.kOff);
     }
 
     public static HatchHandler getInstance() {
@@ -36,18 +37,19 @@ public class HatchHandler {
     }
 
     private void retract() {
-        if(ArmStatus.extended==armStatus){
+        // if (ArmStatus.extended == armStatus) {
             arm.set(DoubleSolenoid.Value.kForward);
-            armStatus=ArmStatus.retracted;     
-        }
+            armStatus = ArmStatus.retracted;
+        // }
+        System.out.print("retract");
     }
 
     public void extend() {
-        switch (armStatus) {
-        case retracted:
+        // if (ArmStatus.extended == armStatus) {
             arm.set(DoubleSolenoid.Value.kReverse);
-            armStatus=ArmStatus.extended;
-        }
+            armStatus = ArmStatus.extended;
+        // }
+        System.out.print("extend");
     }
 
 }
