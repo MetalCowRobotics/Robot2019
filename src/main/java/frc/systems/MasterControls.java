@@ -2,6 +2,8 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.UtilityMethods;
 import frc.lib14.XboxControllerMetalCow;
 import frc.robot.RobotMap;
@@ -12,7 +14,8 @@ public class MasterControls {
 	private static final MasterControls instance = new MasterControls();
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
-	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT);
+	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(
+			RobotMap.OperatorController.USB_PORT);
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
@@ -23,13 +26,13 @@ public class MasterControls {
 		return instance;
 	}
 
-//	public double getDriveLeftThrottle() {
-//		return driver.getLY();
-//	}
-//
-//	public double getDriveRightThrottle() {
-//		return driver.getRY();
-//	}
+	// public double getDriveLeftThrottle() {
+	// return driver.getLY();
+	// }
+	//
+	// public double getDriveRightThrottle() {
+	// return driver.getRY();
+	// }
 
 	// Arcade
 	public boolean isHalfArcadeToggle() {
@@ -51,7 +54,7 @@ public class MasterControls {
 	public boolean isCubeIntake() {
 		return operator.getLT() > .25;
 	}
-	
+
 	public boolean isSlowCubeEject() {
 		return operator.getRB();
 	}
@@ -64,12 +67,13 @@ public class MasterControls {
 		return UtilityMethods.deadZoneCalculation(operator.getRY());
 		//return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
-	
+
 	public boolean raiseIntake() {
 		return operator.getYButton();
 	}
 
 	public boolean lowerIntake() {
+		System.out.println("getAButon");
 		return operator.getAButton();
 	}
 
@@ -82,22 +86,22 @@ public class MasterControls {
 	}
 
 	public double getClimbThrottle() {
-		//add tolerance near 0
-		return (Math.abs(operator.getLY())>.02) ? -operator.getLY() : 0;
+		// add tolerance near 0
+		return (Math.abs(operator.getLY()) > .02) ? -operator.getLY() : 0;
 	}
-	
+
 	public boolean isClimberActivated() {
 		return operator.getLB();
 	}
-	
-		
+
 	public boolean isTiltUp() {
 		return operator.getYButton();
 	}
-	
+
 	public boolean isTiltDown() {
 		return operator.getAButton();
 	}
+
 	public double forwardSpeed() {
 		return driver.getRT();
 	}
@@ -105,13 +109,35 @@ public class MasterControls {
 	public double reverseSpeed() {
 		return driver.getLT();
 	}
-	
+
 	public double direction() {
 		return driver.getLX();
 	}
-	
+
 	public boolean isTiltMid() {
 		return operator.getXButton();
 	}
-	
+
+	public boolean isExtended() {
+		// return operator.getPOV()==0;
+		boolean extended = false;
+		if (UtilityMethods.between(operator.getPOV(), 0, 90)) {
+			extended = true;
+		} else if (UtilityMethods.between(operator.getPOV(), 270, 360)) {
+			extended = true;
+		}
+		return extended;
+		// System.out.println("getAButon");
+		// return operator.getAButton();
+
+	}
+
+	public boolean isRetracted() {
+		System.out.println("POV" + operator.getPOV());
+		if (UtilityMethods.between(operator.getPOV(), 91, 269)) {
+			return true;
+		}
+		return false;
+		// return operator.getBButton();
+	}
 }

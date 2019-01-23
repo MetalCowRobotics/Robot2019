@@ -21,7 +21,6 @@ public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
 	private static final ADXRS450_Gyro ADXRS450_GYRO = new ADXRS450_Gyro();
 
-
 	MasterControls controller = MasterControls.getInstance();
 
 	// private static final Encoder rightEncoder = new
@@ -56,7 +55,7 @@ public class DriveTrain {
 		drive.arcadeDrive(speed, controller.direction());
 		SmartDashboard.putNumber("forward speed", controller.forwardSpeed());
 		SmartDashboard.putNumber("getSelectedSensorPosition", rightMotor.getSelectedSensorPosition());
-		//printRightEncoder();
+		printRightEncoder();
 	}
 
 	/**

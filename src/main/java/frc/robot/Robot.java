@@ -10,8 +10,12 @@ package frc.robot;
 //import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.systems.DriveTrain;
+import frc.systems.Elevator;
+import frc.systems.HatchHandler;
+
 import java.util.logging.Logger;
 
 /**
@@ -28,7 +32,10 @@ public class Robot extends TimedRobot {
   DriverStation driverStation;
 
   // Systems
-  DriveTrain driveTrain;
+  Compressor c = new Compressor();
+  //DriveTrain driveTrain;
+  //Elevator elevator;
+  HatchHandler hatchHandler;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -41,13 +48,16 @@ public class Robot extends TimedRobot {
     
     // Initialize Robot
     driverStation = DriverStation.getInstance();
-    driveTrain = DriveTrain.getInstance();
+    //driveTrain = DriveTrain.getInstance();
+    //elevator = Elevator.getInstance();
+    hatchHandler = HatchHandler.getInstance();
     //CameraServer.getInstance().startAutomaticCapture(0);
     
     //calibrate Gyro
-		//driveTrain.calibrateGyro();
-		DriverStation.reportWarning("ROBOT SETUP COMPLETE! Get Ready to Rumble!", false);
-
+    //driveTrain.calibrateGyro();
+    c.setClosedLoopControl(true);
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+   
   }
 
   /**
@@ -96,9 +106,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // System.out.println("This is a test");
-    logger.info("Teleop Periodic!");
-    driveTrain.drive();
+    System.out.println("This is a test");
+    // logger.info("Teleop Periodic!");
+    //driveTrain.drive();
+    //elevator.execute();
+    hatchHandler.execute();
+
   }
 
   /**
