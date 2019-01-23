@@ -77,23 +77,23 @@ public class RobotMap {
 		public static final int ANGLE_MOTOR_CHANNEL = 7; // CAN
 		// public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
-		public static final int BOX_SENSOR = 9; // DIO
+		//public static final int BOX_SENSOR = 9; // DIO
 	}
 
 	public final class Elevator {
 //		public static final double UP_SPEED = 0.2;// motor is reversed
 //		public static final double DOWN_SPEED = -0.8;// motor is reversed
-		public static final int ELEVATOR_CHANNEL1 = 5;// CAN
+		public static final int ELEVATOR_CHANNEL1 = 1;// CAN
 		public static final int ELEVATOR_CHANNEL2 = 6;// CAN
-		public static final int LIMIT_SWITCH_TOP = 6; // DIO -- VERIFIED via Multimeter
-		public static final int LIMIT_SWITCH_BOTTOM = 7; // DIO -- Two Stages are wired in series... as one switch.
+		public static final int LIMIT_SWITCH_TOP = 9; // DIO 
+		public static final int LIMIT_SWITCH_BOTTOM = 8; // DIO 
 		public static final int ELEVATOR_ENCODER_1 = 4; // DIO
 		public static final int ELEVATOR_ENCODER_2 = 5; // DIO
 		public static final double EXCHANGE_HEIGHT = 1.75;
 		public static final double SWITCHWALL_HEIGHT = 20;
 		public static final double SCALE_MID_HEIGHT = 80;
-		public static final double ELEVATOR_WINCH_DIAMETER = 19 / 8;
-		public static final int TICS_PER_ROTATION = 354; // need to try 360
+		public static final double ELEVATOR_WINCH_DIAMETER = 6;
+		public static final int TICS_PER_ROTATION = 4096; // need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Elevator.ELEVATOR_WINCH_DIAMETER;
 		//public static final double SLOW_DOWN_DISTANCE = (8 / INCHES_PER_ROTATION) * TICS_PER_ROTATION;
 		public static final double SAFTEY_ZONE = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
@@ -113,7 +113,7 @@ public class RobotMap {
 	public final class Climber {
 		public static final int CLIMBER_MOTOR_CHANNEL =  2; // PWM - using Y-cable only needs 1 port
 		public static final int CLIMBER_HELPER_SERVO_CHANNEL = 3;
-		public static final int LIMIT_SWITCH = 8; // DIO 
+		//public static final int LIMIT_SWITCH = 8; // DIO 
 	}
 	
 	public static final class Autonomous {
@@ -135,7 +135,7 @@ public class RobotMap {
 	}
 
 	public static final class LogLevels {
-		public static final Level robotClass = Level.WARNING;
+		public static final Level robotClass = Level.INFO;
 		public static final Level hamburgerDashboardClass = Level.WARNING;
 		public static final Level masterControlsClass = Level.WARNING;
 		public static final Level driveTrainClass = Level.FINEST;

@@ -2,6 +2,8 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.XboxControllerMetalCow;
 import frc.robot.RobotMap;
 
@@ -60,6 +62,7 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
+		SmartDashboard.putNumber("Throttle", operator.getRY());
 		return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
 	
@@ -68,6 +71,7 @@ public class MasterControls {
 	}
 
 	public boolean lowerIntake() {
+		System.out.println("getAButon");
 		return operator.getAButton();
 	}
 
@@ -112,4 +116,15 @@ public class MasterControls {
 		return operator.getXButton();
 	}
 	
+	public boolean isExtended() {
+		//return operator.getPOV()==0;
+		System.out.println("getAButon");
+		return operator.getAButton();
+
+	}
+
+	public boolean isRetracted() {
+		// return operator.getPOV()==180;
+		return operator.getBButton();
+	}
 }
