@@ -21,9 +21,7 @@ public class DriveTrain {
 
 	private static MCR_SRX rightMotor = new MCR_SRX(1);
 	private static MCR_SRX leftMotor = new MCR_SRX(10);
-	// TODO: Remove test code
-	private static DigitalInput Gabe = new DigitalInput(9);
-
+	
 	MasterControls controller = MasterControls.getInstance();
 
 	// private static final Encoder rightEncoder = new
@@ -56,7 +54,6 @@ public class DriveTrain {
 		drive.arcadeDrive(speed, controller.direction());
 		SmartDashboard.putNumber("forward speed", controller.forwardSpeed());
 		SmartDashboard.putNumber("getSelectedSensorPosition", rightMotor.getSelectedSensorPosition());
-		SmartDashboard.putBoolean("Digital", Gabe.get());
 		printRightEncoder();
 	}
 
