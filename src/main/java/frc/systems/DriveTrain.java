@@ -15,14 +15,12 @@ import frc.lib14.MCR_SRX;
 import frc.robot.RobotMap;
 
 public class DriveTrain {
+	private static MCR_SRX rightMotor = new MCR_SRX(1);
+	private static MCR_SRX leftMotor = new MCR_SRX(10);
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
 	private static final DriveTrain instance = new DriveTrain();
 	private static final ADXRS450_Gyro ADXRS450_GYRO = new ADXRS450_Gyro();
 
-	private static MCR_SRX rightMotor = new MCR_SRX(1);
-	private static MCR_SRX leftMotor = new MCR_SRX(10);
-	// TODO: Remove test code
-	private static DigitalInput Gabe = new DigitalInput(9);
 
 	MasterControls controller = MasterControls.getInstance();
 
@@ -39,6 +37,8 @@ public class DriveTrain {
 
 	// Singleton
 	protected DriveTrain() {
+		rightMotor.configOpenloopRamp(.5);
+		leftMotor.configOpenloopRamp(.5);
 		// logger.setLevel(RobotMap.LogLevels.driveTrainClass);
 	}
 
@@ -56,8 +56,7 @@ public class DriveTrain {
 		drive.arcadeDrive(speed, controller.direction());
 		SmartDashboard.putNumber("forward speed", controller.forwardSpeed());
 		SmartDashboard.putNumber("getSelectedSensorPosition", rightMotor.getSelectedSensorPosition());
-		SmartDashboard.putBoolean("Digital", Gabe.get());
-		printRightEncoder();
+		//printRightEncoder();
 	}
 
 	/**

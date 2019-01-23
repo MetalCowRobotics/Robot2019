@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
     
     //calibrate Gyro
 		//driveTrain.calibrateGyro();
-		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE! Get Ready to Rumble!", false);
 
   }
 
