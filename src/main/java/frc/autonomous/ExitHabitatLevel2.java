@@ -17,7 +17,7 @@ public class ExitHabitatLevel2 implements MCRCommand {
         mission = new SequentialCommands(
             new CommandPause(5),
             new DeployFrontLegs(1),
-            //TODO: drive straight number of inches both times
+            //TODO: drive straight number of inches both times or use DriveToSensor
             new DriveStraightInches(24,3),
             new DeployRearLegs(1),
             // version 1
