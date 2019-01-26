@@ -2,7 +2,6 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -18,24 +17,19 @@ public class Elevator {
 	private static final RobotDashboard dash = RobotDashboard.getInstance();
 	private static final MasterControls controller = MasterControls.getInstance();
 	private static final MCR_SRX motor1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
-	//private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
-	//		new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
-	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
-		motor1);
-	// private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1,
-	// 		RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
+	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(motor1);
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private static final Elevator instance = new Elevator();
-
+	boolean firstTime = true;
 	double bottomTics;
 	double topTics;
 	PDController holdPID;
-	boolean firstTime = true;
 
 	private Elevator() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.elevatorClass);
+		dash.pushHatchValues();
 	}
 
 	public static Elevator getInstance() {
@@ -43,24 +37,34 @@ public class Elevator {
 	}
 
 	public void execute() {
-		// System.out.println("Elevator");
 		logger.info("================== elevator iteration ==============================");
 		logger.info("Elevator Up: " + this.isElevatorAtTop() + " Elevator Down: " + this.isElevatorAtBottom());
 		logger.info("elevator encoder tics:" + getEncoderTics());
 		if (firstTime) {
+			firstTime = false;
 			// ELEVATOR_MOTOR.setInverted(true);
 			bottomTics = getEncoderTics();
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
-			logger.info("bottomTics:" + bottomTics);
-			logger.info("topTics:" + topTics);
-			holdPID = new PDController(bottomTics, RobotMap.Elevator.kP, RobotMap.Elevator.kD);
-			firstTime = false;
+			holdPID = new PDController(bottomTics, dash.getElevatorKP(), dash.getElevatorKD());
 		}
 		if (0 == controller.getElevatorThrottle()) {
-			holdPID.setSetPoint(dash.getElevatorTarget()); //this is a test
+			// System.out.println("^^^^^^ Holding ^^^^^^");
+			// if (controller.upLevel()) {
+			// dash.pushElevatorTarget((dash.getElevatorTarget() +
+			// RobotMap.Elevator.HATCH_LEVEL));
+
+			// } else {
+			// // holdPID.setSetPoint(dash.getElevatorTarget());
+			// }
+			// if (controller.downLevel()) {
+			// dash.pushElevatorTarget((dash.getElevatorTarget() -
+			// RobotMap.Elevator.HATCH_LEVEL));
+			// } else {
+			// // holdPID.setSetPoint(dash.getElevatorTarget());
+			// }
+			getElevatorTarget();
 			holdPID.set_kP(dash.getElevatorKP());
 			holdPID.set_kD(dash.getElevatorKD());
-			//System.out.println("^^^^^^ Holding ^^^^^^");
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			dash.pushElevatorPID(holdPID);
 		} else {
@@ -71,7 +75,6 @@ public class Elevator {
 		dash.pushElevatorLimits(topLimit.get(), bottomLimit.get());
 		dash.pushElevatorEncoder(getEncoderTics());
 		dash.pushElevatorTarget(holdPID.getSetPoint());
-		//SmartDashboard.putNumber("Top", topTics);
 	}
 
 	public void setPositionTics(double tics) {
@@ -138,6 +141,9 @@ public class Elevator {
 	}
 
 	private boolean isElevatorAtBottom() {
+		if (!bottomLimit.get())
+			bottomTics = getEncoderTics();
+		dash.pushElevatorBottom(bottomTics);
 		return !bottomLimit.get(); // for some reason this is inverted in hardware, correcting here in software
 	}
 
@@ -159,4 +165,25 @@ public class Elevator {
 		logger.info("PID error:" + holdPID.getError());
 	}
 
+	private void getElevatorTarget() {
+		logger.info("current distance: " + (getEncoderTics() - bottomTics) + " <> ");
+		if (controller.upLevel()) {
+			if ((getEncoderTics() - bottomTics) < RobotMap.Elevator.HATCH_LEVEL_2) {
+				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+			} else {
+				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_3 + bottomTics);
+				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_3 + bottomTics);
+			}
+		}
+		if (controller.downLevel()) {
+			if ((getEncoderTics() - bottomTics) > RobotMap.Elevator.HATCH_LEVEL_2) {
+				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_1 + bottomTics);
+			} else {
+				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+			}
+		}
+	}
 }

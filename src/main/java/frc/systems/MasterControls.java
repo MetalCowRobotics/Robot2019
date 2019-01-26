@@ -79,4 +79,12 @@ public class MasterControls {
 		}
 		return false;
 	}
+
+	public boolean upLevel() {
+		return operator.getYButtonPressed();
+	}
+
+	public boolean downLevel() {
+		return operator.getAButtonPressed();
+	}
 }
