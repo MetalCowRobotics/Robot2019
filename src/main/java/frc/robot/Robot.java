@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.autonomous.ExitHabitatLevel1;
 import frc.commands.DriveStraightInches;
+import frc.commands.DriveToSensor;
 import frc.lib14.MCRCommand;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
@@ -94,7 +95,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    mission = new ExitHabitatLevel1();
+    // mission = new ExitHabitatLevel1();
+    mission = new DriveToSensor(12);
   }
 
   /**
