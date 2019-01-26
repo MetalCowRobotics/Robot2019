@@ -76,5 +76,28 @@ public class RobotDashboard {
 	public void pushGyro() {
 		SmartDashboard.putNumber("Gyro Reading", DriveTrain.getInstance().getAngle());
 	}
+
+	public void pushElevatorLimits(boolean upper, boolean lower){
+		SmartDashboard.putBoolean("elevatorUpperLimit", upper);
+		SmartDashboard.putBoolean("elevatorLowerLimit", lower);
+	}
+
+	public void pushElevatorEncoder(double elevatorEncoderTics){
+		SmartDashboard.putNumber("elevatorEncoderValue", elevatorEncoderTics);
+	}
+
+	public void pushEncoder(double encoderTics){
+		SmartDashboard.putNumber("encoderValue", encoderTics);
+
+	}
+
+	public void pushElevatorTarget(double setPoint) {
+		SmartDashboard.putNumber("elevatorSetPoint", setPoint);
+	}
+
+	public double getElevatorTarget() {
+		return SmartDashboard.getNumber("elevatorSetPoint", 0);
+	}
 	
+
 }

@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
   DriveTrain driveTrain;
   //Elevator elevator;
   HatchHandler hatchHandler;
+  RobotDashboard dash = RobotDashboard.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be

@@ -10,7 +10,7 @@ import frc.robot.RobotMap;
 
 public class MasterControls {
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
-	private static final double throttleVariance = .04;
+	private static final double throttleVariance = .14;
 	private static final MasterControls instance = new MasterControls();
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
