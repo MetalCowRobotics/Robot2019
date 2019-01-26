@@ -3,12 +3,14 @@ package frc.systems;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.RobotDashboard;
 
 public class HatchHandler {
     private static final MasterControls controller = MasterControls.getInstance();
     private static final Logger logger = Logger.getLogger(HatchHandler.class.getName());
     private static final HatchHandler instance = new HatchHandler();
     private DoubleSolenoid arm = new DoubleSolenoid(0, 1);
+    private RobotDashboard dash = RobotDashboard.getInstance();
     // private DoubleSolenoid grabber=new DoubleSolenoid(3,4);
 
     enum ArmStatus {
@@ -26,7 +28,7 @@ public class HatchHandler {
     }
 
     public void execute() {
-        logger.info("================== Hatch iteration ==============================");
+       dash.pushElevatorLimits(true, false);
         if (controller.isExtended()) {
             extend();
         }

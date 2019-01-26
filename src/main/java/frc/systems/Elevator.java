@@ -16,7 +16,6 @@ import frc.robot.RobotMap;
 public class Elevator {
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 	private static final RobotDashboard dash = RobotDashboard.getInstance();
-	private static final Elevator instance = new Elevator();
 	private static final MasterControls controller = MasterControls.getInstance();
 	private static final MCR_SRX motor1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
 	//private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
@@ -25,8 +24,9 @@ public class Elevator {
 		motor1);
 	// private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1,
 	// 		RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
-	private DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
-	private DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
+	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	private static final Elevator instance = new Elevator();
 
 	double bottomTics;
 	double topTics;
@@ -57,6 +57,7 @@ public class Elevator {
 			firstTime = false;
 		}
 		if (0 == controller.getElevatorThrottle()) {
+			holdPID.setSetPoint(dash.getElevatorTarget()); //this is a test
 			holdPID.set_kP(dash.getElevatorKP());
 			holdPID.set_kD(dash.getElevatorKD());
 			//System.out.println("^^^^^^ Holding ^^^^^^");
@@ -67,8 +68,10 @@ public class Elevator {
 			setPositionTics(getEncoderTics());
 		}
 		dash.pushElevatorPID(holdPID);
-		SmartDashboard.putNumber("current", getEncoderTics());
-		SmartDashboard.putNumber("Top", topTics);
+		dash.pushElevatorLimits(topLimit.get(), bottomLimit.get());
+		dash.pushElevatorEncoder(getEncoderTics());
+		dash.pushElevatorTarget(holdPID.getSetPoint());
+		//SmartDashboard.putNumber("Top", topTics);
 	}
 
 	public void setPositionTics(double tics) {

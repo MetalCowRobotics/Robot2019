@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
   DriveTrain driveTrain;
   // Elevator elevator;
   HatchHandler hatchHandler;
+  RobotDashboard dash = RobotDashboard.getInstance();
 
   boolean isAuto = true;
 
