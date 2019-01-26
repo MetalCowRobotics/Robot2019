@@ -26,19 +26,6 @@ public class MasterControls {
 		return instance;
 	}
 
-	// public double getDriveLeftThrottle() {
-	// return driver.getLY();
-	// }
-	//
-	// public double getDriveRightThrottle() {
-	// return driver.getRY();
-	// }
-
-	// Arcade
-	public boolean isHalfArcadeToggle() {
-		return driver.getAButton();
-	}
-
 	public boolean isSprintToggle() {
 		return driver.getXButton();
 	}
@@ -51,30 +38,9 @@ public class MasterControls {
 		return driver.getYButtonPressed();
 	}
 
-	public boolean isCubeIntake() {
-		return operator.getLT() > .25;
-	}
-
-	public boolean isSlowCubeEject() {
-		return operator.getRB();
-	}
-
-	public boolean isCubeEject() {
-		return operator.getRT() > .25;
-	}
-
 	public double getElevatorThrottle() {
 		return UtilityMethods.deadZoneCalculation(operator.getRY());
 		//return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
-	}
-
-	public boolean raiseIntake() {
-		return operator.getYButton();
-	}
-
-	public boolean lowerIntake() {
-		System.out.println("getAButon");
-		return operator.getAButton();
 	}
 
 	public void intakeRumbleOn() {
@@ -83,23 +49,6 @@ public class MasterControls {
 
 	public void intakeRumbleOff() {
 		operator.rumbleLeft(0);
-	}
-
-	public double getClimbThrottle() {
-		// add tolerance near 0
-		return (Math.abs(operator.getLY()) > .02) ? -operator.getLY() : 0;
-	}
-
-	public boolean isClimberActivated() {
-		return operator.getLB();
-	}
-
-	public boolean isTiltUp() {
-		return operator.getYButton();
-	}
-
-	public boolean isTiltDown() {
-		return operator.getAButton();
 	}
 
 	public double forwardSpeed() {
@@ -114,30 +63,20 @@ public class MasterControls {
 		return driver.getLX();
 	}
 
-	public boolean isTiltMid() {
-		return operator.getXButton();
-	}
-
 	public boolean isExtended() {
-		// return operator.getPOV()==0;
-		boolean extended = false;
-		if (UtilityMethods.between(operator.getPOV(), 0, 90)) {
-			extended = true;
-		} else if (UtilityMethods.between(operator.getPOV(), 270, 360)) {
-			extended = true;
+		if (UtilityMethods.between(operator.getPOV(), 0, 89)) {
+			return true;
 		}
-		return extended;
-		// System.out.println("getAButon");
-		// return operator.getAButton();
-
+		if (UtilityMethods.between(operator.getPOV(), 271, 360)) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isRetracted() {
-		System.out.println("POV" + operator.getPOV());
 		if (UtilityMethods.between(operator.getPOV(), 91, 269)) {
 			return true;
 		}
 		return false;
-		// return operator.getBButton();
 	}
 }
