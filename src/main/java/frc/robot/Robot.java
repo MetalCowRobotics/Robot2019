@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.commands.DriveStraightInches;
+import frc.lib14.MCRCommand;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
@@ -29,12 +31,14 @@ import java.util.logging.Logger;
 public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
+  private MCRCommand mission;
+
   DriverStation driverStation;
 
   // Systems
   //Compressor c = new Compressor();
-  //DriveTrain driveTrain;
-  Elevator elevator;
+  DriveTrain driveTrain;
+  //Elevator elevator;
   HatchHandler hatchHandler;
   RobotDashboard dash = RobotDashboard.getInstance();
 
@@ -44,21 +48,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-		logger.setLevel(RobotMap.LogLevels.robotClass);
-    logger.entering(this.getClass().getName(), "robotInit");
+		// logger.setLevel(RobotMap.LogLevels.robotClass);
+    // logger.entering(this.getClass().getName(), "robotInit");
     
     // Initialize Robot
     driverStation = DriverStation.getInstance();
-    //driveTrain = DriveTrain.getInstance();
-    elevator = Elevator.getInstance();
+    driveTrain = DriveTrain.getInstance();
+    //elevator = Elevator.getInstance();
     //hatchHandler = HatchHandler.getInstance();
     //CameraServer.getInstance().startAutomaticCapture(0);
     
     //calibrate Gyro
-    //driveTrain.calibrateGyro();
-   // c.setClosedLoopControl(true);
-
-    dash.pushElevatorPID();
+    driveTrain.calibrateGyro();
+    //c.setClosedLoopControl(true);
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
    
   }
@@ -88,7 +90,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
+    mission = new DriveStraightInches(40, 10);
   }
 
   /**
@@ -96,7 +98,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-
+    mission.run();
   }
 
   @Override
@@ -109,11 +111,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    System.out.println("This is a test");
     // logger.info("Teleop Periodic!");
-    //driveTrain.drive();
-    elevator.execute();
-   // hatchHandler.execute();
+    driveTrain.drive();
+    //elevator.execute();
+    //hatchHandler.execute();
 
   }
 
@@ -125,5 +126,6 @@ public class Robot extends TimedRobot {
     //write a "back to the pit" self-check script here
     //something we an run that moves all the mechanisms one at a time or tests sensors
     //like asks for us to press limit switches so we know they are still wired in
+    System.out.println("angle: " + driveTrain.getAngle());
   }
 }

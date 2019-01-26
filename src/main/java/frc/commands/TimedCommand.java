@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 abstract class TimedCommand {
     private Timer timer = new Timer();
-    private double targetTime = 3;
+    private double targetTime = 15;
 
     protected void setTargetTime(double seconds) {
         this.targetTime = seconds;

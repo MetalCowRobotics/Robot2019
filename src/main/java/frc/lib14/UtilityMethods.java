@@ -12,6 +12,21 @@ public class UtilityMethods {
 	public static boolean between(double value, double lower, double upper) {
 		return value >= lower && value <= upper;
 	}
+	public static double deadZoneCalculation(double input) {
+		double deadZone = 0.15;
+		if (input <= deadZone && input >= -deadZone) {
+			return 0;
+		} else {
+			return input;
+		}
+	}
+	public static double deadZoneCalculation(double input, double deadZone) {
+		if (input <= deadZone && input >= -deadZone) {
+			return 0;
+		} else {
+			return input;
+		}
+	}
 
 	public static double round(double number, int precision) {
 		return (double) Math.round(number * precision) / precision;
