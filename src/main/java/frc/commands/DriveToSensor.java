@@ -1,6 +1,8 @@
 package frc.commands;
 
 import frc.lib14.MCRCommand;
+import frc.lib14.PDController;
+import frc.lib14.UtilityMethods;
 import frc.robot.RobotMap;
 import frc.systems.DriveTrain;
 import java.util.logging.Logger;
@@ -15,6 +17,7 @@ public class DriveToSensor implements MCRCommand {
     private final int ACTIVE = 1;
     private final int DONE = 2;
     private DigitalInput limit = new DigitalInput(8);
+    protected PDController driveController;
 
     public DriveToSensor(double howClose) {
         this.howClose = howClose;
@@ -24,12 +27,13 @@ public class DriveToSensor implements MCRCommand {
         switch (currentState) {
         case IDLE:
             drivetrain.resetGyro();
-            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED, 0);
+            driveController = new PDController(drivetrain.getAngle());
+            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED, getCorrection());
             currentState = ACTIVE;
             break;
         case ACTIVE:
             System.out.println("Active");
-            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED, 0);
+            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED, getCorrection());
             // TODO: when is the sensor on or off
             // if (howClose > ledgeSensor()) {
             if (ledgeSensor()) {
@@ -51,5 +55,15 @@ public class DriveToSensor implements MCRCommand {
     public boolean isFinished() {
         return DONE == currentState;
     }
+    private double getCorrection() {
+        // logger.info("Drivetrain angle: " + driveTrain.getAngle());
+        return limitCorrection(driveController.calculateAdjustment(drivetrain.getAngle()),
+                RobotMap.DriveWithEncoder.MAX_ADJUSTMENT);
+    }
 
+    private double limitCorrection(double correction, double maxAdjustment) {
+        if (Math.abs(correction) > Math.abs(maxAdjustment))
+            return UtilityMethods.copySign(correction, maxAdjustment);
+        return correction;
+    }
 }
