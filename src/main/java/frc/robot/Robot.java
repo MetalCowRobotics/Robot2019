@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.autonomous.ExitHabitatLevel1;
 import frc.commands.DriveStraightInches;
+import frc.commands.DriveToSensor;
 import frc.lib14.MCRCommand;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
@@ -36,42 +38,45 @@ public class Robot extends TimedRobot {
   DriverStation driverStation;
 
   // Systems
-  //Compressor c = new Compressor();
+  // Compressor c = new Compressor();
   DriveTrain driveTrain;
-  //Elevator elevator;
+  // Elevator elevator;
   HatchHandler hatchHandler;
   RobotDashboard dash = RobotDashboard.getInstance();
 
+  boolean isAuto = true;
+
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
-		// logger.setLevel(RobotMap.LogLevels.robotClass);
+    // logger.setLevel(RobotMap.LogLevels.robotClass);
     // logger.entering(this.getClass().getName(), "robotInit");
-    
+
     // Initialize Robot
     driverStation = DriverStation.getInstance();
     driveTrain = DriveTrain.getInstance();
-    //elevator = Elevator.getInstance();
-    //hatchHandler = HatchHandler.getInstance();
-    //CameraServer.getInstance().startAutomaticCapture(0);
-    
-    //calibrate Gyro
+    // elevator = Elevator.getInstance();
+    // hatchHandler = HatchHandler.getInstance();
+    // CameraServer.getInstance().startAutomaticCapture(0);
+
+    // calibrate Gyro
     driveTrain.calibrateGyro();
-    //c.setClosedLoopControl(true);
-		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
-   
+    // c.setClosedLoopControl(true);
+    DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
@@ -79,18 +84,20 @@ public class Robot extends TimedRobot {
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString line to get the auto name from the text box below the Gyro
+   * between different autonomous modes using the dashboard. The sendable chooser
+   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+   * remove all of the chooser code and uncomment the getString line to get the
+   * auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional comparisons to
-   * the switch structure below with additional strings. If using the
-   * SendableChooser make sure to add them to the chooser code above as well.
+   * <p>
+   * You can add additional auto modes by adding additional comparisons to the
+   * switch structure below with additional strings. If using the SendableChooser
+   * make sure to add them to the chooser code above as well.
    */
   @Override
   public void autonomousInit() {
-    mission = new DriveStraightInches(40, 10);
+    // mission = new ExitHabitatLevel1();
+    mission = new DriveToSensor(12);
   }
 
   /**
@@ -98,12 +105,28 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    mission.run();
+    commonPeriodic();
+  }
+
+  private void commonPeriodic() {
+    if (isAuto) {
+      if (mission.isFinished()) {
+        isAuto = false;
+        mission = null;
+      } else {
+        mission.run();
+      }
+    } else {
+      // logger.info("Teleop Periodic!");
+      driveTrain.drive();
+      // elevator.execute();
+      // hatchHandler.execute();
+    }
   }
 
   @Override
   public void teleopInit() {
-
+    commonPeriodic();
   }
 
   /**
@@ -111,10 +134,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // logger.info("Teleop Periodic!");
-    driveTrain.drive();
-    //elevator.execute();
-    //hatchHandler.execute();
 
   }
 
@@ -123,9 +142,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    //write a "back to the pit" self-check script here
-    //something we an run that moves all the mechanisms one at a time or tests sensors
-    //like asks for us to press limit switches so we know they are still wired in
+    // write a "back to the pit" self-check script here
+    // something we an run that moves all the mechanisms one at a time or tests
+    // sensors
+    // like asks for us to press limit switches so we know they are still wired in
     System.out.println("angle: " + driveTrain.getAngle());
   }
 }
