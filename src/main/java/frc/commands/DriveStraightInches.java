@@ -17,12 +17,10 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private DriveTrain driveTrain = DriveTrain.getInstance();
 
     public DriveStraightInches(double targetInches) {
-        super();
         setTarget(targetInches);
     }
 
     public DriveStraightInches(double targetInches, int timeoutSeconds) {
-        super();
         setTarget(targetInches);
         setTargetTime(timeoutSeconds);
     }
@@ -41,12 +39,15 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
             driveController = new PDController(driveTrain.getAngle());
             startTics = driveTrain.getEncoderTics();
         }
-        if (targetTics < ticsTravelled()) {
-            end();
-        } else {
+        if (ticsTravelled() < targetTics) {
             driveTrain.arcadeDrive(calculateSpeed(), getCorrection());
+        } else {
+            end();
         }
-    }
+        // logger.warning("targetTics: " + targetTics + " <<|>> ticsTravelled: " +
+        // ticsTravelled() + " <<|>> correction: " + getCorrection());
+        logger.warning("angle: " + driveTrain.getAngle() + " <<|>> correction: " + getCorrection());
+    } 
 
     private void end() {
         driveTrain.stop();
@@ -54,7 +55,8 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     private double ticsTravelled() {
-        logger.info("Drivetrain current encoder tics: " + driveTrain.getEncoderTics());
+        // logger.info("Drivetrain current encoder tics: " +
+        // (driveTrain.getEncoderTics() - startTics));
         return driveTrain.getEncoderTics() - startTics;
     }
 
@@ -65,7 +67,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     private double getCorrection() {
-        logger.info("Drivetrain angle: " + driveTrain.getAngle());
+        // logger.info("Drivetrain angle: " + driveTrain.getAngle());
         return limitCorrection(driveController.calculateAdjustment(driveTrain.getAngle()),
                 RobotMap.DriveWithEncoder.MAX_ADJUSTMENT);
     }
