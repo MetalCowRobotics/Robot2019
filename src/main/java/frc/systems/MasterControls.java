@@ -79,4 +79,15 @@ public class MasterControls {
 		}
 		return false;
 	}
+	public boolean isClawToggled() {
+		return operator.getBButton();
+	}
+
+	public boolean isBallIntake() {
+		return operator.getRB();
+	}
+
+	public boolean isBallEject() {
+		return operator.getLB();
+	}
 }

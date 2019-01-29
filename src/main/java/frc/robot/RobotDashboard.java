@@ -98,6 +98,10 @@ public class RobotDashboard {
 	public double getElevatorTarget() {
 		return SmartDashboard.getNumber("elevatorSetPoint", 0);
 	}
+
+	public double getIntakeEjectSpeed() {
+		return SmartDashboard.getNumber("IntakeEjectSpeed", 0);
+	}
 	
 
 }
