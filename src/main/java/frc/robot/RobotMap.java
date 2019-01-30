@@ -25,8 +25,8 @@ public class RobotMap {
 		public static final int WHEEL_DIAMETER = 6;
 	}
 
-	public final class DriveToWall {
-		public static final double TOP_SPEED = .7;
+	public final class DriveToSensor {
+		public static final double TOP_SPEED =.6;
 		public static final int SLOW_DOWN_DISTANCE = 18;
 		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
@@ -146,5 +146,7 @@ public class RobotMap {
 		public static final Level autoDriveClass = Level.WARNING;
 		public static final Level componentBuilderClass = Level.WARNING;
 	}
+
+	
 
 }
