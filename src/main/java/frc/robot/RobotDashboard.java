@@ -30,6 +30,7 @@ public class RobotDashboard {
 			pdp = new PowerDistributionPanel();
 			pdp.resetTotalEnergy();
 		}
+		pushElevatorPID();
 	}
 
 	public void pushElevatorPID() {
@@ -98,6 +99,15 @@ public class RobotDashboard {
 	public double getElevatorTarget() {
 		return SmartDashboard.getNumber("elevatorSetPoint", 0);
 	}
-	
+	public void pushElevatorBottom(double bottomTics) {
+		SmartDashboard.putNumber("elevatorBottom", bottomTics) ;
+	}
+
+	public void pushHatchValues() {
+		SmartDashboard.putNumber("Hatch1", RobotMap.Elevator.HATCH_LEVEL_1);
+		SmartDashboard.putNumber("Hatch2", RobotMap.Elevator.HATCH_LEVEL_2);
+		SmartDashboard.putNumber("Hatch3", RobotMap.Elevator.HATCH_LEVEL_3);
+
+	}
 
 }

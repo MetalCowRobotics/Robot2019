@@ -38,9 +38,9 @@ public class Robot extends TimedRobot {
   DriverStation driverStation;
 
   // Systems
-  // Compressor c = new Compressor();
-  DriveTrain driveTrain;
-  // Elevator elevator;
+  //Compressor c = new Compressor();
+  //DriveTrain driveTrain;
+  Elevator elevator;
   HatchHandler hatchHandler;
   RobotDashboard dash = RobotDashboard.getInstance();
 
@@ -54,19 +54,20 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // logger.setLevel(RobotMap.LogLevels.robotClass);
     // logger.entering(this.getClass().getName(), "robotInit");
-
+    dash.initializeDashboard();
+    
     // Initialize Robot
     driverStation = DriverStation.getInstance();
-    driveTrain = DriveTrain.getInstance();
-    // elevator = Elevator.getInstance();
-    // hatchHandler = HatchHandler.getInstance();
-    // CameraServer.getInstance().startAutomaticCapture(0);
-
-    // calibrate Gyro
-    driveTrain.calibrateGyro();
-    // c.setClosedLoopControl(true);
-    DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
-
+    //driveTrain = DriveTrain.getInstance();
+    elevator = Elevator.getInstance();
+    //hatchHandler = HatchHandler.getInstance();
+    //CameraServer.getInstance().startAutomaticCapture(0);
+    
+    //calibrate Gyro
+    //driveTrain.calibrateGyro();
+    //c.setClosedLoopControl(true);
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+   
   }
 
   /**
@@ -118,8 +119,8 @@ public class Robot extends TimedRobot {
       }
     } else {
       // logger.info("Teleop Periodic!");
-      driveTrain.drive();
-      // elevator.execute();
+      // driveTrain.drive();
+      elevator.execute();
       // hatchHandler.execute();
     }
   }
@@ -146,6 +147,6 @@ public class Robot extends TimedRobot {
     // something we an run that moves all the mechanisms one at a time or tests
     // sensors
     // like asks for us to press limit switches so we know they are still wired in
-    System.out.println("angle: " + driveTrain.getAngle());
+    // System.out.println("angle: " + driveTrain.getAngle());
   }
 }

@@ -85,16 +85,23 @@ public class RobotMap {
 		public static final double EXCHANGE_HEIGHT = 1.75;
 		public static final double SWITCHWALL_HEIGHT = 20;
 		public static final double SCALE_MID_HEIGHT = 80;
-		public static final double ELEVATOR_WINCH_DIAMETER = 6;
+		public static final double ELEVATOR_WINCH_DIAMETER = 2.4;// spool diamiter
 		public static final int TICS_PER_ROTATION = 4096; // need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Elevator.ELEVATOR_WINCH_DIAMETER;
 		//public static final double SLOW_DOWN_DISTANCE = (8 / INCHES_PER_ROTATION) * TICS_PER_ROTATION;
 		public static final double SAFTEY_ZONE = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double SAFE_SPEED = .5;
 		//Elevator hold PID parameters
-		public static final	double kP = -0.001;
+		public static final double HATCH_LEVEL = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double HATCH_LEVEL_1 = (0 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double HATCH_LEVEL_2 = (8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double HATCH_LEVEL_3 = (16 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_1 = (20.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_2 = (48.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_3 = (76.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final	double kP = 0.0003;
 		public static final	double kI = 0;
-		public static final	double kD = 0;
+		public static final	double kD = 0.0004;
 		public static final	double tolerance = 5;
 		public static final	double outputMin = -.4;
 		public static final	double outputMax = .6;
@@ -128,10 +135,10 @@ public class RobotMap {
 	}
 
 	public static final class LogLevels {
-		public static final Level robotClass = Level.INFO;
+		public static final Level robotClass = Level.WARNING;
 		public static final Level hamburgerDashboardClass = Level.WARNING;
 		public static final Level masterControlsClass = Level.WARNING;
-		public static final Level driveTrainClass = Level.FINEST;
+		public static final Level driveTrainClass = Level.WARNING;
 		public static final Level elevatorClass = Level.WARNING;
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
