@@ -42,7 +42,7 @@ public class Elevator {
 		logger.info("elevator encoder tics:" + getEncoderTics());
 		if (firstTime) {
 			firstTime = false;
-			// ELEVATOR_MOTOR.setInverted(true);
+			ELEVATOR_MOTOR.setInverted(true); //may need to be comment out
 			bottomTics = getEncoderTics();
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
 			holdPID = new PDController(bottomTics, dash.getElevatorKP(), dash.getElevatorKD());
@@ -66,6 +66,8 @@ public class Elevator {
 			holdPID.set_kP(dash.getElevatorKP());
 			holdPID.set_kD(dash.getElevatorKD());
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
+			//stop(); //xtra
+			//holdPID.calculateAdjustment(getEncoderTics()); //xtra
 			dash.pushElevatorPID(holdPID);
 		} else {
 			setElevatorSpeed(controller.getElevatorThrottle());
@@ -100,14 +102,15 @@ public class Elevator {
 		} else {
 			ELEVATOR_MOTOR.set(maxSpeed(speed));
 		}
+		SmartDashboard.putNumber("setSpeed", maxSpeed(speed));
 	}
 
 	private boolean isMovingUp(double speed) {
-		return speed < 0;
+		return speed > 0;
 	}
 
 	private boolean isMovingDown(double speed) {
-		return speed > 0;
+		return speed < 0;
 	}
 
 	private double maxSpeed(double speed) {
@@ -116,7 +119,7 @@ public class Elevator {
 		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
 			return Math.max(speed, -RobotMap.Elevator.SafeSpeed);
 		} else {
-			return speed;
+			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .7)); //xtra
 		}
 	}
 
@@ -141,8 +144,10 @@ public class Elevator {
 	}
 
 	private boolean isElevatorAtBottom() {
-		if (!bottomLimit.get())
+		if (!bottomLimit.get()) {
 			bottomTics = getEncoderTics();
+			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
+		}
 		dash.pushElevatorBottom(bottomTics);
 		return !bottomLimit.get(); // for some reason this is inverted in hardware, correcting here in software
 	}
@@ -181,7 +186,7 @@ public class Elevator {
 				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
 				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_1 + bottomTics);
 			} else {
-				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_1 + bottomTics);
 				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
 			}
 		}

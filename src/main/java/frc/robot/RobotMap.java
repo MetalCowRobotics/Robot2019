@@ -99,9 +99,9 @@ public class RobotMap {
 		public static final double BALL_HEIGHT_1 = (20.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_2 = (48.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_3 = (76.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final	double kP = -0.001;
+		public static final	double kP = 0.0003;
 		public static final	double kI = 0;
-		public static final	double kD = 0;
+		public static final	double kD = 0.0004;
 		public static final	double tolerance = 5;
 		public static final	double outputMin = -.4;
 		public static final	double outputMax = .6;
@@ -139,7 +139,7 @@ public class RobotMap {
 		public static final Level hamburgerDashboardClass = Level.WARNING;
 		public static final Level masterControlsClass = Level.WARNING;
 		public static final Level driveTrainClass = Level.WARNING;
-		public static final Level elevatorClass = Level.INFO;
+		public static final Level elevatorClass = Level.WARNING;
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
 		public static final Level missionClass = Level.WARNING;

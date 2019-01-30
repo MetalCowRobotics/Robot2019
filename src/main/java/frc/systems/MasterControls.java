@@ -39,7 +39,7 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		return UtilityMethods.deadZoneCalculation(operator.getRY());
+		return UtilityMethods.deadZoneCalculation(-operator.getRY(), .2);
 		//return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
 
