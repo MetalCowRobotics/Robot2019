@@ -12,13 +12,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
-import frc.commands.DriveStraightInches;
 import frc.commands.DriveToSensor;
 import frc.lib14.MCRCommand;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
+import frc.systems.MasterControls;
 
 import java.util.logging.Logger;
 
@@ -34,17 +35,21 @@ public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
   private MCRCommand mission;
+  private MCRCommand climbMission = new ClimbToLevel2();
 
-  DriverStation driverStation;
-
-  // Systems
+  // Field Systems
+  private DriverStation driverStation;
+  private RobotDashboard dash;
+  
+  // Robot Systems
   //Compressor c = new Compressor();
   //DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
-  RobotDashboard dash = RobotDashboard.getInstance();
+  MasterControls controllers;
 
-  boolean isAuto = true;
+  private boolean isAuto = true;
+  private boolean endGameInitiated = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -52,22 +57,27 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // logger.setLevel(RobotMap.LogLevels.robotClass);
-    // logger.entering(this.getClass().getName(), "robotInit");
+    logger.setLevel(RobotMap.LogLevels.robotClass);
     dash.initializeDashboard();
     
     // Initialize Robot
     driverStation = DriverStation.getInstance();
+    dash = RobotDashboard.getInstance();
     //driveTrain = DriveTrain.getInstance();
     elevator = Elevator.getInstance();
     //hatchHandler = HatchHandler.getInstance();
-    //CameraServer.getInstance().startAutomaticCapture(0);
-    
+    controllers = MasterControls.getInstance();
+
     //calibrate Gyro
     //driveTrain.calibrateGyro();
+
+    // start the camera feed
+    //CameraServer.getInstance().startAutomaticCapture(0);
+
+    //start the compressor
     //c.setClosedLoopControl(true);
+
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
-   
   }
 
   /**
@@ -122,6 +132,9 @@ public class Robot extends TimedRobot {
       // driveTrain.drive();
       elevator.execute();
       // hatchHandler.execute();
+    }
+    if (endGameInitiated) {
+      climbMission.run();
     }
   }
 
