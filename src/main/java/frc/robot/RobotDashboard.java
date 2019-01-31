@@ -103,11 +103,4 @@ public class RobotDashboard {
 		SmartDashboard.putNumber("elevatorBottom", bottomTics) ;
 	}
 
-	public void pushHatchValues() {
-		SmartDashboard.putNumber("Hatch1", RobotMap.Elevator.HATCH_LEVEL_1);
-		SmartDashboard.putNumber("Hatch2", RobotMap.Elevator.HATCH_LEVEL_2);
-		SmartDashboard.putNumber("Hatch3", RobotMap.Elevator.HATCH_LEVEL_3);
-
-	}
-
 }
