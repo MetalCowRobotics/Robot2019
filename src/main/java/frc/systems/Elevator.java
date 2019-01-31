@@ -3,9 +3,7 @@ package frc.systems;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
 import frc.lib14.PDController;
 import frc.lib14.UtilityMethods;
@@ -21,15 +19,16 @@ public class Elevator {
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private static final Elevator instance = new Elevator();
-	boolean firstTime = true;
-	double bottomTics;
-	double topTics;
-	PDController holdPID;
+	private boolean firstTime = true;
+	private double bottomTics;
+	private double topTics;
+	private PDController holdPID;
+	private int iterations = 0;
+	private boolean hatchMode = true;
 
 	private Elevator() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.elevatorClass);
-		dash.pushHatchValues();
 	}
 
 	public static Elevator getInstance() {
@@ -37,49 +36,31 @@ public class Elevator {
 	}
 
 	public void execute() {
-		logger.info("================== elevator iteration ==============================");
-		logger.info("Elevator Up: " + this.isElevatorAtTop() + " Elevator Down: " + this.isElevatorAtBottom());
-		logger.info("elevator encoder tics:" + getEncoderTics());
+		logParameters();
 		if (firstTime) {
 			firstTime = false;
-			ELEVATOR_MOTOR.setInverted(true); //may need to be comment out
+			ELEVATOR_MOTOR.setInverted(true); // may need to be comment out on actual robot
 			bottomTics = getEncoderTics();
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
 			holdPID = new PDController(bottomTics, dash.getElevatorKP(), dash.getElevatorKD());
+			setPositionTics(bottomTics); //seeing if this helps with multiple runs
 		}
+		// check the mode button and if pressed
+		// hatchMode = !hatchMode;
+		getElevatorTarget(); //check for level up and level down
 		if (0 == controller.getElevatorThrottle()) {
-			// System.out.println("^^^^^^ Holding ^^^^^^");
-			// if (controller.upLevel()) {
-			// dash.pushElevatorTarget((dash.getElevatorTarget() +
-			// RobotMap.Elevator.HATCH_LEVEL));
-
-			// } else {
-			// // holdPID.setSetPoint(dash.getElevatorTarget());
-			// }
-			// if (controller.downLevel()) {
-			// dash.pushElevatorTarget((dash.getElevatorTarget() -
-			// RobotMap.Elevator.HATCH_LEVEL));
-			// } else {
-			// // holdPID.setSetPoint(dash.getElevatorTarget());
-			// }
-			getElevatorTarget();
 			holdPID.set_kP(dash.getElevatorKP());
 			holdPID.set_kD(dash.getElevatorKD());
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
-			//stop(); //xtra
-			//holdPID.calculateAdjustment(getEncoderTics()); //xtra
-			dash.pushElevatorPID(holdPID);
 		} else {
 			setElevatorSpeed(controller.getElevatorThrottle());
 			setPositionTics(getEncoderTics());
 		}
 		dash.pushElevatorPID(holdPID);
-		dash.pushElevatorLimits(topLimit.get(), bottomLimit.get());
 		dash.pushElevatorEncoder(getEncoderTics());
-		dash.pushElevatorTarget(holdPID.getSetPoint());
 	}
 
-	public void setPositionTics(double tics) {
+	private void setPositionTics(double tics) {
 		holdPID.setSetPoint(tics);
 		holdPID.set_kP(dash.getElevatorKP());
 		holdPID.set_kD(dash.getElevatorKD());
@@ -94,7 +75,7 @@ public class Elevator {
 		return (inches / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 	}
 
-	public void setElevatorSpeed(double speed) {
+	private void setElevatorSpeed(double speed) {
 		if (isMovingUp(speed) && isElevatorAtTop()) {
 			stop();
 		} else if (isMovingDown(speed) && isElevatorAtBottom()) {
@@ -102,7 +83,6 @@ public class Elevator {
 		} else {
 			ELEVATOR_MOTOR.set(maxSpeed(speed));
 		}
-		SmartDashboard.putNumber("setSpeed", maxSpeed(speed));
 	}
 
 	private boolean isMovingUp(double speed) {
@@ -119,7 +99,7 @@ public class Elevator {
 		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
 			return Math.max(speed, -RobotMap.Elevator.SafeSpeed);
 		} else {
-			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .7)); //xtra
+			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .7)); // xtra
 		}
 	}
 
@@ -136,7 +116,7 @@ public class Elevator {
 	}
 
 	public boolean isAtHeight(double heightInches) {
-		return UtilityMethods.between(inchesToTics(heightInches), getEncoderTics() - 10, getEncoderTics() + 10);
+		return UtilityMethods.between(inchesToTics(heightInches), getEncoderTics() - 100, getEncoderTics() + 100);
 	}
 
 	private boolean isElevatorAtTop() {
@@ -145,10 +125,10 @@ public class Elevator {
 
 	private boolean isElevatorAtBottom() {
 		if (!bottomLimit.get()) {
+			//reset bottom and top measures
 			bottomTics = getEncoderTics();
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
 		}
-		dash.pushElevatorBottom(bottomTics);
 		return !bottomLimit.get(); // for some reason this is inverted in hardware, correcting here in software
 	}
 
@@ -157,37 +137,47 @@ public class Elevator {
 	}
 
 	private void logParameters() {
-		logger.info("Elevator throttle:" + controller.getElevatorThrottle());
-		logger.info(
-				"Elevator Up limit: " + this.isElevatorAtTop() + " Elevator Down limit: " + this.isElevatorAtBottom());
-		logger.info("Speed:" + ELEVATOR_MOTOR.get());
-		logger.info("Elevator encoder tics:" + getEncoderTics());
-		logger.info("Elevator bottom tics:" + bottomTics + "   Elevator top tics:" + topTics);
+		iterations++;
+		if (20 < iterations) {
+			logger.info("Elevator throttle:" + controller.getElevatorThrottle());
+			logger.info("Elevator Up limit: " + this.isElevatorAtTop() + " Elevator Down limit: " + this.isElevatorAtBottom());
+			logger.info("Elevator bottom tics:" + bottomTics + "   Elevator top tics:" + topTics);
+			logger.info("Elevator Speed:" + ELEVATOR_MOTOR.get());
+			logger.info("Elevator encoder tics:" + getEncoderTics());
+			logPID();
+			iterations = 0;
+		}
 	}
 
 	private void logPID() {
-		logger.info("PID error:" + holdPID.getSetPoint());
-		logger.info("PID error:" + holdPID.getError());
+		logger.info("Elev PID set point:" + holdPID.getSetPoint());
+		logger.info("Elev PID error:" + holdPID.getError());
 	}
 
 	private void getElevatorTarget() {
+		// need to add a mode to switch between cargo and hatches in execute
+		if (hatchMode) {
+			determineLevel(RobotMap.Elevator.HATCH_LEVEL_1,RobotMap.Elevator.HATCH_LEVEL_2,RobotMap.Elevator.HATCH_LEVEL_3);
+		} else {
+			determineLevel(RobotMap.Elevator.BALL_HEIGHT_1, RobotMap.Elevator.BALL_HEIGHT_2, RobotMap.Elevator.BALL_HEIGHT_3);
+		}	
+	}
+
+	private void determineLevel(double level1, double level2, double level3) {
+		double fudgeFactor = 300; // if the PID does not get it to height it will always be lower and never go to the else
 		logger.info("current distance: " + (getEncoderTics() - bottomTics) + " <> ");
 		if (controller.upLevel()) {
-			if ((getEncoderTics() - bottomTics) < RobotMap.Elevator.HATCH_LEVEL_2) {
-				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
-				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+			if ((getEncoderTics() - bottomTics) < level2 - fudgeFactor) {
+				setPositionTics(level2 + bottomTics);
 			} else {
-				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_3 + bottomTics);
-				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_3 + bottomTics);
+				setPositionTics(level3 + bottomTics);
 			}
 		}
 		if (controller.downLevel()) {
-			if ((getEncoderTics() - bottomTics) > RobotMap.Elevator.HATCH_LEVEL_2) {
-				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
-				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_1 + bottomTics);
+			if ((getEncoderTics() - bottomTics) > level2 - fudgeFactor) {
+				setPositionTics(level2 + bottomTics);
 			} else {
-				setPositionTics(RobotMap.Elevator.HATCH_LEVEL_1 + bottomTics);
-				// dash.pushElevatorTarget(RobotMap.Elevator.HATCH_LEVEL_2 + bottomTics);
+				setPositionTics(level1 + bottomTics);
 			}
 		}
 	}
