@@ -16,6 +16,7 @@ import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
 import frc.commands.DriveToSensor;
 import frc.lib14.MCRCommand;
+import frc.systems.CargoHandler;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
@@ -46,6 +47,7 @@ public class Robot extends TimedRobot {
   //DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
+  CargoHandler cargoHandler;
   MasterControls controllers;
 
   private boolean isAuto = false;
@@ -65,6 +67,7 @@ public class Robot extends TimedRobot {
     //driveTrain = DriveTrain.getInstance();
     elevator = Elevator.getInstance();
     //hatchHandler = HatchHandler.getInstance();
+    cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
 
     // dash.initializeDashboard();
@@ -133,6 +136,7 @@ public class Robot extends TimedRobot {
       // driveTrain.drive();
       elevator.execute();
       // hatchHandler.execute();
+      cargoHandler.execute();
     }
     if (endGameInitiated) {
       climbMission.run();

@@ -145,6 +145,8 @@ public class RobotMap {
 		public static final Level missionClass = Level.WARNING;
 		public static final Level autoDriveClass = Level.WARNING;
 		public static final Level componentBuilderClass = Level.WARNING;
+		public static final Level cargoHandlerClass = Level.WARNING;
+		public static final Level hatchHandlerClass = Level.WARNING;
 	}
 
 	
