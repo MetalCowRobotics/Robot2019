@@ -12,13 +12,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
-import frc.commands.DriveStraightInches;
 import frc.commands.DriveToSensor;
 import frc.lib14.MCRCommand;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
+import frc.systems.MasterControls;
 
 import java.util.logging.Logger;
 
@@ -34,17 +35,21 @@ public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
   private MCRCommand mission;
+  private MCRCommand climbMission ;//= new ClimbToLevel2();
 
-  DriverStation driverStation;
-
-  // Systems
-  // Compressor c = new Compressor();
-  DriveTrain driveTrain;
-  // Elevator elevator;
+  // Field Systems
+  private DriverStation driverStation;
+  private RobotDashboard dash;
+  
+  // Robot Systems
+  //Compressor c = new Compressor();
+  //DriveTrain driveTrain;
+  Elevator elevator;
   HatchHandler hatchHandler;
-  RobotDashboard dash = RobotDashboard.getInstance();
+  MasterControls controllers;
 
-  boolean isAuto = true;
+  private boolean isAuto = false;
+  private boolean endGameInitiated = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -52,21 +57,28 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // logger.setLevel(RobotMap.LogLevels.robotClass);
-    // logger.entering(this.getClass().getName(), "robotInit");
-
+    logger.setLevel(RobotMap.LogLevels.robotClass);
+    
     // Initialize Robot
     driverStation = DriverStation.getInstance();
-    driveTrain = DriveTrain.getInstance();
-    // elevator = Elevator.getInstance();
-    // hatchHandler = HatchHandler.getInstance();
-    // CameraServer.getInstance().startAutomaticCapture(0);
+    dash = RobotDashboard.getInstance();
+    //driveTrain = DriveTrain.getInstance();
+    elevator = Elevator.getInstance();
+    //hatchHandler = HatchHandler.getInstance();
+    controllers = MasterControls.getInstance();
 
-    // calibrate Gyro
-    driveTrain.calibrateGyro();
-    // c.setClosedLoopControl(true);
-    DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+    // dash.initializeDashboard();
 
+    //calibrate Gyro
+    //driveTrain.calibrateGyro();
+
+    // start the camera feed
+    //CameraServer.getInstance().startAutomaticCapture(0);
+
+    //start the compressor
+    //c.setClosedLoopControl(true);
+
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
 
   /**
@@ -97,7 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // mission = new ExitHabitatLevel1();
-    mission = new DriveToSensor(12);
+    // mission = new DriveToSensor(12);
   }
 
   /**
@@ -118,9 +130,12 @@ public class Robot extends TimedRobot {
       }
     } else {
       // logger.info("Teleop Periodic!");
-      driveTrain.drive();
-      // elevator.execute();
+      // driveTrain.drive();
+      elevator.execute();
       // hatchHandler.execute();
+    }
+    if (endGameInitiated) {
+      climbMission.run();
     }
   }
 
@@ -146,6 +161,6 @@ public class Robot extends TimedRobot {
     // something we an run that moves all the mechanisms one at a time or tests
     // sensors
     // like asks for us to press limit switches so we know they are still wired in
-    System.out.println("angle: " + driveTrain.getAngle());
+    // System.out.println("angle: " + driveTrain.getAngle());
   }
 }
