@@ -14,7 +14,8 @@ public class PDController {
 
 	// control variables
 	private double setPoint;
-	private double previousError;
+	private double previousError = 0;
+	private double accumulatedError = 0;
 
 	public PDController(double setPoint) {
 		this.setPoint = setPoint;
@@ -30,6 +31,7 @@ public class PDController {
 		double currentError = calaculateError(setPoint, currentAngle);
 		double motorAdjustment = determineAdjustment(currentError, previousError);
 		previousError = currentError;
+		accumulatedError=accumulatedError+currentError;
 		return motorAdjustment;
 	}
 
@@ -39,6 +41,7 @@ public class PDController {
 
 	private double determineAdjustment(double currentError, double previousError) {
 		return kP * currentError + kD * (currentError - previousError);
+		//return kP * currentError + kD * (currentError - previousError) + .00001 * accumulatedError;
 	}
 
 	public double getSetPoint() {
@@ -63,6 +66,7 @@ public class PDController {
 	
 	public void reset() {
 		previousError = 0;
+		accumulatedError = 0;
 	}
 
 }

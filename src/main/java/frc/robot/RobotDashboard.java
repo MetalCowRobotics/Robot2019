@@ -30,6 +30,7 @@ public class RobotDashboard {
 			pdp = new PowerDistributionPanel();
 			pdp.resetTotalEnergy();
 		}
+		pushElevatorPID();
 	}
 
 	public void pushElevatorPID() {
@@ -103,5 +104,8 @@ public class RobotDashboard {
 		return SmartDashboard.getNumber("IntakeEjectSpeed", 0);
 	}
 	
+	public void pushElevatorBottom(double bottomTics) {
+		SmartDashboard.putNumber("elevatorBottom", bottomTics) ;
+	}
 
 }

@@ -39,7 +39,7 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		return UtilityMethods.deadZoneCalculation(operator.getRY());
+		return UtilityMethods.deadZoneCalculation(-operator.getRY(), .2);
 		//return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
 
@@ -89,5 +89,14 @@ public class MasterControls {
 
 	public boolean isBallEject() {
 		return operator.getLB();
+	}
+}
+
+	public boolean upLevel() {
+		return operator.getYButtonPressed();
+	}
+
+	public boolean downLevel() {
+		return operator.getAButtonPressed();
 	}
 }
