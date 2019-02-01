@@ -40,8 +40,8 @@ public class PDController {
 	}
 
 	private double determineAdjustment(double currentError, double previousError) {
-		return kP * currentError + kD * (currentError - previousError);
-		//return kP * currentError + kD * (currentError - previousError) + .00001 * accumulatedError;
+		// return kP * currentError + kD * (currentError - previousError);
+		return kP * currentError + kD * (currentError - previousError) + .00001 * accumulatedError;
 	}
 
 	public double getSetPoint() {
