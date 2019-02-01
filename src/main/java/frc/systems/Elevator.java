@@ -44,6 +44,7 @@ public class Elevator {
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
 			holdPID = new PDController(bottomTics, dash.getElevatorKP(), dash.getElevatorKD());
 			setPositionTics(bottomTics); //seeing if this helps with multiple runs
+			dash.pushElevatorPID();
 		}
 		// check the mode button and if pressed
 		// hatchMode = !hatchMode;

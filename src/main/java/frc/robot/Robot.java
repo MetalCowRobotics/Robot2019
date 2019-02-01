@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
   private MCRCommand mission;
-  private MCRCommand climbMission = new ClimbToLevel2();
+  private MCRCommand climbMission ;//= new ClimbToLevel2();
 
   // Field Systems
   private DriverStation driverStation;
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
   HatchHandler hatchHandler;
   MasterControls controllers;
 
-  private boolean isAuto = true;
+  private boolean isAuto = false;
   private boolean endGameInitiated = false;
 
   /**
@@ -58,7 +58,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     logger.setLevel(RobotMap.LogLevels.robotClass);
-    dash.initializeDashboard();
     
     // Initialize Robot
     driverStation = DriverStation.getInstance();
@@ -67,6 +66,8 @@ public class Robot extends TimedRobot {
     elevator = Elevator.getInstance();
     //hatchHandler = HatchHandler.getInstance();
     controllers = MasterControls.getInstance();
+
+    // dash.initializeDashboard();
 
     //calibrate Gyro
     //driveTrain.calibrateGyro();
@@ -108,7 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // mission = new ExitHabitatLevel1();
-    mission = new DriveToSensor(12);
+    // mission = new DriveToSensor(12);
   }
 
   /**
