@@ -90,7 +90,7 @@ public class MasterControls {
 	public boolean isBallEject() {
 		return operator.getLB();
 	}
-}
+
 
 	public boolean upLevel() {
 		return operator.getYButtonPressed();
