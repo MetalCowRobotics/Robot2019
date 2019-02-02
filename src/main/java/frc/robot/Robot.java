@@ -18,6 +18,7 @@ import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
 import frc.commands.DriveToSensor;
 import frc.lib14.MCRCommand;
+import frc.systems.Climber;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
   //DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
+  Climber climber;
   MasterControls controllers;
 
   private boolean isAuto = false;
@@ -66,8 +68,9 @@ public class Robot extends TimedRobot {
     driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
     //driveTrain = DriveTrain.getInstance();
-    elevator = Elevator.getInstance();
+    // elevator = Elevator.getInstance();
     hatchHandler = HatchHandler.getInstance();
+    climber = Climber.getInstance();
     controllers = MasterControls.getInstance();
 
     // dash.initializeDashboard();
@@ -124,6 +127,7 @@ public class Robot extends TimedRobot {
   }
 
   private void commonPeriodic() {
+    endGameInitiated = !controllers.climberControls();
     SmartDashboard.putBoolean("Lidar", distanceSensor.get());
     if (isAuto) {
       if (mission.isFinished()) {
@@ -135,11 +139,13 @@ public class Robot extends TimedRobot {
     } else {
       // logger.info("Teleop Periodic!");
       // driveTrain.drive();
-      elevator.execute();
+      // elevator.execuyute();
       hatchHandler.execute();
+      climber.execute();
     }
-    if (endGameInitiated) {
-      climbMission.run();
+    if (controllers.autoClimb()) {
+     // climbMission.run();
+      System.out.println("End Game");
     }
   }
 
@@ -166,5 +172,6 @@ public class Robot extends TimedRobot {
     // sensors
     // like asks for us to press limit switches so we know they are still wired in
     // System.out.println("angle: " + driveTrain.getAngle());
+    
   }
 }

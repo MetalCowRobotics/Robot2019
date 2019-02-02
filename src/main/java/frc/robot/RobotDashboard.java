@@ -20,7 +20,7 @@ public class RobotDashboard {
 	}
 
 	private RobotDashboard() {
-		logger.setLevel(RobotMap.LogLevels.hamburgerDashboardClass);
+		logger.setLevel(RobotMap.LogLevels.robotDashboardClass);
 	}
 
 	public void initializeDashboard() {
