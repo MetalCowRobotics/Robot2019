@@ -8,29 +8,21 @@ import frc.lib14.UtilityMethods;
 import frc.robot.RobotMap;
 import frc.systems.DriveTrain;
 
-public class DriveStraightInches extends TimedCommand implements MCRCommand {
-    private static final Logger logger = Logger.getLogger(DriveStraightInches.class.getName());
+public class DriveBackwardsStraight extends TimedCommand implements MCRCommand {
+    private static final Logger logger = Logger.getLogger(DriveBackwardsStraight.class.getName());
     private boolean firstTime = true;
     private boolean finished = false;
     private double startTics;
     private double targetTics;
-    public int dir = 1;
     protected PDController driveController;
     private DriveTrain driveTrain = DriveTrain.getInstance();
-    private DRIVE_DIRECTION direction;
-    public DriveStraightInches(DRIVE_DIRECTION direction, double targetInches) {
-        this.direction = direction;
-        setTarget(targetInches);
-    }
-    public enum DRIVE_DIRECTION {
-        forward, backward
-    }
+    //TODO: does Encoder track direction (if so tics need updated)
 
-    public void DriveStraightInches(double targetInches) {
+    public DriveBackwardsStraight(double targetInches) {
         setTarget(targetInches);
     }
 
-    public DriveStraightInches(double targetInches, int timeoutSeconds) {
+    public DriveBackwardsStraight(double targetInches, int timeoutSeconds) {
         setTarget(targetInches);
         setTargetTime(timeoutSeconds);
     }
@@ -42,16 +34,6 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     public void run() {
-        // case public void run() {
-        switch(direction) {
-            case forward:
-                dir = 1;
-                break;
-            case backward:
-                dir = -1;
-                break;
-        }
-                //case end
         if (firstTime) {
             firstTime = false;
             startTimer();
@@ -72,19 +54,19 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private void end() {
         driveTrain.stop();
         endTimer();
-        finished = true;
+        finished = true; 
     }
 
     private double ticsTravelled() {
         // logger.info("Drivetrain current encoder tics: " +
         // (driveTrain.getEncoderTics() - startTics));
-        return Math.abs(driveTrain.getEncoderTics() - startTics);
+        return startTics - driveTrain.getEncoderTics();
     }
 
     private double calculateSpeed() {
         if (targetTics - RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE < ticsTravelled())
-            return RobotMap.DriveWithEncoder.BOTTOM_SPEED * dir;
-        return RobotMap.DriveWithEncoder.TOP_SPEED * dir;
+            return RobotMap.DriveWithEncoder.REVERSE_BOTTOM_SPEED;
+        return RobotMap.DriveWithEncoder.REVERSE_TOP_SPEED;
     }
 
     private double getCorrection() {

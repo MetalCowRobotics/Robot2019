@@ -16,8 +16,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
+import frc.commands.DriveBackwardsStraight;
+import frc.commands.DriveStraightInches;
 import frc.commands.DriveToSensor;
+import frc.commands.DriveStraightInches.DRIVE_DIRECTION;
+import frc.commands.DriveToSensor.SENSOR_DIRECTION;
 import frc.lib14.MCRCommand;
+import frc.lib14.SequentialCommands;
+import frc.systems.CargoHandler;
 import frc.systems.Climber;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
@@ -45,14 +51,14 @@ public class Robot extends TimedRobot {
   private RobotDashboard dash;
   
   // Robot Systems
-  Compressor c = new Compressor();
-  //DriveTrain driveTrain;
+  //Compressor c = new Compressor();
+  DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
-  Climber climber;
+  CargoHandler cargoHandler;
   MasterControls controllers;
 
-  private boolean isAuto = false;
+  private boolean isAuto = true;
   private boolean endGameInitiated = false;
   private DigitalInput distanceSensor = new DigitalInput(3);
 
@@ -67,10 +73,10 @@ public class Robot extends TimedRobot {
     // Initialize Robot
     driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
-    //driveTrain = DriveTrain.getInstance();
-    // elevator = Elevator.getInstance();
-    hatchHandler = HatchHandler.getInstance();
-    climber = Climber.getInstance();
+    driveTrain = DriveTrain.getInstance();
+    //elevator = Elevator.getInstance();
+    //hatchHandler = HatchHandler.getInstance();
+    //cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
 
     // dash.initializeDashboard();
@@ -82,7 +88,7 @@ public class Robot extends TimedRobot {
     //CameraServer.getInstance().startAutomaticCapture(0);
 
     //start the compressor
-    c.setClosedLoopControl(true);
+    //c.setClosedLoopControl(true);
 
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
@@ -116,6 +122,18 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // mission = new ExitHabitatLevel1();
     // mission = new DriveToSensor(12);
+    //DriveStraightInches driveBackwards = new DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
+    //DriveStraightInches driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, 48);
+    //driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
+    mission = new SequentialCommands(driveForward(48),
+    driveBackward(48));
+    
+  }
+  public DriveStraightInches driveForward(double targetInches) {
+    return new DriveStraightInches(DRIVE_DIRECTION.forward, targetInches);
+  }
+  public DriveStraightInches driveBackward(double targetInches) {
+    return new DriveStraightInches(DRIVE_DIRECTION.backward, targetInches);
   }
 
   /**
@@ -138,10 +156,10 @@ public class Robot extends TimedRobot {
       }
     } else {
       // logger.info("Teleop Periodic!");
-      // driveTrain.drive();
-      // elevator.execuyute();
-      hatchHandler.execute();
-      climber.execute();
+       driveTrain.drive();
+      //elevator.execute();
+      // hatchHandler.execute();
+      //cargoHandler.execute();
     }
     if (controllers.autoClimb()) {
      // climbMission.run();
@@ -167,11 +185,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
     // write a "back to the pit" self-check script here
     // something we an run that moves all the mechanisms one at a time or tests
     // sensors
     // like asks for us to press limit switches so we know they are still wired in
     // System.out.println("angle: " + driveTrain.getAngle());
     
-  }
 }

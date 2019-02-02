@@ -3,6 +3,7 @@ package frc.autonomous;
 import frc.commands.CommandPause;
 import frc.commands.DeployFrontLegs;
 import frc.commands.DeployRearLegs;
+import frc.commands.DriveBackwardsStraight;
 import frc.commands.DriveStraightInches;
 import frc.commands.RetractFrontLegs;
 import frc.commands.RetractRearLegs;
@@ -16,14 +17,14 @@ public class ExitHabitatLevel2 implements MCRCommand {
     public ExitHabitatLevel2() {
         mission = new SequentialCommands(
             new CommandPause(5),
-            new DeployFrontLegs(1),
-            //TODO: drive straight number of inches both times or use DriveToSensor
-            new DriveStraightInches(24,3),
             new DeployRearLegs(1),
+            //TODO: drive straight number of inches both times or use DriveToSensor
+            new DriveBackwardsStraight(24,3),
+            new DeployFrontLegs(1),
             // version 1
-            new RetractFrontLegs(),
-            new DriveStraightInches(10,3),
-            new RetractRearLegs()
+            new RetractRearLegs(),
+            new DriveBackwardsStraight(10,3),
+            new RetractFrontLegs()
             //version 2
              // new DriveStraightInches(10,3),
             //new ParallelCommands(
