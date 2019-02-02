@@ -2,18 +2,23 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.RobotMap;
 
 public class Climber {
+	private DigitalInput limit; 
     private static final Logger logger = Logger.getLogger(Climber.class.getName());
 	private static final Climber instance = new Climber();
 	private static final MasterControls controllers = MasterControls.getInstance();
 	private DoubleSolenoid front = new DoubleSolenoid(RobotMap.Climber.FRONT_FOWARD, RobotMap.Climber.FRONT_REVERSE);
-    private DoubleSolenoid back = new DoubleSolenoid(RobotMap.Climber.REAR_FOWARD, RobotMap.Climber.REAR_REVERSE);
+	private DoubleSolenoid back = new DoubleSolenoid(RobotMap.Climber.REAR_FOWARD, RobotMap.Climber.REAR_REVERSE);
+	
+	
 	private Climber() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.climberClass);
+		limit = new DigitalInput(3);
 	}
 
 	public static Climber getInstance() {
@@ -43,10 +48,13 @@ public class Climber {
 	}
 
 	public void retractFrontLegs() {
-		front.set(DoubleSolenoid.Value.kForward);
+		front.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	public void extendFrontLegs() {
-		front.set(DoubleSolenoid.Value.kReverse);
+		front.set(DoubleSolenoid.Value.kForward);
+	}
+	public Boolean getSensor(){
+		return limit.get();
 	}
 }

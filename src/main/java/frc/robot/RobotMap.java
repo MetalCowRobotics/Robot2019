@@ -114,10 +114,10 @@ public class RobotMap {
 	}
 
 	public final class Climber {
-		public static final int FRONT_FOWARD =  4; 
+		public static final int FRONT_FOWARD =  4;
 		public static final int FRONT_REVERSE = 5;
-		public static final int REAR_FOWARD =  6; 
-		public static final int REAR_REVERSE = 7;
+		public static final int REAR_FOWARD =  7; 
+		public static final int REAR_REVERSE = 6;
 	
 	}
 	

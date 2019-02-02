@@ -13,6 +13,7 @@ public class DeployFrontLegs extends TimedCommand implements MCRCommand {
 
     public void run() {
         command.run();
+        System.out.println("Deploy Front Legs");
     }
 
     public boolean isFinished() {

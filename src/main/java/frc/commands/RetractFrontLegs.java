@@ -17,6 +17,7 @@ public class RetractFrontLegs extends TimedCommand implements MCRCommand {
     
     public void run() {
         command.run();
+        System.out.println("Retract Front Legs");
     }
     
     public boolean isFinished() {

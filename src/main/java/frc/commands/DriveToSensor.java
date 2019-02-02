@@ -3,7 +3,9 @@ package frc.commands;
 import frc.lib14.MCRCommand;
 import frc.lib14.PDController;
 import frc.lib14.UtilityMethods;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.systems.Climber;
 import frc.systems.DriveTrain;
 import java.util.logging.Logger;
 
@@ -11,12 +13,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class DriveToSensor implements MCRCommand {
     private DriveTrain drivetrain = DriveTrain.getInstance();
+    private Climber climber = Climber.getInstance();
     private int currentState = 0;
     private int dir = 1;
     private final int IDLE = 0;
     private final int ACTIVE = 1;
     private final int DONE = 2;
-    private DigitalInput limit = new DigitalInput(3);
+    //private DigitalInput limit = new DigitalInput(3);
     protected PDController driveController;
     private SENSOR_DIRECTION direction;
 // direction: 1 = forward, -1 = backwards
@@ -61,7 +64,7 @@ public class DriveToSensor implements MCRCommand {
     }
 
     private boolean ledgeSensor() {
-        return !limit.get();
+        return !climber.getSensor();
     }
 
     @Override
