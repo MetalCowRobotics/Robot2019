@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   
   // Robot Systems
   Compressor c = new Compressor();
-  //DriveTrain driveTrain;
+  DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
   Climber climber;
@@ -67,12 +67,12 @@ public class Robot extends TimedRobot {
     // Initialize Robot
     driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
-    //driveTrain = DriveTrain.getInstance();
+    driveTrain = DriveTrain.getInstance();
     // elevator = Elevator.getInstance();
     hatchHandler = HatchHandler.getInstance();
     climber = Climber.getInstance();
     controllers = MasterControls.getInstance();
-
+    climbMission = new ClimbToLevel2();
     // dash.initializeDashboard();
 
     //calibrate Gyro
@@ -138,14 +138,13 @@ public class Robot extends TimedRobot {
       }
     } else {
       // logger.info("Teleop Periodic!");
-      // driveTrain.drive();
+      driveTrain.drive();
       // elevator.execuyute();
       hatchHandler.execute();
       climber.execute();
     }
     if (controllers.autoClimb()) {
-     // climbMission.run();
-      System.out.println("End Game");
+      climbMission.run();
     }
   }
 
