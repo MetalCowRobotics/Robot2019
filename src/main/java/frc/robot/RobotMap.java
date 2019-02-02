@@ -125,8 +125,8 @@ public class RobotMap {
 	public final class Hatch {
 		public static final int ARM_FOWARD =  2;
 		public static final int ARM_REVERSE = 3;
-		public static final int GRABBER_FOWARD =  0; 
-		public static final int GRABBER_REVERSE = 1;
+		public static final int GRABBER_FOWARD =  1; 
+		public static final int GRABBER_REVERSE = 0;
 	
 	}
 	public static final class Autonomous {

@@ -27,7 +27,8 @@ public class HatchHandler {
     private ClawStatus clawStatus = ClawStatus.grab;
 
     private HatchHandler() {
-        arm.set(DoubleSolenoid.Value.kOff);
+        //arm.set(DoubleSolenoid.Value.kOff);
+        grab();
         logger.setLevel(RobotMap.LogLevels.hatchHandlerClass);
     }
 
