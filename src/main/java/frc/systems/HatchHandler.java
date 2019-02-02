@@ -10,9 +10,9 @@ public class HatchHandler {
     private static final MasterControls controller = MasterControls.getInstance();
     private static final Logger logger = Logger.getLogger(HatchHandler.class.getName());
     private static final HatchHandler instance = new HatchHandler();
+    private DoubleSolenoid arm = new DoubleSolenoid(2, 3);
     private RobotDashboard dash = RobotDashboard.getInstance();
-    private DoubleSolenoid arm = new DoubleSolenoid(0, 1);
-    private DoubleSolenoid claw = new DoubleSolenoid(2, 3);
+    // private DoubleSolenoid grabber = new DoubleSolenoid(3,4);
 
     enum ArmStatus {
         extended, retracted

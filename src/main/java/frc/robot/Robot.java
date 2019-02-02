@@ -9,8 +9,10 @@ package frc.robot;
 
 //import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
@@ -57,6 +59,7 @@ public class Robot extends TimedRobot {
 
   private boolean isAuto = true;
   private boolean endGameInitiated = false;
+  private DigitalInput distanceSensor = new DigitalInput(3);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -84,7 +87,7 @@ public class Robot extends TimedRobot {
     //CameraServer.getInstance().startAutomaticCapture(0);
 
     //start the compressor
-    //c.setClosedLoopControl(true);
+    c.setClosedLoopControl(true);
 
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
@@ -131,6 +134,7 @@ public class Robot extends TimedRobot {
   }
 
   private void commonPeriodic() {
+    SmartDashboard.putBoolean("Lidar", distanceSensor.get());
     if (isAuto) {
       if (mission.isFinished()) {
         isAuto = false;
@@ -152,7 +156,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    commonPeriodic();
+
   }
 
   /**
@@ -160,7 +164,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
+    commonPeriodic();
   }
 
   /**

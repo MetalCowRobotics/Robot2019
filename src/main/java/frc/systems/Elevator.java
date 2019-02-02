@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
 import frc.lib14.PDController;
 import frc.lib14.UtilityMethods;
@@ -36,6 +37,7 @@ public class Elevator {
 	}
 
 	public void execute() {
+		SmartDashboard.putBoolean("DigitalSwitch", isElevatorAtTop());
 		logParameters();
 		if (firstTime) {
 			firstTime = false;
@@ -46,8 +48,11 @@ public class Elevator {
 			setPositionTics(bottomTics); //seeing if this helps with multiple runs
 			dash.pushElevatorPID();
 		}
-		// check the mode button and if pressed
-		// hatchMode = !hatchMode;
+		System.out.println("Elevator: About to check Elevator HAtchmode");
+		if (controller.switchHeights()){
+			hatchMode = !hatchMode;
+		}
+		SmartDashboard.putBoolean("hatchmode", hatchMode);
 		getElevatorTarget(); //check for level up and level down
 		if (0 == controller.getElevatorThrottle()) {
 			holdPID.set_kP(dash.getElevatorKP());
@@ -98,9 +103,11 @@ public class Elevator {
 		if (isMovingUp(speed) && inUpperSafetyZone()) {
 			return Math.min(speed, RobotMap.Elevator.SafeSpeed);
 		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
-			return Math.max(speed, -RobotMap.Elevator.SafeSpeed);
+			return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
 		} else {
-			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .7)); // xtra
+			if (isMovingUp(speed))
+				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .7)); // xtra
+			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .2)); // xtra
 		}
 	}
 
@@ -165,7 +172,7 @@ public class Elevator {
 	}
 
 	private void determineLevel(double level1, double level2, double level3) {
-		double fudgeFactor = 300; // if the PID does not get it to height it will always be lower and never go to the else
+		double fudgeFactor = 50; // if the PID does not get it to height it will always be lower and never go to the else
 		logger.info("current distance: " + (getEncoderTics() - bottomTics) + " <> ");
 		if (controller.upLevel()) {
 			if ((getEncoderTics() - bottomTics) < level2 - fudgeFactor) {
@@ -175,7 +182,7 @@ public class Elevator {
 			}
 		}
 		if (controller.downLevel()) {
-			if ((getEncoderTics() - bottomTics) > level2 - fudgeFactor) {
+			if ((getEncoderTics() - bottomTics) > level2) {
 				setPositionTics(level2 + bottomTics);
 			} else {
 				setPositionTics(level1 + bottomTics);
