@@ -87,4 +87,7 @@ public class MasterControls {
 	public boolean downLevel() {
 		return operator.getAButtonPressed();
 	}
+	public boolean switchHeights() {
+		return operator.getStartButtonPressed();
+	}
 }
