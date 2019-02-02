@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
   private RobotDashboard dash;
   
   // Robot Systems
-  //Compressor c = new Compressor();
+  Compressor c = new Compressor();
   //DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
     dash = RobotDashboard.getInstance();
     //driveTrain = DriveTrain.getInstance();
     elevator = Elevator.getInstance();
-    //hatchHandler = HatchHandler.getInstance();
+    hatchHandler = HatchHandler.getInstance();
     controllers = MasterControls.getInstance();
 
     // dash.initializeDashboard();
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
     //CameraServer.getInstance().startAutomaticCapture(0);
 
     //start the compressor
-    //c.setClosedLoopControl(true);
+    c.setClosedLoopControl(true);
 
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
       // logger.info("Teleop Periodic!");
       // driveTrain.drive();
       elevator.execute();
-      // hatchHandler.execute();
+      hatchHandler.execute();
     }
     if (endGameInitiated) {
       climbMission.run();
@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    commonPeriodic();
+
   }
 
   /**
@@ -149,7 +149,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
+    commonPeriodic();
   }
 
   /**
