@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
 import frc.lib14.PDController;
 import frc.lib14.UtilityMethods;
@@ -46,8 +47,11 @@ public class Elevator {
 			setPositionTics(bottomTics); //seeing if this helps with multiple runs
 			dash.pushElevatorPID();
 		}
-		// check the mode button and if pressed
-		// hatchMode = !hatchMode;
+		System.out.println("Elevator: About to check Elevator HAtchmode");
+		if (controller.switchHeights()){
+			hatchMode = !hatchMode;
+		}
+		SmartDashboard.putBoolean("hatchmode", hatchMode);
 		getElevatorTarget(); //check for level up and level down
 		if (0 == controller.getElevatorThrottle()) {
 			holdPID.set_kP(dash.getElevatorKP());
