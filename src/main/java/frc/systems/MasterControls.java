@@ -3,6 +3,7 @@ package frc.systems;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.UtilityMethods;
 import frc.lib14.XboxControllerMetalCow;
@@ -89,5 +90,13 @@ public class MasterControls {
 	}
 	public boolean switchHeights() {
 		return operator.getStartButtonPressed();
+	}
+
+	public boolean release() {
+		return operator.getBumper(Hand.kLeft);
+	}
+
+	public boolean grab() {
+		return operator.getBumper(Hand.kRight);
 	}
 }

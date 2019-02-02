@@ -48,7 +48,6 @@ public class Elevator {
 			setPositionTics(bottomTics); //seeing if this helps with multiple runs
 			dash.pushElevatorPID();
 		}
-		System.out.println("Elevator: About to check Elevator HAtchmode");
 		if (controller.switchHeights()){
 			hatchMode = !hatchMode;
 		}
