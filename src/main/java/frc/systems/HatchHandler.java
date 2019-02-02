@@ -64,12 +64,12 @@ public class HatchHandler {
     // grab and release hatch handler
     // TODO: Reverse or Forward?
     public void grabClaw() {
-        claw.set(DoubleSolenoid.Value.kReverse);
+        grabber.set(DoubleSolenoid.Value.kReverse);
         clawStatus = ClawStatus.grab;
     }
 
     public void releaseClaw() {
-        claw.set(DoubleSolenoid.Value.kForward);
+        grabber.set(DoubleSolenoid.Value.kForward);
         clawStatus = ClawStatus.release;
     }
 }

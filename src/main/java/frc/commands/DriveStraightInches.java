@@ -14,10 +14,19 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private boolean finished = false;
     private double startTics;
     private double targetTics;
+    public int dir = 1;
     protected PDController driveController;
     private DriveTrain driveTrain = DriveTrain.getInstance();
+    private DRIVE_DIRECTION direction;
+    public DriveStraightInches(DRIVE_DIRECTION direction, double targetInches) {
+        this.direction = direction;
+        setTarget(targetInches);
+    }
+    public enum DRIVE_DIRECTION {
+        forward, backward
+    }
 
-    public DriveStraightInches(double targetInches) {
+    public void DriveStraightInches(double targetInches) {
         setTarget(targetInches);
     }
 
@@ -33,6 +42,16 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     public void run() {
+        // case public void run() {
+        switch(direction) {
+            case forward:
+                dir = 1;
+                break;
+            case backward:
+                dir = -1;
+                break;
+        }
+                //case end
         if (firstTime) {
             firstTime = false;
             startTimer();
@@ -59,13 +78,13 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private double ticsTravelled() {
         // logger.info("Drivetrain current encoder tics: " +
         // (driveTrain.getEncoderTics() - startTics));
-        return driveTrain.getEncoderTics() - startTics;
+        return Math.abs(driveTrain.getEncoderTics() - startTics);
     }
 
     private double calculateSpeed() {
         if (targetTics - RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE < ticsTravelled())
-            return RobotMap.DriveWithEncoder.BOTTOM_SPEED;
-        return RobotMap.DriveWithEncoder.TOP_SPEED;
+            return RobotMap.DriveWithEncoder.BOTTOM_SPEED * dir;
+        return RobotMap.DriveWithEncoder.TOP_SPEED * dir;
     }
 
     private double getCorrection() {

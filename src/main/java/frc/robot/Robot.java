@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
 import frc.commands.DriveBackwardsStraight;
-import frc.commands.DriveBackwardsToSensor;
 import frc.commands.DriveStraightInches;
 import frc.commands.DriveToSensor;
+import frc.commands.DriveStraightInches.DRIVE_DIRECTION;
 import frc.commands.DriveToSensor.SENSOR_DIRECTION;
 import frc.lib14.MCRCommand;
 import frc.lib14.SequentialCommands;
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
     //CameraServer.getInstance().startAutomaticCapture(0);
 
     //start the compressor
-    c.setClosedLoopControl(true);
+    //c.setClosedLoopControl(true);
 
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
@@ -121,8 +121,18 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // mission = new ExitHabitatLevel1();
     // mission = new DriveToSensor(12);
-    mission = new SequentialCommands( new DriveStraightInches(60),
-    new DriveToSensor(SENSOR_DIRECTION.backward));
+    //DriveStraightInches driveBackwards = new DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
+    //DriveStraightInches driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, 48);
+    //driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
+    mission = new SequentialCommands(driveForward(48),
+    driveBackward(48));
+    
+  }
+  public DriveStraightInches driveForward(double targetInches) {
+    return new DriveStraightInches(DRIVE_DIRECTION.forward, targetInches);
+  }
+  public DriveStraightInches driveBackward(double targetInches) {
+    return new DriveStraightInches(DRIVE_DIRECTION.backward, targetInches);
   }
 
   /**
