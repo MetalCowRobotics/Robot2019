@@ -35,6 +35,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
         System.out.println("set drive target:"+targetInches);
         setTarget(targetInches);
         setTargetTime(timeoutSeconds);
+        this.direction = DRIVE_DIRECTION.forward;
     }
 
     private void setTarget(double targetInches) {

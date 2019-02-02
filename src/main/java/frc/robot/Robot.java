@@ -59,9 +59,9 @@ public class Robot extends TimedRobot {
   MasterControls controllers;
   Climber climber;
 
-  private boolean isAuto = true;
+  private boolean isAuto = false;
   private boolean endGameInitiated = false;
-  private DigitalInput distanceSensor = new DigitalInput(3);
+  //private DigitalInput distanceSensor = new DigitalInput(3);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
 
   private void commonPeriodic() {
     endGameInitiated = !controllers.climberControls();
-    SmartDashboard.putBoolean("Lidar", distanceSensor.get());
+    //SmartDashboard.putBoolean("Lidar", distanceSensor.get());
     if (isAuto) {
       if (mission.isFinished()) {
         isAuto = false;
