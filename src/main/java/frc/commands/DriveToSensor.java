@@ -24,7 +24,7 @@ public class DriveToSensor implements MCRCommand {
     }
 
     public void run() {
-        switch (currentState) {
+        switch (currentState) { 
         case IDLE:
             drivetrain.resetGyro();
             driveController = new PDController(drivetrain.getAngle());
