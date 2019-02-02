@@ -5,13 +5,13 @@ import java.util.logging.Logger;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.RobotDashboard;
 import frc.robot.RobotMap;
-
+import frc.robot.RobotMap.Hatch;
 public class HatchHandler {
     private static final MasterControls controller = MasterControls.getInstance();
     private static final Logger logger = Logger.getLogger(HatchHandler.class.getName());
     private static final HatchHandler instance = new HatchHandler();
-    private DoubleSolenoid arm = new DoubleSolenoid(2, 3);
-    private DoubleSolenoid grabber = new DoubleSolenoid(0,1);
+    private DoubleSolenoid arm = new DoubleSolenoid(Hatch.ARM_FOWARD, Hatch.ARM_REVERSE);
+    private DoubleSolenoid grabber = new DoubleSolenoid(Hatch.GRABBER_FOWARD, Hatch.GRABBER_REVERSE);
     private RobotDashboard dash = RobotDashboard.getInstance();
 
     enum ArmStatus {
@@ -23,8 +23,8 @@ public class HatchHandler {
     }
 
     private ArmStatus armStatus = ArmStatus.retracted;
-    // TODO: Grab or Release?
-    private ClawStatus clawStatus = ClawStatus.release;
+
+    private ClawStatus clawStatus = ClawStatus.grab;
 
     private HatchHandler() {
         arm.set(DoubleSolenoid.Value.kOff);
@@ -43,12 +43,21 @@ public class HatchHandler {
             retract();
         }
         if (controller.grab()) {
-            grabber.set(DoubleSolenoid.Value.kReverse);   
+            grab();
         }
         if (controller.release()){
-            grabber.set(DoubleSolenoid.Value.kForward);
+            release();
         }
+    }
 
+    private void release() {
+        grabber.set(DoubleSolenoid.Value.kReverse);
+        clawStatus = ClawStatus.release;
+    }
+
+    private void grab() {
+        grabber.set(DoubleSolenoid.Value.kForward);
+        clawStatus = ClawStatus.grab;
     }
 
     private void retract() {
