@@ -14,8 +14,13 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
+import frc.commands.DriveBackwardsStraight;
+import frc.commands.DriveBackwardsToSensor;
+import frc.commands.DriveStraightInches;
 import frc.commands.DriveToSensor;
+import frc.commands.DriveToSensor.SENSOR_DIRECTION;
 import frc.lib14.MCRCommand;
+import frc.lib14.SequentialCommands;
 import frc.systems.CargoHandler;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
@@ -44,13 +49,13 @@ public class Robot extends TimedRobot {
   
   // Robot Systems
   //Compressor c = new Compressor();
-  //DriveTrain driveTrain;
+  DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
   CargoHandler cargoHandler;
   MasterControls controllers;
 
-  private boolean isAuto = false;
+  private boolean isAuto = true;
   private boolean endGameInitiated = false;
 
   /**
@@ -64,10 +69,10 @@ public class Robot extends TimedRobot {
     // Initialize Robot
     driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
-    //driveTrain = DriveTrain.getInstance();
-    elevator = Elevator.getInstance();
+    driveTrain = DriveTrain.getInstance();
+    //elevator = Elevator.getInstance();
     //hatchHandler = HatchHandler.getInstance();
-    cargoHandler = CargoHandler.getInstance();
+    //cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
 
     // dash.initializeDashboard();
@@ -113,6 +118,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // mission = new ExitHabitatLevel1();
     // mission = new DriveToSensor(12);
+    mission = new SequentialCommands( new DriveStraightInches(60),
+    new DriveToSensor(SENSOR_DIRECTION.backward));
   }
 
   /**
@@ -133,10 +140,10 @@ public class Robot extends TimedRobot {
       }
     } else {
       // logger.info("Teleop Periodic!");
-      // driveTrain.drive();
-      elevator.execute();
+       driveTrain.drive();
+      //elevator.execute();
       // hatchHandler.execute();
-      cargoHandler.execute();
+      //cargoHandler.execute();
     }
     if (endGameInitiated) {
       climbMission.run();

@@ -11,6 +11,7 @@ import frc.systems.DriveTrain;
 public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private static final Logger logger = Logger.getLogger(DriveStraightInches.class.getName());
     private boolean firstTime = true;
+    private boolean finished = false;
     private double startTics;
     private double targetTics;
     protected PDController driveController;
@@ -52,6 +53,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private void end() {
         driveTrain.stop();
         endTimer();
+        finished = true;
     }
 
     private double ticsTravelled() {
@@ -83,6 +85,6 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
             end();
             return true;
         }
-        return targetTics <= ticsTravelled();
+        return finished;
     }
 }

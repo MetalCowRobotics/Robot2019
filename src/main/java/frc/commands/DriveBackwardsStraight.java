@@ -11,6 +11,7 @@ import frc.systems.DriveTrain;
 public class DriveBackwardsStraight extends TimedCommand implements MCRCommand {
     private static final Logger logger = Logger.getLogger(DriveBackwardsStraight.class.getName());
     private boolean firstTime = true;
+    private boolean finished = false;
     private double startTics;
     private double targetTics;
     protected PDController driveController;
@@ -53,12 +54,13 @@ public class DriveBackwardsStraight extends TimedCommand implements MCRCommand {
     private void end() {
         driveTrain.stop();
         endTimer();
+        finished = true; 
     }
 
     private double ticsTravelled() {
         // logger.info("Drivetrain current encoder tics: " +
         // (driveTrain.getEncoderTics() - startTics));
-        return driveTrain.getEncoderTics() - startTics;
+        return startTics - driveTrain.getEncoderTics();
     }
 
     private double calculateSpeed() {
@@ -84,6 +86,6 @@ public class DriveBackwardsStraight extends TimedCommand implements MCRCommand {
             end();
             return true;
         }
-        return targetTics <= ticsTravelled();
+        return finished;
     }
 }
