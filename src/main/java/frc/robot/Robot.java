@@ -16,6 +16,7 @@ import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
 import frc.commands.DriveToSensor;
 import frc.lib14.MCRCommand;
+import frc.systems.CargoHandler;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
   private MCRCommand mission;
-  private MCRCommand climbMission = new ClimbToLevel2();
+  private MCRCommand climbMission ;//= new ClimbToLevel2();
 
   // Field Systems
   private DriverStation driverStation;
@@ -46,9 +47,10 @@ public class Robot extends TimedRobot {
   //DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
+  CargoHandler cargoHandler;
   MasterControls controllers;
 
-  private boolean isAuto = true;
+  private boolean isAuto = false;
   private boolean endGameInitiated = false;
 
   /**
@@ -58,7 +60,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     logger.setLevel(RobotMap.LogLevels.robotClass);
-    dash.initializeDashboard();
     
     // Initialize Robot
     driverStation = DriverStation.getInstance();
@@ -66,7 +67,10 @@ public class Robot extends TimedRobot {
     //driveTrain = DriveTrain.getInstance();
     elevator = Elevator.getInstance();
     //hatchHandler = HatchHandler.getInstance();
+    cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
+
+    // dash.initializeDashboard();
 
     //calibrate Gyro
     //driveTrain.calibrateGyro();
@@ -108,7 +112,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // mission = new ExitHabitatLevel1();
-    mission = new DriveToSensor(12);
+    // mission = new DriveToSensor(12);
   }
 
   /**
@@ -132,6 +136,7 @@ public class Robot extends TimedRobot {
       // driveTrain.drive();
       elevator.execute();
       // hatchHandler.execute();
+      cargoHandler.execute();
     }
     if (endGameInitiated) {
       climbMission.run();

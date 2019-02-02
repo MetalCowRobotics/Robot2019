@@ -24,22 +24,22 @@ public class RobotDashboard {
 	}
 
 	public void initializeDashboard() {
-		driverStation = edu.wpi.first.wpilibj.DriverStation.getInstance();
-		boolean isFMSAttached = driverStation.isFMSAttached();
-		if (!isFMSAttached) {
-			pdp = new PowerDistributionPanel();
-			pdp.resetTotalEnergy();
-		}
-		pushElevatorPID();
+		// driverStation = edu.wpi.first.wpilibj.DriverStation.getInstance();
+		// // boolean isFMSAttached = driverStation.isFMSAttached();
+		// if (!isFMSAttached) {
+		// 	pdp = new PowerDistributionPanel();
+		// 	pdp.resetTotalEnergy();
+		// }
+		// pushElevatorPID();
 	}
 
 	public void pushElevatorPID() {
 		SmartDashboard.putNumber("EkP", RobotMap.Elevator.kP);
 		SmartDashboard.putNumber("EkI", RobotMap.Elevator.kI);
 		SmartDashboard.putNumber("EkD", RobotMap.Elevator.kD);
-		SmartDashboard.putNumber("Etolerance", RobotMap.Elevator.tolerance);
-		SmartDashboard.putNumber("Emin output", RobotMap.Elevator.outputMin);
-		SmartDashboard.putNumber("Emax output", RobotMap.Elevator.outputMax);
+		// SmartDashboard.putNumber("Etolerance", RobotMap.Elevator.tolerance);
+		// SmartDashboard.putNumber("Emin output", RobotMap.Elevator.outputMin);
+		// SmartDashboard.putNumber("Emax output", RobotMap.Elevator.outputMax);
 	}
 
 	public double getElevatorKP() {
