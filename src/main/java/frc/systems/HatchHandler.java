@@ -10,8 +10,8 @@ public class HatchHandler {
     private static final Logger logger = Logger.getLogger(HatchHandler.class.getName());
     private static final HatchHandler instance = new HatchHandler();
     private DoubleSolenoid arm = new DoubleSolenoid(2, 3);
+    private DoubleSolenoid grabber = new DoubleSolenoid(0,1);
     private RobotDashboard dash = RobotDashboard.getInstance();
-    // private DoubleSolenoid grabber = new DoubleSolenoid(3,4);
 
     enum ArmStatus {
         extended, retracted
@@ -35,23 +35,23 @@ public class HatchHandler {
         if (controller.isRetracted()) {
             retract();
         }
+        if (controller.grab()) {
+            grabber.set(DoubleSolenoid.Value.kReverse);   
+        }
+        if (controller.release()){
+            grabber.set(DoubleSolenoid.Value.kForward);
+        }
 
     }
 
     private void retract() {
-        // if (ArmStatus.extended == armStatus) {
             arm.set(DoubleSolenoid.Value.kForward);
             armStatus = ArmStatus.retracted;
-        // }
-        System.out.print("retract");
     }
 
     public void extend() {
-        // if (ArmStatus.extended == armStatus) {
             arm.set(DoubleSolenoid.Value.kReverse);
             armStatus = ArmStatus.extended;
-        // }
-        System.out.print("extend");
     }
 
 }
