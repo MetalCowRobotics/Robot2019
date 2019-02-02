@@ -26,13 +26,16 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
         forward, backward
     }
 
-    public void DriveStraightInches(double targetInches) {
+    public DriveStraightInches(double targetInches) {
+        System.out.println("set drive target:"+targetInches);
         setTarget(targetInches);
     }
 
     public DriveStraightInches(double targetInches, int timeoutSeconds) {
+        System.out.println("set drive target:"+targetInches);
         setTarget(targetInches);
         setTargetTime(timeoutSeconds);
+        this.direction = DRIVE_DIRECTION.forward;
     }
 
     private void setTarget(double targetInches) {
@@ -61,6 +64,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
         }
         if (ticsTravelled() < targetTics) {
             driveTrain.arcadeDrive(calculateSpeed(), getCorrection());
+            System.out.println("Drive Straight" + targetTics);
         } else {
             end();
         }
