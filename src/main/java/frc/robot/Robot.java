@@ -24,6 +24,7 @@ import frc.commands.DriveToSensor.SENSOR_DIRECTION;
 import frc.lib14.MCRCommand;
 import frc.lib14.SequentialCommands;
 import frc.systems.CargoHandler;
+import frc.systems.Climber;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
@@ -144,6 +145,7 @@ public class Robot extends TimedRobot {
   }
 
   private void commonPeriodic() {
+    endGameInitiated = !controllers.climberControls();
     SmartDashboard.putBoolean("Lidar", distanceSensor.get());
     if (isAuto) {
       if (mission.isFinished()) {
@@ -159,8 +161,9 @@ public class Robot extends TimedRobot {
       // hatchHandler.execute();
       //cargoHandler.execute();
     }
-    if (endGameInitiated) {
-      climbMission.run();
+    if (controllers.autoClimb()) {
+     // climbMission.run();
+      System.out.println("End Game");
     }
   }
 
@@ -182,10 +185,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
     // write a "back to the pit" self-check script here
     // something we an run that moves all the mechanisms one at a time or tests
     // sensors
     // like asks for us to press limit switches so we know they are still wired in
     // System.out.println("angle: " + driveTrain.getAngle());
-  }
+    
 }
