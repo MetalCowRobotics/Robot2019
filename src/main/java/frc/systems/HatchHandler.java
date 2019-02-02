@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.RobotDashboard;
+import frc.robot.RobotMap;
 
 public class HatchHandler {
     private static final MasterControls controller = MasterControls.getInstance();
@@ -17,10 +18,17 @@ public class HatchHandler {
         extended, retracted
     }
 
+    enum ClawStatus {
+        grab, release
+    }
+
     private ArmStatus armStatus = ArmStatus.retracted;
+    // TODO: Grab or Release?
+    private ClawStatus clawStatus = ClawStatus.release;
 
     private HatchHandler() {
         arm.set(DoubleSolenoid.Value.kOff);
+        logger.setLevel(RobotMap.LogLevels.hatchHandlerClass);
     }
 
     public static HatchHandler getInstance() {
@@ -28,7 +36,6 @@ public class HatchHandler {
     }
 
     public void execute() {
-       dash.pushElevatorLimits(true, false);
         if (controller.isExtended()) {
             extend();
         }
@@ -54,4 +61,15 @@ public class HatchHandler {
             armStatus = ArmStatus.extended;
     }
 
+    // grab and release hatch handler
+    // TODO: Reverse or Forward?
+    public void grabClaw() {
+        grabber.set(DoubleSolenoid.Value.kReverse);
+        clawStatus = ClawStatus.grab;
+    }
+
+    public void releaseClaw() {
+        grabber.set(DoubleSolenoid.Value.kForward);
+        clawStatus = ClawStatus.release;
+    }
 }

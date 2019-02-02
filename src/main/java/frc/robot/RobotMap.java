@@ -39,6 +39,8 @@ public class RobotMap {
 		public static final int TICS_PER_ROTATION = 4096; 
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Drivetrain.WHEEL_DIAMETER;
 		public static final double SLOW_DOWN_DISTANCE = (12 / INCHES_PER_ROTATION) * TICS_PER_ROTATION;
+		public static final double REVERSE_TOP_SPEED = -0.6;
+		public static final double REVERSE_BOTTOM_SPEED = -0.4;
 	}
 
 	public final class TurnDegrees {
@@ -70,7 +72,7 @@ public class RobotMap {
 		public static final int ANGLE_MOTOR_CHANNEL = 7; // CAN
 		// public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
-		//public static final int BOX_SENSOR = 9; // DIO
+		public static final int BALL_SENSOR = 9; // DIO
 	}
 
 	public final class Elevator {
@@ -135,6 +137,11 @@ public class RobotMap {
 		public static final Level elevatorClass = Level.WARNING;
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
+		public static final Level missionClass = Level.WARNING;
+		public static final Level autoDriveClass = Level.WARNING;
+		public static final Level componentBuilderClass = Level.WARNING;
+		public static final Level cargoHandlerClass = Level.WARNING;
+		public static final Level hatchHandlerClass = Level.WARNING;
 	}
 
 	

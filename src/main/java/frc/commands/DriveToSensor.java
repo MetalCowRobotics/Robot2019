@@ -11,29 +11,42 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class DriveToSensor implements MCRCommand {
     private DriveTrain drivetrain = DriveTrain.getInstance();
-    private double howClose = 0;
     private int currentState = 0;
+    private int dir = 1;
     private final int IDLE = 0;
     private final int ACTIVE = 1;
     private final int DONE = 2;
-    private DigitalInput limit = new DigitalInput(8);
+    private DigitalInput limit = new DigitalInput(3);
     protected PDController driveController;
-
-    public DriveToSensor(double howClose) {
-        this.howClose = howClose;
+    private SENSOR_DIRECTION direction;
+// direction: 1 = forward, -1 = backwards
+    public DriveToSensor(SENSOR_DIRECTION direction) {
+        this.direction = direction;
     }
 
+    public enum SENSOR_DIRECTION {
+        forward, backward
+    };
+
     public void run() {
-        switch (currentState) {
+        switch(direction) {
+            case forward:
+                dir = 1;
+                break;
+            case backward:
+                dir = -1;
+                break;
+        }
+        switch (currentState) { 
         case IDLE:
             drivetrain.resetGyro();
             driveController = new PDController(drivetrain.getAngle());
-            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED, getCorrection());
+            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
             currentState = ACTIVE;
             break;
         case ACTIVE:
             System.out.println("Active");
-            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED, getCorrection());
+            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
             // TODO: when is the sensor on or off
             // if (howClose > ledgeSensor()) {
             if (ledgeSensor()) {
