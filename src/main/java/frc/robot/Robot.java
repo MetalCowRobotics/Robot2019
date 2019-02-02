@@ -9,13 +9,18 @@ package frc.robot;
 
 //import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
+import frc.autonomous.ExitHabitatLevel2;
 import frc.commands.DriveBackwardsStraight;
 import frc.commands.DriveStraightInches;
 import frc.commands.DriveToSensor;
@@ -42,6 +47,9 @@ import java.util.logging.Logger;
 // public class Robot extends IterativeRobot {
 public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
+
+  MCRCommand autonomousCommand;
+  SendableChooser autoChooser;
 
   private MCRCommand mission;
   private MCRCommand climbMission ;//= new ClimbToLevel2();
@@ -87,10 +95,17 @@ public class Robot extends TimedRobot {
     //driveTrain.calibrateGyro();
 
     // start the camera feed
-    //CameraServer.getInstance().startAutomaticCapture(0);
-
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+    camera.setResolution(640, 480);
     //start the compressor
     //c.setClosedLoopControl(true);
+
+    autoChooser = new SendableChooser();
+    autoChooser.addObject("ExitHabitatLevel1", new ExitHabitatLevel1());
+    autoChooser.addDefault("ExitHabitatLevel2", new ExitHabitatLevel2());
+    SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+
+
 
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
@@ -122,11 +137,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    isAuto=true;
     // mission = new ExitHabitatLevel1();
     // mission = new DriveToSensor(12);
     //DriveStraightInches driveBackwards = new DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
     //DriveStraightInches driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, 48);
     //driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
+    autonomousCommand = (MCRCommand) autoChooser.getSelected();
+    //autonomousCommand.start();
     mission = new SequentialCommands(driveForward(48),
     driveBackward(48));
     
@@ -144,17 +162,18 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     commonPeriodic();
+    Scheduler.getInstance().run();
   }
 
   private void commonPeriodic() {
     endGameInitiated = !controllers.climberControls();
     //SmartDashboard.putBoolean("Lidar", distanceSensor.get());
     if (isAuto) {
-      if (mission.isFinished()) {
+      if (autonomousCommand.isFinished()) {
         isAuto = false;
-        mission = null;
+        autonomousCommand = null;
       } else {
-        mission.run();
+        autonomousCommand.run();
       }
     } else {
       // logger.info("Teleop Periodic!");
