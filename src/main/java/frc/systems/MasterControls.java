@@ -17,6 +17,7 @@ public class MasterControls {
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
 	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(
 			RobotMap.OperatorController.USB_PORT);
+	private boolean fieldMode = true;
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
@@ -41,7 +42,8 @@ public class MasterControls {
 
 	public double getElevatorThrottle() {
 		return UtilityMethods.deadZoneCalculation(-operator.getRY(), .2);
-		//return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
+		// return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() :
+		// 0;
 	}
 
 	public void intakeRumbleOn() {
@@ -65,29 +67,42 @@ public class MasterControls {
 	}
 
 	public boolean isExtended() {
-		if (UtilityMethods.between(operator.getPOV(), 0, 89)) {
-			return true;
-		}
-		if (UtilityMethods.between(operator.getPOV(), 271, 360)) {
-			return true;
+		if (fieldMode) {
+
+			if (UtilityMethods.between(operator.getPOV(), 0, 89)) {
+				return true;
+			}
+			if (UtilityMethods.between(operator.getPOV(), 271, 360)) {
+				return true;
+			}
 		}
 		return false;
+
 	}
 
 	public boolean isRetracted() {
-		if (UtilityMethods.between(operator.getPOV(), 91, 269)) {
-			return true;
+		if (fieldMode) {
+			if (UtilityMethods.between(operator.getPOV(), 91, 269)) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	public boolean upLevel() {
-		return operator.getYButtonPressed();
+		if (fieldMode) {
+			return operator.getYButtonPressed();
+		}
+		return false;
 	}
 
 	public boolean downLevel() {
-		return operator.getAButtonPressed();
+		if (fieldMode) {
+			return operator.getAButtonPressed();
+		}
+		return false;
 	}
+
 	public boolean switchHeights() {
 		return operator.getStartButtonPressed();
 	}
@@ -98,5 +113,52 @@ public class MasterControls {
 
 	public boolean grab() {
 		return operator.getBumper(Hand.kRight);
+	}
+
+	public boolean climberControls() {
+		if (operator.getRawButtonPressed(7)) {
+			fieldMode = !fieldMode;
+		}
+		return fieldMode;
+	}
+	public boolean raiseFront() {
+		if (!fieldMode) {
+			return operator.getYButtonPressed();
+		}
+		return false;
+	}
+	public boolean lowerFront() {
+		if (!fieldMode) {
+			return operator.getAButtonPressed();
+		}
+		return false;
+	}
+	public boolean autoClimb() {
+		if (!fieldMode) {
+			return operator.getBButton();
+		}
+		return false;
+	}
+	public boolean raiseBack() {
+		if (!fieldMode) {
+
+			if (UtilityMethods.between(operator.getPOV(), 0, 89)) {
+				return true;
+			}
+			if (UtilityMethods.between(operator.getPOV(), 271, 360)) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	public boolean lowerBack() {
+		if (!fieldMode) {
+			if (UtilityMethods.between(operator.getPOV(), 91, 269)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

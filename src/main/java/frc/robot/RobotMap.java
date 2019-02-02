@@ -112,40 +112,29 @@ public class RobotMap {
 	}
 
 	public final class Climber {
-		public static final int CLIMBER_MOTOR_CHANNEL =  2; // PWM - using Y-cable only needs 1 port
-		public static final int CLIMBER_HELPER_SERVO_CHANNEL = 3;
-		//public static final int LIMIT_SWITCH = 8; // DIO 
+		public static final int FRONT_FOWARD =  4; 
+		public static final int FRONT_REVERSE = 5;
+		public static final int REAR_FOWARD =  6; 
+		public static final int REAR_REVERSE = 7;
+	
 	}
 	
 	public static final class Autonomous {
-		public static final double wallBackOff = 13;
-		public static final double middleSwitchDistance = 145;
-		public static final double middleScaleDistance = 288;
-		public static final double passLineDistance = 130;
-		public static final double clearExchangeDistance = 12;
-		public static final double rightSideToLeftSideAngleDistance = 123;
-		public static final double rightSideToLeftSideDistance = 84;
-		public static final double switchWallDistance = 100;
-		public static final double distanceToScaleEnd = 30;
-		public static final double distanceToSwitchEnd = 18; //unknown
 		public static final double leftTurn = -90;
 		public static final double rightTurn = 90;
 		public static final double angleTurn = 45;
 		public static final double rightAngleTurn = 50;
-		public static boolean SecondaryCube = false;
+		
 	}
 
 	public static final class LogLevels {
 		public static final Level robotClass = Level.WARNING;
-		public static final Level hamburgerDashboardClass = Level.WARNING;
+		public static final Level robotDashboardClass = Level.WARNING;
 		public static final Level masterControlsClass = Level.WARNING;
 		public static final Level driveTrainClass = Level.WARNING;
 		public static final Level elevatorClass = Level.WARNING;
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
-		public static final Level missionClass = Level.WARNING;
-		public static final Level autoDriveClass = Level.WARNING;
-		public static final Level componentBuilderClass = Level.WARNING;
 	}
 
 	
