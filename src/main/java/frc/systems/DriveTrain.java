@@ -22,8 +22,8 @@ public class DriveTrain {
 
 	// Singleton
 	protected DriveTrain() {
-		rightMotor.configOpenloopRamp(.5);
-		leftMotor.configOpenloopRamp(.5);
+		//rightMotor.configOpenloopRamp(.8);
+		//leftMotor.configOpenloopRamp(.8);
 		// logger.setLevel(RobotMap.LogLevels.driveTrainClass);
 	}
 

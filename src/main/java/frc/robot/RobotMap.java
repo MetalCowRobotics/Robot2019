@@ -49,7 +49,7 @@ public class RobotMap {
 		public static final double kD = .05; 
 		public static final double TOP_SPEED = 0;
 		public static final double VARIANCE = .25;
-		public static final double MAX_ADJUSTMENT = .6;
+		public static final double MAX_ADJUSTMENT = 8;
 		public static final double SLOW_VARIANCE = 10;
 		public static final double SLOW_ADJUSTMENT = .3;
 	}
