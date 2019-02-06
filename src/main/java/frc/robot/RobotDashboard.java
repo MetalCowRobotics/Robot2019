@@ -108,5 +108,19 @@ public class RobotDashboard {
 		SmartDashboard.putNumber("elevatorBottom", bottomTics) ;
 	}
 
-
+	//Turn commands
+	public void pushTurnPID() {
+		SmartDashboard.putNumber("TkP", RobotMap.TurnDegrees.kP);
+		SmartDashboard.putNumber("TkI", RobotMap.TurnDegrees.kI);
+		SmartDashboard.putNumber("TkD", RobotMap.TurnDegrees.kD);
+	}
+	public double getTurnKP() {
+		return SmartDashboard.getNumber("TkP", RobotMap.Elevator.kP);
+	}
+	public double getTurnKI() {
+		return SmartDashboard.getNumber("TkI", RobotMap.Elevator.kI);
+	}
+	public double getTurnKD() {
+		return SmartDashboard.getNumber("TkD", RobotMap.Elevator.kD);
+	}
 }

@@ -49,7 +49,7 @@ public class RobotMap {
 		public static final double kD = .05; 
 		public static final double TOP_SPEED = 0;
 		public static final double VARIANCE = .25;
-		public static final double MAX_ADJUSTMENT = .6;
+		public static final double MAX_ADJUSTMENT = 8;
 		public static final double SLOW_VARIANCE = 10;
 		public static final double SLOW_ADJUSTMENT = .3;
 	}
@@ -121,6 +121,14 @@ public class RobotMap {
 	
 	}
 	
+
+	public final class Hatch {
+		public static final int ARM_FOWARD =  2;
+		public static final int ARM_REVERSE = 3;
+		public static final int GRABBER_FOWARD =  1; 
+		public static final int GRABBER_REVERSE = 0;
+	
+	}
 	public static final class Autonomous {
 		public static final double leftTurn = -90;
 		public static final double rightTurn = 90;

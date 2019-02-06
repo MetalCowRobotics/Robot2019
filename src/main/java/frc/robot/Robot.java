@@ -24,6 +24,7 @@ import frc.autonomous.ExitHabitatLevel2;
 import frc.commands.DriveBackwardsStraight;
 import frc.commands.DriveStraightInches;
 import frc.commands.DriveToSensor;
+import frc.commands.TurnDegrees;
 import frc.commands.DriveStraightInches.DRIVE_DIRECTION;
 import frc.commands.DriveToSensor.SENSOR_DIRECTION;
 import frc.lib14.MCRCommand;
@@ -143,10 +144,7 @@ public class Robot extends TimedRobot {
     //DriveStraightInches driveBackwards = new DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
     //DriveStraightInches driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, 48);
     //driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
-    autonomousCommand = (MCRCommand) autoChooser.getSelected();
-    //autonomousCommand.start();
-    mission = new SequentialCommands(driveForward(48),
-    driveBackward(48));
+    mission = new TurnDegrees(-180);
     
   }
   public DriveStraightInches driveForward(double targetInches) {
