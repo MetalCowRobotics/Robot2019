@@ -16,8 +16,10 @@ public class RobotMap {
 		public static final double SPRINT_SPEED = 1;
 		public static final double NORMAL_SPEED = 0.7;
 		public static final double CRAWL_SPEED = .5;
-		public static final int[] LEFT_MOTORS = { 3, 4 };
-		public static final int[] RIGHT_MOTORS = { 1, 2 };
+		public static final int LEFT_MOTOR = 3;
+		public static final int LEFT_MOTOR_NO_ENCODER = 4;
+		public static final int RIGHT_MOTOR = 1;
+		public static final int RIGHT_MOTOR_NO_ENCODER = 2;
 		public static final int LEFT_MOTOR_CHANNEL1 = 3;// CAN
 		public static final int LEFT_MOTOR_CHANNEL2 = 4;// CAN
 		public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
