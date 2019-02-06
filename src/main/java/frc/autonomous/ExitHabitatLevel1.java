@@ -18,6 +18,7 @@ public class ExitHabitatLevel1 implements MCRCommand {
     @Override
     public void run() {
         mission.run();
+        System.out.println("Mission1");
     }
     @Override
     public boolean isFinished() {
