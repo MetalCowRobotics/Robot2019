@@ -96,6 +96,10 @@ public class RobotDashboard {
 		SmartDashboard.putNumber("elevatorSetPoint", setPoint);
 	}
 
+	public void pushElevatorCurPosition(double curPosition) {
+		SmartDashboard.putNumber("elevatorEncoder", curPosition);
+	}
+
 	public double getElevatorTarget() {
 		return SmartDashboard.getNumber("elevatorSetPoint", 0);
 	}

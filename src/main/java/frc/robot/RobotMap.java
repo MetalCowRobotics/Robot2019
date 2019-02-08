@@ -81,7 +81,7 @@ public class RobotMap {
 //		public static final double UP_SPEED = 0.2;// motor is reversed
 //		public static final double DOWN_SPEED = -0.8;// motor is reversed
 		public static final int ELEVATOR_CHANNEL1 = 1;// CAN
-		public static final int ELEVATOR_CHANNEL2 = 6;// CAN
+		public static final int ELEVATOR_CHANNEL2 = 10;// CAN
 		public static final int LIMIT_SWITCH_TOP = 9; // DIO 
 		public static final int LIMIT_SWITCH_BOTTOM = 8; // DIO 
 		public static final int ELEVATOR_ENCODER_1 = 4; // DIO
