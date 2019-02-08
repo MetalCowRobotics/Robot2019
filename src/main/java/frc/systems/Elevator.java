@@ -16,11 +16,8 @@ public class Elevator {
 	private static final RobotDashboard dash = RobotDashboard.getInstance();
 	private static final MasterControls controller = MasterControls.getInstance();
 	private static final MCR_SRX motor1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
-	/** 
-		private static final MCR_SRX motor2 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2);
-		private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(motor1, motor2);	 
-	 */
-	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(motor1);
+	private static final MCR_SRX motor2 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2);
+	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(motor1, motor2);
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private static final Elevator instance = new Elevator();
@@ -110,9 +107,7 @@ public class Elevator {
 		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
 			return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
 		} else {
-			if (isMovingUp(speed))
-				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .7)); // xtra
-			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .2)); // xtra
+			return speed;
 		}
 	}
 
@@ -146,7 +141,8 @@ public class Elevator {
 	}
 
 	public double getEncoderTics() {
-		return motor1.getSelectedSensorPosition();
+		dash.pushElevatorCurPosition(motor2.getSelectedSensorPosition());
+		return motor2.getSelectedSensorPosition();
 	}
 
 	private void logParameters() {
