@@ -11,18 +11,21 @@ import frc.lib14.MCR_SRX;
 import frc.robot.RobotMap;
 
 public class DriveTrain {
-	//rightFrontMotor has the Encoder
+	// rightFrontMotor has the Encoder
 	private static MCR_SRX rightFrontMotor = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL1);
 	private static MCR_SRX leftFrontMotor = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL1);
 	private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor);
 	private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor);
-	//TODO: add a proper device number to back motors
-	/** 
-	private static MCR_SRX rightBackMotor = new MCR_SRX(Drivetrain.RIGHT_MOTOR_CHANNEL2);
-	private static MCR_SRX leftBackMotor = new MCR_SRX(Drivetrain.LEFT_MOTOR_CHANNEL2);
-	private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor, rightBackMotor);
-	private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
-	*/
+	// TODO: add a proper device number to back motors
+	/**
+	 * private static MCR_SRX rightBackMotor = new
+	 * MCR_SRX(Drivetrain.RIGHT_MOTOR_CHANNEL2); private static MCR_SRX
+	 * leftBackMotor = new MCR_SRX(Drivetrain.LEFT_MOTOR_CHANNEL2); private static
+	 * final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new
+	 * SpeedControllerGroup(rightFrontMotor, rightBackMotor); private static final
+	 * SpeedControllerGroup LEFT_DRIVE_MOTORS = new
+	 * SpeedControllerGroup(leftFrontMotor, leftBackMotor);
+	 */
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
 	private static final DriveTrain instance = new DriveTrain();
@@ -33,8 +36,8 @@ public class DriveTrain {
 
 	// Singleton
 	protected DriveTrain() {
-		//rightMotor.configOpenloopRamp(.8);
-		//leftMotor.configOpenloopRamp(.8);
+		// rightMotor.configOpenloopRamp(.8);
+		// leftMotor.configOpenloopRamp(.8);
 		// logger.setLevel(RobotMap.LogLevels.driveTrainClass);
 	}
 
@@ -101,8 +104,7 @@ public class DriveTrain {
 	}
 
 	private double getLeftEncoderTics() {
-		// return leftEncoder.getDistance();
-		return 0;
+		return leftFrontMotor.getSelectedSensorPosition();
 	}
 
 	private double getRightEncoderTics() {
@@ -127,5 +129,4 @@ public class DriveTrain {
 		return getRightEncoderTics();
 	}
 
-	
 }
