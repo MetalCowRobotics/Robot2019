@@ -3,20 +3,25 @@ package frc.systems;
 import java.util.logging.Logger;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
 import frc.robot.RobotMap;
 
 public class DriveTrain {
-	private static MCR_SRX rightMotor = new MCR_SRX(1);
-	private static MCR_SRX leftMotor = new MCR_SRX(10);
+	private static MCR_SRX rightMotor = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR);
+	private static MCR_SRX rightMotorNoEncoder = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_NO_ENCODER);
+	private static MCR_SRX leftMotor = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR);
+	private static MCR_SRX leftMotorNoEncoder = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_NO_ENCODER);
+	private static SpeedControllerGroup leftMotors = new SpeedControllerGroup(leftMotor, leftMotorNoEncoder);
+	private static SpeedControllerGroup rightMotors = new SpeedControllerGroup(rightMotor, rightMotorNoEncoder);
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
 	private static final DriveTrain instance = new DriveTrain();
 	MasterControls controller = MasterControls.getInstance();
 
-	private static final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
+	private static final DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
 
 	private int inverted = 1;
 

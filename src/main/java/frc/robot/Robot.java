@@ -83,13 +83,13 @@ public class Robot extends TimedRobot {
     // Initialize Robot
     driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
-    driveTrain = DriveTrain.getInstance();
-    // elevator = Elevator.getInstance();
+    // driveTrain = DriveTrain.getInstance();
+    elevator = Elevator.getInstance();
     hatchHandler = HatchHandler.getInstance();
     climber = Climber.getInstance();
     //cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
-    climbMission = new ClimbToLevel2();
+    // climbMission = new ClimbToLevel2();
     // dash.initializeDashboard();
 
     //calibrate Gyro
@@ -175,10 +175,10 @@ public class Robot extends TimedRobot {
       }
     } else {
       // logger.info("Teleop Periodic!");
-      driveTrain.drive();
-      // elevator.execuyute();
-      hatchHandler.execute();
-      climber.execute();
+      // driveTrain.drive();
+      elevator.execute();
+      // hatchHandler.execute();
+      // climber.execute();
       //cargoHandler.execute();
     }
     if (controllers.autoClimb()) {
