@@ -21,6 +21,8 @@ public class Elevator {
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private static final Elevator instance = new Elevator();
+
+	
 	private boolean firstTime = true;
 	private double bottomTics;
 	private double topTics;
@@ -82,13 +84,13 @@ public class Elevator {
 	}
 
 	private void setElevatorSpeed(double speed) {
-		// if (isMovingUp(speed) && isElevatorAtTop()) {
-		// 	stop();
-		// } else if (isMovingDown(speed) && isElevatorAtBottom()) {
-		// 	stop();
-		// } else {
+		if (isMovingUp(speed) && isElevatorAtTop()) {
+			stop();
+		} else if (isMovingDown(speed) && isElevatorAtBottom()) {
+			stop();
+		} else {
 			ELEVATOR_MOTOR.set(maxSpeed(speed));
-		// }
+		}
 	}
 
 	private boolean isMovingUp(double speed) {
@@ -100,15 +102,13 @@ public class Elevator {
 	}
 
 	private double maxSpeed(double speed) {
-		// if (isMovingUp(speed) && inUpperSafetyZone()) {
-		// 	return Math.min(speed, RobotMap.Elevator.SafeSpeed);
-		// } else if (isMovingDown(speed) && inLowerSafetyZone()) {
-		// 	return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
-		// } else {
-			if (isMovingUp(speed))
-				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), 1)); // xtra
-			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), 1)); // xtra
-		// }
+		if (isMovingUp(speed) && inUpperSafetyZone()) {
+			return Math.min(speed, RobotMap.Elevator.SafeSpeed);
+		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
+			return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
+		} else {
+			return speed;
+		}
 	}
 
 	private boolean inLowerSafetyZone() {
