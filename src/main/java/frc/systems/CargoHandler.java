@@ -31,6 +31,7 @@ public class CargoHandler {
 	public void execute() {
 		if (controller.isBallIntake()) {
 			ballIntake();
+			Elevator.setHatchMode(false);
 		} else if (controller.isBallEject()) {
 			ballEject();
 		} else {

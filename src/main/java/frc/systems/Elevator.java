@@ -28,8 +28,14 @@ public class Elevator {
 	private double topTics;
 	private PDController holdPID;
 	private int iterations = 0;
-	private boolean hatchMode = true;
+	public static boolean hatchMode = true;
 
+	public boolean getHatchMode() {
+		return hatchMode;
+	}
+	public static void setHatchMode(boolean mode) {
+		hatchMode = mode;
+	}
 	private Elevator() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.elevatorClass);
