@@ -22,6 +22,7 @@ public class Elevator {
 	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(motor1, motor2);
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	private RobotDashboard dashboard = RobotDashboard.getInstance();
 	private static final Elevator instance = new Elevator();
 	
 	
@@ -121,16 +122,21 @@ public class Elevator {
 		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
 			return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
 		} else {
-			return speed;
+			if (isMovingUp(speed)) {
+				// TODO: add a variable to the robot map for max throttle
+				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); 
+			}
+			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); 
 		}
 	}
 
 	private boolean inLowerSafetyZone() {
-		return getEncoderTics() > (topTics - RobotMap.Elevator.SafeZone);
+		return getEncoderTics() < (bottomTics + RobotMap.Elevator.SafeZone);
 	}
 
 	private boolean inUpperSafetyZone() {
-		return getEncoderTics() < (bottomTics + RobotMap.Elevator.SafeZone);
+		return getEncoderTics() > (topTics - RobotMap.Elevator.SafeZone);
+	
 	}
 
 	public void stop() {
@@ -142,6 +148,7 @@ public class Elevator {
 	}
 
 	private boolean isElevatorAtTop() {
+		dashboard.pushElevatorTop(topTics);;
 		return !topLimit.get(); // For some reason this is inverted in the hardware, correcting here in software
 	}
 
