@@ -1,6 +1,9 @@
 package frc.systems;
 
 import java.util.logging.Logger;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -30,12 +33,17 @@ public class DriveTrain {
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_DRIVE_MOTORS, RIGHT_DRIVE_MOTORS);
 
 	private int inverted = 1;
-
 	// Singleton
 	protected DriveTrain() {
-		// rightMotor.configOpenloopRamp(.8);
-		// leftMotor.configOpenloopRamp(.8);
-		// logger.setLevel(RobotMap.LogLevels.driveTrainClass);
+		rightFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
+		leftFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
+		//rightBackMotor.configOpenloopRamp(Drivetrain.RAMP;
+		//leftBackMotor.configOpenloopRamp(Drivetrain.RAMP);
+		rightFrontMotor.setNeutralMode(NeutralMode.Brake);
+		leftFrontMotor.setNeutralMode(NeutralMode.Brake);
+		//rightBackMotor.setNeutralMode(NeutalMode.Break);
+		//rightBackMotor.setNeutralMode(NeutralMode.Brake);
+		logger.setLevel(RobotMap.LogLevels.driveTrainClass);
 	}
 
 	public static DriveTrain getInstance() {

@@ -19,6 +19,8 @@ public class DriveToSensor implements MCRCommand {
     private final int IDLE = 0;
     private final int ACTIVE = 1;
     private final int DONE = 2;
+    private boolean firstTime = true;
+    private boolean done = false;
     //private DigitalInput limit = new DigitalInput(3);
     protected PDController driveController;
     private SENSOR_DIRECTION direction;
@@ -40,27 +42,22 @@ public class DriveToSensor implements MCRCommand {
                 dir = -1;
                 break;
         }
-        switch (currentState) { 
-        case IDLE:
+        if  (firstTime) {
+            firstTime = false;
             drivetrain.resetGyro();
             driveController = new PDController(drivetrain.getAngle());
             drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
-            currentState = ACTIVE;
-            break;
-        case ACTIVE:
+        } else {
             System.out.println("Active");
             drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
             // TODO: when is the sensor on or off
             // if (howClose > ledgeSensor()) {
             if (ledgeSensor()) {
                 drivetrain.stop();
-                currentState = DONE;
+                done = true;
             }
-            break;
-        case DONE:
-            System.out.println("Done");
-            break;
         }
+        
     }
 
     private boolean ledgeSensor() {
@@ -69,7 +66,7 @@ public class DriveToSensor implements MCRCommand {
 
     @Override
     public boolean isFinished() {
-        return DONE == currentState;
+        return done;
     }
     private double getCorrection() {
         // logger.info("Drivetrain angle: " + driveTrain.getAngle());

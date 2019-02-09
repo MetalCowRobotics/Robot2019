@@ -2,6 +2,8 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,18 +24,30 @@ public class Elevator {
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private RobotDashboard dashboard = RobotDashboard.getInstance();
 	private static final Elevator instance = new Elevator();
-
+	
+	
 	
 	private boolean firstTime = true;
 	private double bottomTics;
 	private double topTics;
 	private PDController holdPID;
 	private int iterations = 0;
-	private boolean hatchMode = true;
+	public static boolean hatchMode = true;
 
+	public boolean getHatchMode() {
+		return hatchMode;
+	}
+	
+	public static void setHatchMode(boolean mode) {
+		hatchMode = mode;
+	}
 	private Elevator() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.elevatorClass);
+		motor1.configOpenloopRamp(RobotMap.Elevator.RAMP_SPEED);
+		motor2.configOpenloopRamp(RobotMap.Elevator.RAMP_SPEED);
+		motor1.setNeutralMode(NeutralMode.Coast);
+		motor2.setNeutralMode(NeutralMode.Coast);
 	}
 
 	public static Elevator getInstance() {

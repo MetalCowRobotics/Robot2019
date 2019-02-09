@@ -2,10 +2,14 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import frc.lib14.MCR_SRX;
 import frc.robot.RobotMap;
+import frc.robot.RobotMap.Intake;
 
 public class CargoHandler {
 	private static final Logger logger = Logger.getLogger(CargoHandler.class.getName());
@@ -21,6 +25,8 @@ public class CargoHandler {
 
 	private CargoHandler() {
 		// Singleton Pattern
+		((BaseMotorController) INTAKE_MOTORS).configOpenloopRamp(Intake.RAMP_SPEED);
+		((BaseMotorController) INTAKE_MOTORS).setNeutralMode(NeutralMode.Brake);
 		logger.setLevel(RobotMap.LogLevels.cargoHandlerClass);
 	}
 
@@ -31,6 +37,7 @@ public class CargoHandler {
 	public void execute() {
 		if (controller.isBallIntake()) {
 			ballIntake();
+			Elevator.setHatchMode(false);
 		} else if (controller.isBallEject()) {
 			ballEject();
 		} else {

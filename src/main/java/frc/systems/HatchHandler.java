@@ -45,6 +45,7 @@ public class HatchHandler {
         }
         if (controller.grab()) {
             grab();
+           Elevator.setHatchMode(true); 
         }
         if (controller.release()){
             release();
