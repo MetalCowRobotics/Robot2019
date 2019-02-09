@@ -2,6 +2,9 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import frc.lib14.MCR_SRX;
@@ -21,6 +24,8 @@ public class CargoHandler {
 
 	private CargoHandler() {
 		// Singleton Pattern
+		((BaseMotorController) INTAKE_MOTORS).configOpenloopRamp(.8);
+		((BaseMotorController) INTAKE_MOTORS).setNeutralMode(NeutralMode.Brake);
 		logger.setLevel(RobotMap.LogLevels.cargoHandlerClass);
 	}
 
