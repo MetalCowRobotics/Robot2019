@@ -27,6 +27,7 @@ public class RobotMap {
 		public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
 		public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN
 		public static final int WHEEL_DIAMETER = 6;
+		public static final double RAMP_SPEED = .8;
 	}
 
 	public final class DriveToSensor {
@@ -77,11 +78,13 @@ public class RobotMap {
 		// public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
 		public static final int BALL_SENSOR = 9; // DIO
+		public static final double RAMP_SPEED = .8;
 	}
 
 	public final class Elevator {
 //		public static final double UP_SPEED = 0.2;// motor is reversed
 //		public static final double DOWN_SPEED = -0.8;// motor is reversed
+		public static final double RAMP_SPEED = .8;
 		public static final int ELEVATOR_CHANNEL1 = 1;// CAN
 		public static final int ELEVATOR_CHANNEL2 = 10;// CAN
 		public static final int LIMIT_SWITCH_TOP = 9; // DIO 

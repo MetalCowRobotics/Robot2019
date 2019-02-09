@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
 import frc.robot.RobotMap;
+import frc.robot.RobotMap.Drivetrain;
 
 public class DriveTrain {
 	// rightFrontMotor has the Encoder
@@ -32,10 +33,10 @@ public class DriveTrain {
 	private int inverted = 1;
 	// Singleton
 	protected DriveTrain() {
-		rightFrontMotor.configOpenloopRamp(.8);
-		leftFrontMotor.configOpenloopRamp(.8);
-		//rightBackMotor.configOpenloopRamp(.8);
-		//leftBackMotor.configOpenloopRamp(.8);
+		rightFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
+		leftFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
+		//rightBackMotor.configOpenloopRamp(Drivetrain.RAMP;
+		//leftBackMotor.configOpenloopRamp(Drivetrain.RAMP);
 		rightFrontMotor.setNeutralMode(NeutralMode.Brake);
 		leftFrontMotor.setNeutralMode(NeutralMode.Brake);
 		//rightBackMotor.setNeutralMode(NeutalMode.Break);

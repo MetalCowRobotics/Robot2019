@@ -23,7 +23,8 @@ public class Elevator {
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private static final Elevator instance = new Elevator();
-
+	
+	
 	
 	private boolean firstTime = true;
 	private double bottomTics;
@@ -42,8 +43,8 @@ public class Elevator {
 	private Elevator() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.elevatorClass);
-		motor1.configOpenloopRamp(.8);
-		motor2.configOpenloopRamp(.8);
+		motor1.configOpenloopRamp(RobotMap.Elevator.RAMP_SPEED);
+		motor2.configOpenloopRamp(RobotMap.Elevator.RAMP_SPEED);
 		motor1.setNeutralMode(NeutralMode.Coast);
 		motor2.setNeutralMode(NeutralMode.Coast);
 	}
