@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
   private RobotDashboard dash;
   
   // Robot Systems
-  Compressor c = new Compressor();
+  //Compressor c = new Compressor();
   DriveTrain driveTrain;
   Elevator elevator;
   HatchHandler hatchHandler;
@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
   private boolean isAuto = false;
   private boolean endGameInitiated = false;
   //private DigitalInput distanceSensor = new DigitalInput(3);
+  DigitalInput test = new DigitalInput(2);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -83,14 +84,15 @@ public class Robot extends TimedRobot {
     // Initialize Robot
     driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
-    // driveTrain = DriveTrain.getInstance();
+    driveTrain = DriveTrain.getInstance();
     elevator = Elevator.getInstance();
-    hatchHandler = HatchHandler.getInstance();
-    climber = Climber.getInstance();
+    // hatchHandler = HatchHandler.getInstance();
+    //climber = Climber.getInstance();
     //cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
     // climbMission = new ClimbToLevel2();
     // dash.initializeDashboard();
+
 
     //calibrate Gyro
     //driveTrain.calibrateGyro();
@@ -165,7 +167,7 @@ public class Robot extends TimedRobot {
 
   private void commonPeriodic() {
     endGameInitiated = !controllers.climberControls();
-    //SmartDashboard.putBoolean("Lidar", distanceSensor.get());
+    SmartDashboard.putBoolean("Lidar", test.get());
     if (isAuto) {
       if (autonomousCommand.isFinished()) {
         isAuto = false;
@@ -175,7 +177,7 @@ public class Robot extends TimedRobot {
       }
     } else {
       // logger.info("Teleop Periodic!");
-      // driveTrain.drive();
+      driveTrain.drive();
       elevator.execute();
       // hatchHandler.execute();
       // climber.execute();

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
+import frc.robot.RobotDashboard;
 import frc.robot.RobotMap;
 
 public class DriveTrain {
@@ -19,6 +20,7 @@ public class DriveTrain {
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
 	private static final DriveTrain instance = new DriveTrain();
+	private static final RobotDashboard dashboard = RobotDashboard.getInstance();
 	MasterControls controller = MasterControls.getInstance();
 
 	private static final DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
@@ -71,6 +73,7 @@ public class DriveTrain {
 	}
 
 	public double getAngle() {
+		dashboard.pushGyro();
 		return GYRO.getAngle();
 	}
 

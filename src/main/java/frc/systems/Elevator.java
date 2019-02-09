@@ -20,6 +20,7 @@ public class Elevator {
 	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(motor1, motor2);
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	private RobotDashboard dashboard = RobotDashboard.getInstance();
 	private static final Elevator instance = new Elevator();
 	private boolean firstTime = true;
 	private double bottomTics;
@@ -82,13 +83,13 @@ public class Elevator {
 	}
 
 	private void setElevatorSpeed(double speed) {
-		// if (isMovingUp(speed) && isElevatorAtTop()) {
-		// 	stop();
-		// } else if (isMovingDown(speed) && isElevatorAtBottom()) {
-		// 	stop();
-		// } else {
+		if (isMovingUp(speed) && isElevatorAtTop()) {
+			stop();
+		} else if (isMovingDown(speed) && isElevatorAtBottom()) {
+			stop();
+		} else {
 			ELEVATOR_MOTOR.set(maxSpeed(speed));
-		// }
+		}
 	}
 
 	private boolean isMovingUp(double speed) {
@@ -100,23 +101,24 @@ public class Elevator {
 	}
 
 	private double maxSpeed(double speed) {
-		// if (isMovingUp(speed) && inUpperSafetyZone()) {
-		// 	return Math.min(speed, RobotMap.Elevator.SafeSpeed);
-		// } else if (isMovingDown(speed) && inLowerSafetyZone()) {
-		// 	return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
-		// } else {
+		if (isMovingUp(speed) && inUpperSafetyZone()) {
+			return Math.min(speed, RobotMap.Elevator.SafeSpeed);
+		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
+			return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
+		} else {
 			if (isMovingUp(speed))
-				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), 1)); // xtra
-			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), 1)); // xtra
-		// }
+				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); // xtra
+			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); // xtra
+		}
 	}
 
 	private boolean inLowerSafetyZone() {
-		return getEncoderTics() > (topTics - RobotMap.Elevator.SafeZone);
+		return getEncoderTics() < (bottomTics + RobotMap.Elevator.SafeZone);
 	}
 
 	private boolean inUpperSafetyZone() {
-		return getEncoderTics() < (bottomTics + RobotMap.Elevator.SafeZone);
+		return getEncoderTics() > (topTics - RobotMap.Elevator.SafeZone);
+	
 	}
 
 	public void stop() {
@@ -128,6 +130,7 @@ public class Elevator {
 	}
 
 	private boolean isElevatorAtTop() {
+		dashboard.pushElevatorTop(topTics);;
 		return !topLimit.get(); // For some reason this is inverted in the hardware, correcting here in software
 	}
 

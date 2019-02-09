@@ -109,7 +109,11 @@ public class RobotDashboard {
 	}
 	
 	public void pushElevatorBottom(double bottomTics) {
-		SmartDashboard.putNumber("elevatorBottom", bottomTics) ;
+		SmartDashboard.putNumber("elevatorBottomTics", bottomTics) ;
+	}
+
+	public void pushElevatorTop (double topTics) {
+		SmartDashboard.putNumber("elevatorTopTics", topTics);
 	}
 
 	//Turn commands
