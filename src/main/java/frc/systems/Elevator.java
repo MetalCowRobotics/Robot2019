@@ -22,6 +22,8 @@ public class Elevator {
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private RobotDashboard dashboard = RobotDashboard.getInstance();
 	private static final Elevator instance = new Elevator();
+
+	
 	private boolean firstTime = true;
 	private double bottomTics;
 	private double topTics;
@@ -106,9 +108,11 @@ public class Elevator {
 		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
 			return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
 		} else {
-			if (isMovingUp(speed))
-				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); // xtra
-			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); // xtra
+			if (isMovingUp(speed)) {
+				// TODO: add a variable to the robot map for max throttle
+				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); 
+			}
+			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); 
 		}
 	}
 
