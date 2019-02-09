@@ -16,16 +16,10 @@ public class RobotMap {
 		public static final double SPRINT_SPEED = 1;
 		public static final double NORMAL_SPEED = 0.7;
 		public static final double CRAWL_SPEED = .5;
-		public static final int[] LEFT_MOTORS = { 3, 4 };
-		public static final int[] RIGHT_MOTORS = { 1, 2 };
-		public static final int LEFT_MOTOR_CHANNEL1 = 10;// CAN
-		public static final int LEFT_MOTOR = 3;
+		public static final int LEFT_MOTOR = 15;
 		public static final int LEFT_MOTOR_NO_ENCODER = 4;
-		public static final int RIGHT_MOTOR = 1;
-		public static final int RIGHT_MOTOR_NO_ENCODER = 2;
-		public static final int LEFT_MOTOR_CHANNEL2 = 4;// CAN
-		public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
-		public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN
+		public static final int RIGHT_MOTOR = 2;
+		public static final int RIGHT_MOTOR_NO_ENCODER = 5;
 		public static final int WHEEL_DIAMETER = 6;
 	}
 
@@ -82,12 +76,10 @@ public class RobotMap {
 	public final class Elevator {
 //		public static final double UP_SPEED = 0.2;// motor is reversed
 //		public static final double DOWN_SPEED = -0.8;// motor is reversed
-		public static final int ELEVATOR_CHANNEL1 = 1;// CAN
-		public static final int ELEVATOR_CHANNEL2 = 10;// CAN
+		public static final int ELEVATOR_CHANNEL1 = 9;// CAN
+		public static final int ELEVATOR_CHANNEL2 = 7;// CAN
 		public static final int LIMIT_SWITCH_TOP = 9; // DIO 
 		public static final int LIMIT_SWITCH_BOTTOM = 8; // DIO 
-		public static final int ELEVATOR_ENCODER_1 = 4; // DIO
-		public static final int ELEVATOR_ENCODER_2 = 5; // DIO
 		public static final double EXCHANGE_HEIGHT = 1.75;
 		public static final double SWITCHWALL_HEIGHT = 20;
 		public static final double SCALE_MID_HEIGHT = 80;
@@ -98,10 +90,10 @@ public class RobotMap {
 		public static final double SAFTEY_ZONE = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double SAFE_SPEED = .5;
 		//Elevator hold PID parameters
-		public static final double HATCH_LEVEL = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		//public static final double HATCH_LEVEL = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_1 = (0 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double HATCH_LEVEL_2 = (8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double HATCH_LEVEL_3 = (16 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double HATCH_LEVEL_2 = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double HATCH_LEVEL_3 = (56 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_1 = (20.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_2 = (48.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_3 = (76.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
