@@ -17,6 +17,8 @@ public class SequentialCommands implements MCRCommand {
 			if (!command.isFinished()) {
 				command.run();
 				return;
+			} else {
+				// sequentialCommands.remove(command);
 			}
 		}
 	}

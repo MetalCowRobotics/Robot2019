@@ -3,30 +3,33 @@ package frc.commands;
 import frc.lib14.MCRCommand;
 import frc.lib14.PDController;
 import frc.lib14.UtilityMethods;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.systems.Climber;
 import frc.systems.DriveTrain;
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-
 public class DriveToSensor implements MCRCommand {
+    private static final Logger logger = Logger.getLogger(DriveToSensor.class.getName());
     private DriveTrain drivetrain = DriveTrain.getInstance();
     private Climber climber = Climber.getInstance();
-    private int currentState = 0;
     private int dir = 1;
-    private final int IDLE = 0;
-    private final int ACTIVE = 1;
-    private final int DONE = 2;
     private boolean firstTime = true;
     private boolean done = false;
-    //private DigitalInput limit = new DigitalInput(3);
     protected PDController driveController;
     private SENSOR_DIRECTION direction;
-// direction: 1 = forward, -1 = backwards
+
+    // direction: 1 = forward, -1 = backwards
     public DriveToSensor(SENSOR_DIRECTION direction) {
-        this.direction = direction;
+        logger.setLevel(RobotMap.LogLevels.autoDriveClass);
+        // this.direction = direction;
+        switch (direction) {
+        case forward:
+            dir = 1;
+            break;
+        case backward:
+            dir = -1;
+            break;
+        }
     }
 
     public enum SENSOR_DIRECTION {
@@ -34,44 +37,31 @@ public class DriveToSensor implements MCRCommand {
     };
 
     public void run() {
-        switch(direction) {
-            case forward:
-                dir = 1;
-                break;
-            case backward:
-                dir = -1;
-                break;
-        }
-        if  (firstTime) {
+        if (firstTime) {
             firstTime = false;
-            drivetrain.resetGyro();
+            // drivetrain.resetGyro();
             driveController = new PDController(drivetrain.getAngle());
-            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
-        } else {
-            System.out.println("Active");
-            drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
-            // TODO: when is the sensor on or off
-            // if (howClose > ledgeSensor()) {
-            if (ledgeSensor()) {
-                drivetrain.stop();
-                done = true;
-            }
         }
-        
+        logger.info("Driving and edge sensor =" + ledgeSensor());
+        drivetrain.arcadeDrive(RobotMap.DriveToSensor.BOTTOM_SPEED * dir, getCorrection());
+        if (ledgeSensor()) {
+            drivetrain.stop();
+            done = true;
+        }
     }
 
     private boolean ledgeSensor() {
-        return !climber.getSensor();
+        return climber.getSensor();
     }
 
     @Override
     public boolean isFinished() {
         return done;
     }
+
     private double getCorrection() {
         // logger.info("Drivetrain angle: " + driveTrain.getAngle());
-        return limitCorrection(driveController.calculateAdjustment(drivetrain.getAngle()),
-                RobotMap.DriveWithEncoder.MAX_ADJUSTMENT);
+        return limitCorrection(driveController.calculateAdjustment(drivetrain.getAngle()), RobotMap.DriveWithEncoder.MAX_ADJUSTMENT);
     }
 
     private double limitCorrection(double correction, double maxAdjustment) {

@@ -41,7 +41,7 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		return UtilityMethods.deadZoneCalculation(-operator.getRY(), .2);
+		return UtilityMethods.deadZoneCalculation(-operator.getRY(), .15);
 		// return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() :
 		// 0;
 	}
@@ -93,11 +93,11 @@ public class MasterControls {
 	}
 
 	public boolean isBallIntake() {
-		return operator.getRB();
+		return operator.getRT()>.2;
 	}
 
 	public boolean isBallEject() {
-		return operator.getLB();
+		return operator.getLT()>.2;
 	}
 
 
@@ -127,7 +127,7 @@ public class MasterControls {
 		return operator.getBumper(Hand.kRight);
 	}
 
-	public boolean climberControls() {
+	public boolean changeMode() {
 		if (operator.getRawButtonPressed(7)) {
 			fieldMode = !fieldMode;
 		}

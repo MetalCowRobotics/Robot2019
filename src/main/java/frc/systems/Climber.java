@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.RobotMap;
 
 public class Climber {
-	private DigitalInput limit = new DigitalInput(3);; 
+	private DigitalInput limit = new DigitalInput(RobotMap.Climber.EDGE_SENSOR);; 
     private static final Logger logger = Logger.getLogger(Climber.class.getName());
 	private static final Climber instance = new Climber();
 	private static final MasterControls controllers = MasterControls.getInstance();
