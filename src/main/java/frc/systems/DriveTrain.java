@@ -29,7 +29,7 @@ public class DriveTrain {
 	private static final RobotDashboard dashboard = RobotDashboard.getInstance();
 	private static final MasterControls controller = MasterControls.getInstance();
 	private static final DriveTrain instance = new DriveTrain();
-
+	
 	private int inverted = 1;
 
 	// Singleton
@@ -56,7 +56,10 @@ public class DriveTrain {
 		double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted * getThrottle();
 		drive.arcadeDrive(speed, controller.direction());
 		SmartDashboard.putNumber("getSelectedSensorPosition", rightFrontMotor.getSelectedSensorPosition());
+		dashboard.pushLeftEncoder(getLeftEncoderTics());
+		dashboard.pushRightEncoder(getRightEncoderTics());
 	}
+	
 
 	/**
 	 * Used in Autonomous
@@ -110,6 +113,7 @@ public class DriveTrain {
 
 	private double getLeftEncoderTics() {
 		return leftFrontMotor.getSelectedSensorPosition();
+		
 	}
 
 	private double getRightEncoderTics() {

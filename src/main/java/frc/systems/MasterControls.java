@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.UtilityMethods;
 import frc.lib14.XboxControllerMetalCow;
+import frc.robot.RobotDashboard;
 import frc.robot.RobotMap;
 
 public class MasterControls {
@@ -23,6 +24,7 @@ public class MasterControls {
 		// Intentionally Blank for Singleton
 		logger.setLevel(RobotMap.LogLevels.masterControlsClass);
 	}
+	private static final RobotDashboard dash = RobotDashboard.getInstance();
 
 	public static MasterControls getInstance() {
 		return instance;
@@ -129,8 +131,9 @@ public class MasterControls {
 
 	public boolean changeMode() {
 		if (operator.getRawButtonPressed(7)) {
-			fieldMode = !fieldMode;
+			fieldMode = !fieldMode; 
 		}
+		dash.pushFieldMode(fieldMode);
 		return fieldMode;
 	}
 	public boolean raiseFront() {
