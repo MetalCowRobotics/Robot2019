@@ -15,6 +15,7 @@ public class CargoHandler {
 	// both motors will operate off a single motor controller with one being reverse wired
 	private static final SpeedController INTAKE_MOTORS = new MCR_SRX(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final Logger logger = Logger.getLogger(CargoHandler.class.getName());
+	private static final Elevator elevator = Elevator.getInstance();
 	private static final CargoHandler instance = new CargoHandler();
 	private static final MasterControls controller = MasterControls.getInstance();
 	
@@ -38,7 +39,7 @@ public class CargoHandler {
 	public void execute() {
 		if (controller.isBallIntake()) {
 			ballIntake();
-			Elevator.setHatchMode(false);
+			elevator.setHatchMode(false);
 		} else if (controller.isBallEject()) {
 			ballEject();
 		} else {
@@ -52,8 +53,10 @@ public class CargoHandler {
 		// 	controller.intakeRumbleOn();
 		// 	ballIdle();
 		// } else {
+			HatchHandler.getInstance().retract();
 			INTAKE_MOTORS.set(RobotMap.Intake.INTAKE_SPEED);
 		// }
+		
 	}
 
 	private void ballEject() {
