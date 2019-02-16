@@ -43,7 +43,7 @@ public class DriveToSensor implements MCRCommand {
             driveController = new PDController(drivetrain.getAngle());
         }
         logger.info("Driving and edge sensor =" + ledgeSensor());
-        drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
+        drivetrain.arcadeDrive(RobotMap.DriveToSensor.BOTTOM_SPEED * dir, getCorrection());
         if (ledgeSensor()) {
             drivetrain.stop();
             done = true;

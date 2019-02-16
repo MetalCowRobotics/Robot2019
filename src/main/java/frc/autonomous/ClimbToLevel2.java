@@ -18,12 +18,12 @@ public class ClimbToLevel2 implements MCRCommand {
     public ClimbToLevel2() {
         mission = new SequentialCommands(    
             new DeployFrontLegs(1),
-            new CommandPause(2),
+            new CommandPause(.75),
             new DriveToSensor(DriveToSensor.SENSOR_DIRECTION.forward),
             new RetractFrontLegs(1), 
             // new ClimbCommand(ClimbCommand.LEGS.front, ClimbCommand.DIRECTIONS.retract, 2),
             new DeployRearLegs(1),
-            new DriveStraightInches(10, 3), 
+            new DriveStraightInches(24, 3), 
             new RetractRearLegs()
         );
     }

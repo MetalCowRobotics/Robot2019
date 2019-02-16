@@ -133,7 +133,7 @@ public class Robot extends TimedRobot {
     // DriveStraightInches driveForwards = new
     // DriveStraightInches(DRIVE_DIRECTION.forward, 48);
     // driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
-    // mission = new ExitHabitatLevel2();
+    mission = new ExitHabitatLevel2();
 
   }
 
@@ -168,7 +168,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
+    climbMission = new ClimbToLevel2();
   }
 
   /**

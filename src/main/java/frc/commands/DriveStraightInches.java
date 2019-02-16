@@ -53,7 +53,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private void setTarget(double targetInches) {
         targetTics = (targetInches / RobotMap.DriveWithEncoder.INCHES_PER_ROTATION)
                 * RobotMap.DriveWithEncoder.TICS_PER_ROTATION;
-        logger.info("target encoder drive:" + targetTics);
+        logger.info("target for encoder drive: <<" + targetTics + ">>");
     }
 
     public void run() {
@@ -70,7 +70,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
         } else {
             end();
         }
-        logger.warning("angle: " + driveTrain.getAngle() + " <<|>> correction: " + getCorrection());
+        // logger.warning("angle: " + driveTrain.getAngle() + " <<|>> correction: " + getCorrection());
     } 
 
     private void end() {
@@ -80,7 +80,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     private double ticsTravelled() {
-        logger.info("Drivetrain current encoder tics: " + (driveTrain.getEncoderTics() - startTics));
+        logger.info("Drivetrain tics travelled: " + (driveTrain.getEncoderTics() - startTics));
         return Math.abs(driveTrain.getEncoderTics() - startTics);
     }
 
@@ -91,7 +91,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     private double getCorrection() {
-        logger.info("Drivetrain angle: " + driveTrain.getAngle());
+        // logger.info("Drivetrain angle: " + driveTrain.getAngle());
         return limitCorrection(driveController.calculateAdjustment(driveTrain.getAngle()),
                 RobotMap.DriveWithEncoder.MAX_ADJUSTMENT);
     }

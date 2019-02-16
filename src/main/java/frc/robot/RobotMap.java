@@ -27,12 +27,12 @@ public class RobotMap {
 	public final class DriveToSensor {
 		public static final double TOP_SPEED =.6;
 		public static final int SLOW_DOWN_DISTANCE = 18;
-		public static final double BOTTOM_SPEED = .4;
+		public static final double BOTTOM_SPEED = .5;
 		public static final double MAX_ADJUSTMENT = .4;
 	}
 
 	public final class DriveWithEncoder {
-		public static final double TOP_SPEED = .6;
+		public static final double TOP_SPEED = .5;
 		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
 		public static final int TICS_PER_ROTATION = 4096; 
