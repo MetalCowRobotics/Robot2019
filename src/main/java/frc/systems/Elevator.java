@@ -157,9 +157,6 @@ public class Elevator {
 	}
 
 	private boolean isElevatorAtTop() {
-		if (!topLimit.get()){
-			currentLevel = 3;
-		}
 		return !topLimit.get(); // For some reason this is inverted in the hardware, correcting here in software
 	}
 
@@ -168,7 +165,6 @@ public class Elevator {
 			// reset bottom and top measures
 			bottomTics = getEncoderTics();
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
-			currentLevel = 1;
 		}
 		return !bottomLimit.get(); // for some reason this is inverted in hardware, correcting here in software
 	}
