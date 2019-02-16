@@ -3,15 +3,13 @@ package frc.commands;
 import frc.lib14.MCRCommand;
 import frc.lib14.PDController;
 import frc.lib14.UtilityMethods;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.systems.Climber;
 import frc.systems.DriveTrain;
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-
 public class DriveToSensor implements MCRCommand {
+    private static final Logger logger = Logger.getLogger(DriveToSensor.class.getName());
     private DriveTrain drivetrain = DriveTrain.getInstance();
     private Climber climber = Climber.getInstance();
     private int dir = 1;
@@ -22,6 +20,7 @@ public class DriveToSensor implements MCRCommand {
 
     // direction: 1 = forward, -1 = backwards
     public DriveToSensor(SENSOR_DIRECTION direction) {
+        logger.setLevel(RobotMap.LogLevels.autoDriveClass);
         // this.direction = direction;
         switch (direction) {
         case forward:
@@ -43,16 +42,16 @@ public class DriveToSensor implements MCRCommand {
             // drivetrain.resetGyro();
             driveController = new PDController(drivetrain.getAngle());
         }
-        drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection() * dir);
+        logger.info("Driving and edge sensor =" + ledgeSensor());
+        drivetrain.arcadeDrive(RobotMap.DriveToSensor.TOP_SPEED * dir, getCorrection());
         if (ledgeSensor()) {
             drivetrain.stop();
             done = true;
         }
-
     }
 
     private boolean ledgeSensor() {
-        return !climber.getSensor();
+        return climber.getSensor();
     }
 
     @Override
