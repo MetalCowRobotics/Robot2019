@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,23 +15,23 @@ import frc.robot.RobotMap;
 import frc.robot.RobotMap.Drivetrain;
 
 public class DriveTrain {
-	// rightFrontMotor has the Encoder
+	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
+	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static MCR_SRX rightFrontMotor = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR);
-	 private static MCR_SRX rightBackMotor = new MCR_SRX(Drivetrain.RIGHT_MOTOR_NO_ENCODER); 
+	private static MCR_SRX rightBackMotor = new MCR_SRX(Drivetrain.RIGHT_MOTOR_NO_ENCODER); 
 	private static MCR_SRX leftFrontMotor = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR);
-	 private static MCR_SRX leftBackMotor = new MCR_SRX(Drivetrain.LEFT_MOTOR_NO_ENCODER); 
+	private static MCR_SRX leftBackMotor = new MCR_SRX(Drivetrain.LEFT_MOTOR_NO_ENCODER); 
 	// private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor);
 	// private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor);
-	 private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor, rightBackMotor); 
-	 private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
-	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
-	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
-	private static final DriveTrain instance = new DriveTrain();
-	private static final RobotDashboard dashboard = RobotDashboard.getInstance();
-	MasterControls controller = MasterControls.getInstance();
+	private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor, rightBackMotor); 
+	private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_DRIVE_MOTORS, RIGHT_DRIVE_MOTORS);
+	private static final RobotDashboard dashboard = RobotDashboard.getInstance();
+	private static final MasterControls controller = MasterControls.getInstance();
+	private static final DriveTrain instance = new DriveTrain();
 
 	private int inverted = 1;
+
 	// Singleton
 	protected DriveTrain() {
 		rightFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
@@ -85,7 +84,7 @@ public class DriveTrain {
 	}
 
 	public double getAngle() {
-		dashboard.pushGyro();
+		dashboard.pushGyro(GYRO.getAngle());
 		return GYRO.getAngle();
 	}
 

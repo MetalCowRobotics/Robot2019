@@ -1,5 +1,6 @@
 package frc.autonomous;
 
+import frc.commands.ClimbCommand;
 import frc.commands.CommandPause;
 import frc.commands.DeployFrontLegs;
 import frc.commands.DeployRearLegs;
@@ -13,18 +14,16 @@ import frc.lib14.SequentialCommands;
 
 public class ClimbToLevel2 implements MCRCommand {
     MCRCommand mission;
-    boolean firstTime = true;
-    
+
     public ClimbToLevel2() {
-        mission = new SequentialCommands(
+        mission = new SequentialCommands(    
             new DeployFrontLegs(1),
-           // new DriveStraightInches(24,3),// drive to sensor
-           new DriveToSensor(DriveToSensor.SENSOR_DIRECTION.backward),
-            // new ParallelCommands(
-                new DeployRearLegs(1),
-                new RetractFrontLegs(1),
-            // ),
-            new DriveStraightInches(10,3),
+            new CommandPause(2),
+            new DriveToSensor(DriveToSensor.SENSOR_DIRECTION.forward),
+            new RetractFrontLegs(1), 
+            // new ClimbCommand(ClimbCommand.LEGS.front, ClimbCommand.DIRECTIONS.retract, 2),
+            new DeployRearLegs(1),
+            new DriveStraightInches(10, 3), 
             new RetractRearLegs()
         );
     }
@@ -33,6 +32,7 @@ public class ClimbToLevel2 implements MCRCommand {
     public void run() {
         mission.run();
     }
+
     @Override
     public boolean isFinished() {
         return mission.isFinished();

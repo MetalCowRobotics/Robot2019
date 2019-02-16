@@ -25,7 +25,6 @@ public class TurnDegrees implements MCRCommand {
 		this.degrees = degrees;
 	}
 	public void run() {
-		dashboard.pushGyro();
 		switch (currentState) {
 		
 		case IDLE:

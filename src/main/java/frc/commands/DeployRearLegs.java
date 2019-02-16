@@ -4,7 +4,7 @@ import frc.commands.ClimbCommand.DIRECTIONS;
 import frc.commands.ClimbCommand.LEGS;
 import frc.lib14.MCRCommand;
 
-public class DeployRearLegs extends TimedCommand implements MCRCommand {
+public class DeployRearLegs implements MCRCommand {
     MCRCommand command = new ClimbCommand(LEGS.back, DIRECTIONS.extend);
 
     public DeployRearLegs(int timeoutSeconds) {

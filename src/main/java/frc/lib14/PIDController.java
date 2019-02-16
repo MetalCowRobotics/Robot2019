@@ -7,31 +7,29 @@ package frc.lib14;
 // LastError = Error;
 // RightMotorSpeed = RightBaseSpeed + MotorSpeed;
 // LeftMotorSpeed = LeftBaseSpeed - MotorSpeed;
-public class PDController {
+public class PIDController {
 	// must experiment to get these right
-	private double kP = .4;
-	private double kD = .1;
+	private double kP = 0;
+	private double kI = 0;
+	private double kD = 0;
 
 	// control variables
 	private double setPoint;
 	private double previousError = 0;
 	private double accumulatedError = 0;
 
-	public PDController(double setPoint) {
+	public PIDController(double setPoint, double kP, double kI, double kD) {
 		this.setPoint = setPoint;
+		this.kD = kD;
+		this.kI = kI;
+		this.kP = kP;
 	}
 
-	public PDController(double setPoint, double Kp, double Kd) {
-		this.setPoint = setPoint;
-		this.kD = Kd;
-		this.kP = Kp;
-	}
-
-	public double calculateAdjustment(double currentAngle) {
-		double currentError = calaculateError(setPoint, currentAngle);
-		double motorAdjustment = determineAdjustment(currentError, previousError);
-		previousError = currentError;
-		accumulatedError=accumulatedError+currentError;
+	public double calculateAdjustment(double curPosition) {
+		double error = calaculateError(setPoint, curPosition);
+		double motorAdjustment = determineAdjustment(error);
+		previousError = error;
+		accumulatedError = accumulatedError + error;
 		return motorAdjustment;
 	}
 
@@ -39,9 +37,8 @@ public class PDController {
 		return setPoint - curPosition;
 	}
 
-	private double determineAdjustment(double currentError, double previousError) {
-		return kP * currentError + kD * (currentError - previousError);
-		// return kP * currentError + kD * (currentError - previousError) + .00001 * accumulatedError;
+	private double determineAdjustment(double currentError) {
+		return (kP * currentError) + (kD * (currentError - previousError)) + (kI * accumulatedError);
 	}
 
 	public double getSetPoint() {
@@ -54,16 +51,22 @@ public class PDController {
 
 	public void setSetPoint(double setPoint) {
 		this.setPoint = setPoint;
+		reset();
 	}
 
 	public void set_kP(double kP) {
 		this.kP = kP;
 	}
-	
+
+	public void set_kI(double kI) {
+		this.kI = kI;
+	}
+
+
 	public void set_kD(double kD) {
 		this.kD = kD;
 	}
-	
+
 	public void reset() {
 		previousError = 0;
 		accumulatedError = 0;
