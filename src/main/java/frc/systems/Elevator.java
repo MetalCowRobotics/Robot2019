@@ -31,14 +31,6 @@ public class Elevator {
 	private int loggingIterations = 0;
 	private int currentLevel = 1;
 
-	public boolean getHatchMode() {
-		return hatchMode;
-	}
-
-	public static void setHatchMode(boolean mode) {
-		hatchMode = mode;
-	}
-
 	private Elevator() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.elevatorClass);
@@ -81,6 +73,14 @@ public class Elevator {
 		dash.pushElevatorPID(holdPID);
 		dash.pushElevatorEncoder(getEncoderTics());
 		dash.pushElevatorLimits(isElevatorAtTop(), isElevatorAtBottom());
+	}
+
+	public boolean getHatchMode() {
+		return hatchMode;
+	}
+
+	public void setHatchMode(boolean mode) {
+		hatchMode = mode;
 	}
 
 	private double limitAdjustment(double adjustment) {
@@ -157,7 +157,7 @@ public class Elevator {
 	}
 
 	private boolean isElevatorAtTop() {
-		if (!topLimit.get()){
+		if (!topLimit.get()) {
 			currentLevel = 3;
 		}
 		return !topLimit.get(); // For some reason this is inverted in the hardware, correcting here in software
