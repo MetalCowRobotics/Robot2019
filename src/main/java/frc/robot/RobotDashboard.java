@@ -116,6 +116,20 @@ public class RobotDashboard {
 		SmartDashboard.putNumber("elevatorTopTics", topTics);
 	}
 
+	public void pushLeftEncoder(double leftTics){
+		SmartDashboard.putNumber("driveLeftTics", leftTics);
+	}
+
+	public void pushRightEncoder(double rightTics){
+		SmartDashboard.putNumber("driveRight", rightTics);
+	}
+
+	public void pushSpeed(){
+		SmartDashboard.putNumber("crawlSpeed", RobotMap.Drivetrain.CRAWL_SPEED);
+		SmartDashboard.putNumber("sprintSpeed", RobotMap.Drivetrain.SPRINT_SPEED);
+		SmartDashboard.putNumber("normalSpeed", RobotMap.Drivetrain.NORMAL_SPEED);
+	}
+
 	//Turn commands
 	public void pushTurnPID() {
 		SmartDashboard.putNumber("TkP", RobotMap.TurnDegrees.kP);
@@ -134,5 +148,10 @@ public class RobotDashboard {
 
 	public void pushEdgeSensor(Boolean sensor) {
 		SmartDashboard.putBoolean("EdgeSensor", sensor);
+	}
+
+	public void pushFieldMode(Boolean Mode) {
+		SmartDashboard.putBoolean("Fiel Mode", Mode);
+
 	}
 }
