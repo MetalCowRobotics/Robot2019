@@ -132,8 +132,8 @@ public class MasterControls {
 	public boolean changeMode() {
 		if (operator.getRawButtonPressed(7)) {
 			fieldMode = !fieldMode; 
-			dash.pushFieldMode(fieldMode);
 		}
+		dash.pushFieldMode(fieldMode);
 		return fieldMode;
 	}
 	public boolean raiseFront() {
