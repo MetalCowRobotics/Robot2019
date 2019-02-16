@@ -124,7 +124,7 @@ public class MasterControls {
 	}
 
 	public boolean grab() {
-		return operator.getBumper(Hand.kRight);
+		return operator.getBumperPressed(Hand.kRight);
 	}
 
 	public boolean changeMode() {
