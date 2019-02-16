@@ -151,7 +151,7 @@ public class RobotDashboard {
 	}
 
 	public void pushFieldMode(Boolean Mode) {
-		SmartDashboard.putBoolean("Fiel Mode", Mode);
+		SmartDashboard.putBoolean("Field Mode", Mode);
 
 	}
 }
