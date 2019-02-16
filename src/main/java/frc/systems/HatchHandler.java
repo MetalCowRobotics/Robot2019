@@ -6,13 +6,16 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.RobotDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Hatch;
+
 public class HatchHandler {
     private static final MasterControls controller = MasterControls.getInstance();
     private static final Logger logger = Logger.getLogger(HatchHandler.class.getName());
+    private static final Elevator elevator = Elevator.getInstance();
     private static final HatchHandler instance = new HatchHandler();
     private DoubleSolenoid arm = new DoubleSolenoid(Hatch.ARM_FOWARD, Hatch.ARM_REVERSE);
     private DoubleSolenoid grabber = new DoubleSolenoid(Hatch.GRABBER_FOWARD, Hatch.GRABBER_REVERSE);
     private RobotDashboard dash = RobotDashboard.getInstance();
+    
 
     enum ArmStatus {
         extended, retracted
@@ -27,7 +30,7 @@ public class HatchHandler {
     private ClawStatus clawStatus = ClawStatus.grab;
 
     private HatchHandler() {
-        //arm.set(DoubleSolenoid.Value.kOff);
+        // arm.set(DoubleSolenoid.Value.kOff);
         grab();
         logger.setLevel(RobotMap.LogLevels.hatchHandlerClass);
     }
@@ -44,11 +47,11 @@ public class HatchHandler {
             retract();
         }
         if (controller.grab()) {
-            grab();
-           Elevator.setHatchMode(true); 
-        }
-        if (controller.release()){
-            release();
+            if (ClawStatus.release == clawStatus) {
+                grab();
+            } else {
+                release();
+            }
         }
     }
 
@@ -60,16 +63,19 @@ public class HatchHandler {
     private void grab() {
         grabber.set(DoubleSolenoid.Value.kForward);
         clawStatus = ClawStatus.grab;
+        elevator.setHatchMode(true);
     }
 
-    private void retract() {
+    public void retract() {
+        if (ArmStatus.extended == armStatus) {
             arm.set(DoubleSolenoid.Value.kForward);
             armStatus = ArmStatus.retracted;
+        }
     }
 
     public void extend() {
-            arm.set(DoubleSolenoid.Value.kReverse);
-            armStatus = ArmStatus.extended;
+        arm.set(DoubleSolenoid.Value.kReverse);
+        armStatus = ArmStatus.extended;
     }
 
     // grab and release hatch handler
