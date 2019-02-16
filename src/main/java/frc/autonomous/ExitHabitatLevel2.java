@@ -16,15 +16,15 @@ public class ExitHabitatLevel2 implements MCRCommand {
     boolean firstTime = true;
     public ExitHabitatLevel2() {
         mission = new SequentialCommands(
-            new CommandPause(5),
+            // new CommandPause(5),
             new DeployRearLegs(1),
             //TODO: drive straight number of inches both times or use DriveToSensor
             new DriveBackwardsStraight(24,3),
-            new DeployFrontLegs(1),
+            // new DeployFrontLegs(1),
             // version 1
             new RetractRearLegs(),
-            new DriveBackwardsStraight(10,3),
-            new RetractFrontLegs()
+            new DriveBackwardsStraight(36,3)
+            // new RetractFrontLegs()
             //version 2
              // new DriveStraightInches(10,3),
             //new ParallelCommands(

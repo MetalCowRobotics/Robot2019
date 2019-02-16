@@ -16,45 +16,47 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     private double targetTics;
     public int dir = 1;
     protected PDController driveController;
-    private DriveTrain driveTrain = DriveTrain.getInstance();
+    private static final DriveTrain driveTrain = DriveTrain.getInstance();
     private DRIVE_DIRECTION direction;
+
     public DriveStraightInches(DRIVE_DIRECTION direction, double targetInches) {
-        this.direction = direction;
-        setTarget(targetInches);
-    }
-    public enum DRIVE_DIRECTION {
-        forward, backward
+        initialize(direction, targetInches);
     }
 
     public DriveStraightInches(double targetInches) {
-        System.out.println("set drive target:"+targetInches);
-        setTarget(targetInches);
+        initialize(DRIVE_DIRECTION.forward, targetInches);
     }
 
     public DriveStraightInches(double targetInches, int timeoutSeconds) {
         System.out.println("set drive target:"+targetInches);
-        setTarget(targetInches);
+        initialize(DRIVE_DIRECTION.forward, targetInches);
         setTargetTime(timeoutSeconds);
-        this.direction = DRIVE_DIRECTION.forward;
+    }
+
+	private void initialize(DRIVE_DIRECTION direction, double targetInches) {
+        logger.setLevel(RobotMap.LogLevels.autoDriveClass);
+		switch(direction) {
+            case forward:
+                dir = 1;
+                break;
+            case backward:
+            dir = -1;
+            break;
+        }
+        setTarget(targetInches);
+    }
+
+    public enum DRIVE_DIRECTION {
+        forward, backward
     }
 
     private void setTarget(double targetInches) {
         targetTics = (targetInches / RobotMap.DriveWithEncoder.INCHES_PER_ROTATION)
                 * RobotMap.DriveWithEncoder.TICS_PER_ROTATION;
-        logger.info("target encoder drive:" + targetTics);
+        logger.info("target for encoder drive: <<" + targetTics + ">>");
     }
 
     public void run() {
-        // case public void run() {
-        switch(direction) {
-            case forward:
-                dir = 1;
-                break;
-            case backward:
-                dir = -1;
-                break;
-        }
-                //case end
         if (firstTime) {
             firstTime = false;
             startTimer();
@@ -63,14 +65,12 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
             startTics = driveTrain.getEncoderTics();
         }
         if (ticsTravelled() < targetTics) {
-            driveTrain.arcadeDrive(calculateSpeed(), getCorrection());
-            System.out.println("Drive Straight" + targetTics);
+            driveTrain.arcadeDrive(calculateSpeed(), getCorrection() * dir);
+            // System.out.println("Drive Straight" + targetTics);
         } else {
             end();
         }
-        // logger.warning("targetTics: " + targetTics + " <<|>> ticsTravelled: " +
-        // ticsTravelled() + " <<|>> correction: " + getCorrection());
-        logger.warning("angle: " + driveTrain.getAngle() + " <<|>> correction: " + getCorrection());
+        // logger.warning("angle: " + driveTrain.getAngle() + " <<|>> correction: " + getCorrection());
     } 
 
     private void end() {
@@ -80,8 +80,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     private double ticsTravelled() {
-        // logger.info("Drivetrain current encoder tics: " +
-        // (driveTrain.getEncoderTics() - startTics));
+        logger.info("Drivetrain tics travelled: " + (driveTrain.getEncoderTics() - startTics));
         return Math.abs(driveTrain.getEncoderTics() - startTics);
     }
 

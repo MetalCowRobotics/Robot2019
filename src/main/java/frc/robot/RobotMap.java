@@ -16,28 +16,23 @@ public class RobotMap {
 		public static final double SPRINT_SPEED = 1;
 		public static final double NORMAL_SPEED = 0.7;
 		public static final double CRAWL_SPEED = .5;
-		public static final int[] LEFT_MOTORS = { 3, 4 };
-		public static final int[] RIGHT_MOTORS = { 1, 2 };
-		public static final int LEFT_MOTOR_CHANNEL1 = 10;// CAN
-		public static final int LEFT_MOTOR = 3;
+		public static final int LEFT_MOTOR = 15;
 		public static final int LEFT_MOTOR_NO_ENCODER = 4;
-		public static final int RIGHT_MOTOR = 1;
-		public static final int RIGHT_MOTOR_NO_ENCODER = 2;
-		public static final int LEFT_MOTOR_CHANNEL2 = 4;// CAN
-		public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
-		public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN
+		public static final int RIGHT_MOTOR = 2;
+		public static final int RIGHT_MOTOR_NO_ENCODER = 5;
 		public static final int WHEEL_DIAMETER = 6;
+		public static final double RAMP_SPEED = .8;
 	}
 
 	public final class DriveToSensor {
 		public static final double TOP_SPEED =.6;
 		public static final int SLOW_DOWN_DISTANCE = 18;
-		public static final double BOTTOM_SPEED = .4;
+		public static final double BOTTOM_SPEED = .5;
 		public static final double MAX_ADJUSTMENT = .4;
 	}
 
 	public final class DriveWithEncoder {
-		public static final double TOP_SPEED = .6;
+		public static final double TOP_SPEED = .5;
 		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
 		public static final int TICS_PER_ROTATION = 4096; 
@@ -66,55 +61,51 @@ public class RobotMap {
 	}
 
 	public final class Intake {
-		public static final double INTAKE_SPEED = -0.7;
-		public static final double EJECT_SPEED = 0.7;
-		public static final double SLOW_EJECT_SPEED = 0.3;
-		public static final int LEFT_MOTOR_CHANNEL = 0;// PWM
-		public static final int RIGHT_MOTOR_CHANNEL = 1;// PWM
-		public static final double RAISE_INTAKE_SPEED = -.4;
-		public static final double LOWER_INTAKE_SPEED = .4;
-		public static final int ANGLE_MOTOR_CHANNEL = 7; // CAN
+		public static final double INTAKE_SPEED = 1;
+		public static final double EJECT_SPEED = -1;
+		// public static final double SLOW_EJECT_SPEED = 0.3;
+		public static final int LEFT_MOTOR_CHANNEL = 3;// CAN
+		//public static final int RIGHT_MOTOR_CHANNEL = 1;// 
+		//public static final double RAISE_INTAKE_SPEED = -.4;
+		//public static final double LOWER_INTAKE_SPEED = .4;
+		//public static final int ANGLE_MOTOR_CHANNEL = 7; // CAN
 		// public static final int RANGE_FINDER = 0; // Analog Input/Output
-		public static final double AUTO_EJECT_SECONDS = 2.0;
-		public static final int BALL_SENSOR = 9; // DIO
+		//public static final double AUTO_EJECT_SECONDS = 2.0;
+		//public static final int BALL_SENSOR = 9; // DIO
+		public static final double RAMP_SPEED = .8;
 	}
 
 	public final class Elevator {
 //		public static final double UP_SPEED = 0.2;// motor is reversed
 //		public static final double DOWN_SPEED = -0.8;// motor is reversed
-		public static final int ELEVATOR_CHANNEL1 = 1;// CAN
-		public static final int ELEVATOR_CHANNEL2 = 10;// CAN
+		public static final double RAMP_SPEED = .8;
+		public static final int ELEVATOR_CHANNEL1 = 9;// CAN
+		public static final int ELEVATOR_CHANNEL2 = 7;// CAN
 		public static final int LIMIT_SWITCH_TOP = 9; // DIO 
 		public static final int LIMIT_SWITCH_BOTTOM = 8; // DIO 
-		public static final int ELEVATOR_ENCODER_1 = 4; // DIO
-		public static final int ELEVATOR_ENCODER_2 = 5; // DIO
-		public static final double EXCHANGE_HEIGHT = 1.75;
-		public static final double SWITCHWALL_HEIGHT = 20;
-		public static final double SCALE_MID_HEIGHT = 80;
 		public static final double ELEVATOR_WINCH_DIAMETER = 2.4;// spool diamiter
 		public static final int TICS_PER_ROTATION = 4096; // need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Elevator.ELEVATOR_WINCH_DIAMETER;
 		//public static final double SLOW_DOWN_DISTANCE = (8 / INCHES_PER_ROTATION) * TICS_PER_ROTATION;
 		public static final double SAFTEY_ZONE = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double SAFE_SPEED = .5;
+		public static final double DownSafeSpeed = 0.2; // code set the negative
 		//Elevator hold PID parameters
-		public static final double HATCH_LEVEL = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_1 = (0 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double HATCH_LEVEL_2 = (8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double HATCH_LEVEL_3 = (16 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double HATCH_LEVEL_2 = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double HATCH_LEVEL_3 = (56 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_1 = (20.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_2 = (48.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_3 = (76.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final	double kP = 0.0003;
+		public static final	double kP = 0.003;//start values
 		public static final	double kI = 0;
-		public static final	double kD = 0.0004;
+		public static final	double kD = 0.08;// start values
 		public static final	double tolerance = 5;
 		public static final	double outputMin = -.4;
 		public static final	double outputMax = .6;
 		public static final double SafeSpeed = 0.4;
-		public static final double DownSafeSpeed = 0.2;
 		public static final double SafeZone = (18 / Elevator.INCHES_PER_ROTATION) * Elevator.TICS_PER_ROTATION;
-		public static final double ELEVATOR_MAX_EXTEND = 72;
+		public static final double ELEVATOR_MAX_EXTEND = 80;
 	}
 
 	public final class Climber {
@@ -122,13 +113,13 @@ public class RobotMap {
 		public static final int FRONT_REVERSE = 5;
 		public static final int REAR_FOWARD =  7; 
 		public static final int REAR_REVERSE = 6;
-	
+		public static final int EDGE_SENSOR = 2;
 	}
 	
 
 	public final class Hatch {
-		public static final int ARM_FOWARD =  2;
-		public static final int ARM_REVERSE = 3;
+		public static final int ARM_FOWARD =  3;
+		public static final int ARM_REVERSE = 2;
 		public static final int GRABBER_FOWARD =  1; 
 		public static final int GRABBER_REVERSE = 0;
 	
@@ -150,7 +141,7 @@ public class RobotMap {
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
 		public static final Level missionClass = Level.WARNING;
-		public static final Level autoDriveClass = Level.WARNING;
+		public static final Level autoDriveClass = Level.INFO;
 		public static final Level componentBuilderClass = Level.WARNING;
 		public static final Level cargoHandlerClass = Level.WARNING;
 		public static final Level hatchHandlerClass = Level.WARNING;

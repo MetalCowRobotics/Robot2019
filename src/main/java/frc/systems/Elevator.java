@@ -2,11 +2,13 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.MCR_SRX;
-import frc.lib14.PDController;
+import frc.lib14.PIDController;
 import frc.lib14.UtilityMethods;
 import frc.robot.RobotDashboard;
 import frc.robot.RobotMap;
@@ -21,18 +23,28 @@ public class Elevator {
 	private static final DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	private static final DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private static final Elevator instance = new Elevator();
-
 	
 	private boolean firstTime = true;
 	private double bottomTics;
 	private double topTics;
-	private PDController holdPID;
-	private int iterations = 0;
-	private boolean hatchMode = true;
+	private PIDController holdPID;
+	public static boolean hatchMode = true;
+	private int loggingIterations = 0;
 
+	public boolean getHatchMode() {
+		return hatchMode;
+	}
+	
+	public static void setHatchMode(boolean mode) {
+		hatchMode = mode;
+	}
 	private Elevator() {
 		// Singleton Pattern
 		logger.setLevel(RobotMap.LogLevels.elevatorClass);
+		motor1.configOpenloopRamp(RobotMap.Elevator.RAMP_SPEED);
+		motor2.configOpenloopRamp(RobotMap.Elevator.RAMP_SPEED);
+		motor1.setNeutralMode(NeutralMode.Brake);
+		motor2.setNeutralMode(NeutralMode.Brake);
 	}
 
 	public static Elevator getInstance() {
@@ -47,9 +59,11 @@ public class Elevator {
 			ELEVATOR_MOTOR.setInverted(true); // may need to be comment out on actual robot
 			bottomTics = getEncoderTics();
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
-			holdPID = new PDController(bottomTics, dash.getElevatorKP(), dash.getElevatorKD());
-			setPositionTics(bottomTics); //seeing if this helps with multiple runs
-			dash.pushElevatorPID();
+			dash.pushElevatorTop(topTics);
+			dash.pushElevatorBottom(bottomTics);
+			holdPID = new PIDController(bottomTics, dash.getElevatorKP(), dash.getElevatorKI(), dash.getElevatorKD());
+			// setPositionTics(bottomTics); //seeing if this helps with multiple runs
+			dash.pushElevatorPIDValues();
 		}
 		if (controller.switchHeights()){
 			hatchMode = !hatchMode;
@@ -57,8 +71,7 @@ public class Elevator {
 		SmartDashboard.putBoolean("hatchmode", hatchMode);
 		getElevatorTarget(); //check for level up and level down
 		if (0 == controller.getElevatorThrottle()) {
-			holdPID.set_kP(dash.getElevatorKP());
-			holdPID.set_kD(dash.getElevatorKD());
+			set_K_values();
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 		} else {
 			setElevatorSpeed(controller.getElevatorThrottle());
@@ -66,13 +79,23 @@ public class Elevator {
 		}
 		dash.pushElevatorPID(holdPID);
 		dash.pushElevatorEncoder(getEncoderTics());
+		dash.pushElevatorLimits(isElevatorAtTop(), isElevatorAtBottom());
+	}
+
+	private double limitAdjustment(double adjustment) {
+		return UtilityMethods.absMin(adjustment, .7);
 	}
 
 	private void setPositionTics(double tics) {
 		holdPID.setSetPoint(tics);
-		holdPID.set_kP(dash.getElevatorKP());
-		holdPID.set_kD(dash.getElevatorKD());
+		set_K_values();
 		holdPID.reset();
+	}
+
+	private void set_K_values() {
+		holdPID.set_kP(dash.getElevatorKP());
+		holdPID.set_kI(dash.getElevatorKI());
+		holdPID.set_kD(dash.getElevatorKD());
 	}
 
 	public void setPosition(double inches) {
@@ -107,16 +130,21 @@ public class Elevator {
 		} else if (isMovingDown(speed) && inLowerSafetyZone()) {
 			return Math.max(speed, -RobotMap.Elevator.DownSafeSpeed);
 		} else {
-			return speed;
+			if (isMovingUp(speed)) {
+				// TODO: add a variable to the robot map for max throttle
+				return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); 
+			}
+			return UtilityMethods.copySign(speed, Math.min(Math.abs(speed), .8)); 
 		}
 	}
 
 	private boolean inLowerSafetyZone() {
-		return getEncoderTics() > (topTics - RobotMap.Elevator.SafeZone);
+		return getEncoderTics() < (bottomTics + RobotMap.Elevator.SafeZone);
 	}
 
 	private boolean inUpperSafetyZone() {
-		return getEncoderTics() < (bottomTics + RobotMap.Elevator.SafeZone);
+		return getEncoderTics() > (topTics - RobotMap.Elevator.SafeZone);
+	
 	}
 
 	public void stop() {
@@ -134,27 +162,26 @@ public class Elevator {
 	private boolean isElevatorAtBottom() {
 		if (!bottomLimit.get()) {
 			//reset bottom and top measures
-			bottomTics = getEncoderTics();
-			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
+			// bottomTics = getEncoderTics();
+			// topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
 		}
 		return !bottomLimit.get(); // for some reason this is inverted in hardware, correcting here in software
 	}
 
 	public double getEncoderTics() {
-		dash.pushElevatorCurPosition(motor2.getSelectedSensorPosition());
 		return motor2.getSelectedSensorPosition();
 	}
 
 	private void logParameters() {
-		iterations++;
-		if (20 < iterations) {
+		loggingIterations++;
+		if (20 < loggingIterations) {
 			logger.info("Elevator throttle:" + controller.getElevatorThrottle());
 			logger.info("Elevator Up limit: " + this.isElevatorAtTop() + " Elevator Down limit: " + this.isElevatorAtBottom());
 			logger.info("Elevator bottom tics:" + bottomTics + "   Elevator top tics:" + topTics);
 			logger.info("Elevator Speed:" + ELEVATOR_MOTOR.get());
 			logger.info("Elevator encoder tics:" + getEncoderTics());
 			logPID();
-			iterations = 0;
+			loggingIterations = 0;
 		}
 	}
 
@@ -176,7 +203,7 @@ public class Elevator {
 		double fudgeFactor = 50; // if the PID does not get it to height it will always be lower and never go to the else
 		logger.info("current distance: " + (getEncoderTics() - bottomTics) + " <> ");
 		if (controller.upLevel()) {
-			if ((getEncoderTics() - bottomTics) < level2 - fudgeFactor) {
+			if ((getEncoderTics() - bottomTics) < (level2 - fudgeFactor)) {
 				setPositionTics(level2 + bottomTics);
 			} else {
 				setPositionTics(level3 + bottomTics);

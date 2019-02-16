@@ -4,7 +4,7 @@ import frc.commands.ClimbCommand.DIRECTIONS;
 import frc.commands.ClimbCommand.LEGS;
 import frc.lib14.MCRCommand;
 
-public class RetractFrontLegs extends TimedCommand implements MCRCommand {
+public class RetractFrontLegs implements MCRCommand {
     MCRCommand command;
     
     public RetractFrontLegs() {

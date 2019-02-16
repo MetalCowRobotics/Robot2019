@@ -7,36 +7,26 @@
 
 package frc.robot;
 
-//import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.logging.Logger;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel1;
 import frc.autonomous.ExitHabitatLevel2;
-import frc.commands.DriveBackwardsStraight;
-import frc.commands.DriveStraightInches;
-import frc.commands.DriveToSensor;
-import frc.commands.TurnDegrees;
-import frc.commands.DriveStraightInches.DRIVE_DIRECTION;
-import frc.commands.DriveToSensor.SENSOR_DIRECTION;
 import frc.lib14.MCRCommand;
-import frc.lib14.SequentialCommands;
 import frc.systems.CargoHandler;
 import frc.systems.Climber;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import frc.systems.HatchHandler;
 import frc.systems.MasterControls;
-
-import java.util.logging.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -49,16 +39,15 @@ import java.util.logging.Logger;
 public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
-  MCRCommand autonomousCommand;
   SendableChooser autoChooser;
 
   private MCRCommand mission;
-  private MCRCommand climbMission ;//= new ClimbToLevel2();
+  private MCRCommand climbMission;// = new ClimbToLevel2();
 
   // Field Systems
   private DriverStation driverStation;
   private RobotDashboard dash;
-  
+
   // Robot Systems
   Compressor c = new Compressor();
   DriveTrain driveTrain;
@@ -69,8 +58,8 @@ public class Robot extends TimedRobot {
   Climber climber;
 
   private boolean isAuto = false;
-  private boolean endGameInitiated = false;
-  //private DigitalInput distanceSensor = new DigitalInput(3);
+
+  // private boolean endGameInitiated = false;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -79,36 +68,34 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     logger.setLevel(RobotMap.LogLevels.robotClass);
-    
+
     // Initialize Robot
     driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
-    // driveTrain = DriveTrain.getInstance();
+    driveTrain = DriveTrain.getInstance();
     elevator = Elevator.getInstance();
     hatchHandler = HatchHandler.getInstance();
     climber = Climber.getInstance();
-    //cargoHandler = CargoHandler.getInstance();
+    cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
-    // climbMission = new ClimbToLevel2();
+    climbMission = new ClimbToLevel2();
     // dash.initializeDashboard();
 
-    //calibrate Gyro
-    //driveTrain.calibrateGyro();
+    // calibrate Gyro
+    driveTrain.calibrateGyro();
 
     // start the camera feed
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
     camera.setResolution(640, 480);
-    //start the compressor
-    //c.setClosedLoopControl(true);
+    // start the compressor
+    c.setClosedLoopControl(true);
 
     autoChooser = new SendableChooser();
     autoChooser.addObject("ExitHabitatLevel1", new ExitHabitatLevel1());
     autoChooser.addDefault("ExitHabitatLevel2", new ExitHabitatLevel2());
     SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
-
-
-		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+    DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
 
   /**
@@ -138,20 +125,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    isAuto=true;
+    isAuto = true;
     // mission = new ExitHabitatLevel1();
     // mission = new DriveToSensor(12);
-    //DriveStraightInches driveBackwards = new DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
-    //DriveStraightInches driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, 48);
-    //driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
-    mission = new TurnDegrees(-180);
-    
-  }
-  public DriveStraightInches driveForward(double targetInches) {
-    return new DriveStraightInches(DRIVE_DIRECTION.forward, targetInches);
-  }
-  public DriveStraightInches driveBackward(double targetInches) {
-    return new DriveStraightInches(DRIVE_DIRECTION.backward, targetInches);
+    // DriveStraightInches driveBackwards = new
+    // DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
+    // DriveStraightInches driveForwards = new
+    // DriveStraightInches(DRIVE_DIRECTION.forward, 48);
+    // driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
+    mission = new ExitHabitatLevel2();
+
   }
 
   /**
@@ -160,35 +143,32 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     commonPeriodic();
-    Scheduler.getInstance().run();
   }
 
   private void commonPeriodic() {
-    endGameInitiated = !controllers.climberControls();
-    //SmartDashboard.putBoolean("Lidar", distanceSensor.get());
+    controllers.changeMode();
     if (isAuto) {
-      if (autonomousCommand.isFinished()) {
+      if (mission.isFinished()) {
         isAuto = false;
-        autonomousCommand = null;
+        mission = null;
       } else {
-        autonomousCommand.run();
+        mission.run();
       }
-    } else {
-      // logger.info("Teleop Periodic!");
-      // driveTrain.drive();
-      elevator.execute();
-      // hatchHandler.execute();
-      // climber.execute();
-      //cargoHandler.execute();
-    }
-    if (controllers.autoClimb()) {
+    } else if (controllers.autoClimb()) {
       climbMission.run();
+    } else {
+      driveTrain.drive();
+      elevator.execute();
+      hatchHandler.execute();
+      climber.execute();
+      cargoHandler.execute();
     }
+    dash.pushEdgeSensor(climber.getSensor());
   }
 
   @Override
   public void teleopInit() {
-
+    climbMission = new ClimbToLevel2();
   }
 
   /**
@@ -205,10 +185,10 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
-    // write a "back to the pit" self-check script here
-    // something we an run that moves all the mechanisms one at a time or tests
-    // sensors
-    // like asks for us to press limit switches so we know they are still wired in
-    // System.out.println("angle: " + driveTrain.getAngle());
-    
+  // write a "back to the pit" self-check script here
+  // something we an run that moves all the mechanisms one at a time or tests
+  // sensors
+  // like asks for us to press limit switches so we know they are still wired in
+  // System.out.println("angle: " + driveTrain.getAngle());
+
 }

@@ -2,7 +2,7 @@ package frc.robot;
 
 import java.util.logging.Logger;
 
-import frc.lib14.PDController;
+import frc.lib14.PIDController;
 import frc.systems.DriveTrain;
 import frc.systems.Elevator;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -33,7 +33,7 @@ public class RobotDashboard {
 		// pushElevatorPID();
 	}
 
-	public void pushElevatorPID() {
+	public void pushElevatorPIDValues() {
 		SmartDashboard.putNumber("EkP", RobotMap.Elevator.kP);
 		SmartDashboard.putNumber("EkI", RobotMap.Elevator.kI);
 		SmartDashboard.putNumber("EkD", RobotMap.Elevator.kD);
@@ -66,7 +66,7 @@ public class RobotDashboard {
 		return SmartDashboard.getNumber("Emax output", RobotMap.Elevator.outputMax);
 	}
 
-	public void pushElevatorPID(PDController pid) {
+	public void pushElevatorPID(PIDController pid) {
 		if (null == pid)
 			return;
 		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
@@ -74,8 +74,8 @@ public class RobotDashboard {
 		SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
 	}
 	
-	public void pushGyro() {
-		SmartDashboard.putNumber("Gyro Reading", DriveTrain.getInstance().getAngle());
+	public void pushGyro(double angle) {
+		SmartDashboard.putNumber("Gyro Reading", angle);
 	}
 
 	public void pushElevatorLimits(boolean upper, boolean lower){
@@ -87,10 +87,10 @@ public class RobotDashboard {
 		SmartDashboard.putNumber("elevatorEncoderValue", elevatorEncoderTics);
 	}
 
-	public void pushEncoder(double encoderTics){
-		SmartDashboard.putNumber("encoderValue", encoderTics);
+	// public void pushEncoder(double encoderTics){
+	// 	SmartDashboard.putNumber("encoderValue", encoderTics);
 
-	}
+	// }
 
 	public void pushElevatorTarget(double setPoint) {
 		SmartDashboard.putNumber("elevatorSetPoint", setPoint);
@@ -109,7 +109,11 @@ public class RobotDashboard {
 	}
 	
 	public void pushElevatorBottom(double bottomTics) {
-		SmartDashboard.putNumber("elevatorBottom", bottomTics) ;
+		SmartDashboard.putNumber("elevatorBottomTics", bottomTics) ;
+	}
+
+	public void pushElevatorTop (double topTics) {
+		SmartDashboard.putNumber("elevatorTopTics", topTics);
 	}
 
 	//Turn commands
@@ -126,5 +130,9 @@ public class RobotDashboard {
 	}
 	public double getTurnKD() {
 		return SmartDashboard.getNumber("TkD", RobotMap.Elevator.kD);
+	}
+
+	public void pushEdgeSensor(Boolean sensor) {
+		SmartDashboard.putBoolean("EdgeSensor", sensor);
 	}
 }
