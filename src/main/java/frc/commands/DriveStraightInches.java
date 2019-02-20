@@ -17,7 +17,6 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     public int dir = 1;
     protected PDController driveController;
     private static final DriveTrain driveTrain = DriveTrain.getInstance();
-    private DRIVE_DIRECTION direction;
 
     public DriveStraightInches(DRIVE_DIRECTION direction, double targetInches) {
         initialize(direction, targetInches);
@@ -28,7 +27,6 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     public DriveStraightInches(double targetInches, int timeoutSeconds) {
-        System.out.println("set drive target:"+targetInches);
         initialize(DRIVE_DIRECTION.forward, targetInches);
         setTargetTime(timeoutSeconds);
     }
@@ -66,11 +64,9 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
         }
         if (ticsTravelled() < targetTics) {
             driveTrain.arcadeDrive(calculateSpeed(), getCorrection() * dir);
-            // System.out.println("Drive Straight" + targetTics);
         } else {
             end();
         }
-        // logger.warning("angle: " + driveTrain.getAngle() + " <<|>> correction: " + getCorrection());
     } 
 
     private void end() {
@@ -91,7 +87,6 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
     }
 
     private double getCorrection() {
-        // logger.info("Drivetrain angle: " + driveTrain.getAngle());
         return limitCorrection(driveController.calculateAdjustment(driveTrain.getAngle()),
                 RobotMap.DriveWithEncoder.MAX_ADJUSTMENT);
     }

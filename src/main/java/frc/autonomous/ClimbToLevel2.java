@@ -1,6 +1,5 @@
 package frc.autonomous;
 
-import frc.commands.ClimbCommand;
 import frc.commands.CommandPause;
 import frc.commands.DeployFrontLegs;
 import frc.commands.DeployRearLegs;
@@ -9,7 +8,6 @@ import frc.commands.DriveToSensor;
 import frc.commands.RetractFrontLegs;
 import frc.commands.RetractRearLegs;
 import frc.lib14.MCRCommand;
-import frc.lib14.ParallelCommands;
 import frc.lib14.SequentialCommands;
 
 public class ClimbToLevel2 implements MCRCommand {
@@ -21,7 +19,6 @@ public class ClimbToLevel2 implements MCRCommand {
             new CommandPause(.75),
             new DriveToSensor(DriveToSensor.SENSOR_DIRECTION.forward),
             new RetractFrontLegs(1), 
-            // new ClimbCommand(ClimbCommand.LEGS.front, ClimbCommand.DIRECTIONS.retract, 2),
             new DeployRearLegs(1),
             new DriveStraightInches(24, 3), 
             new RetractRearLegs()

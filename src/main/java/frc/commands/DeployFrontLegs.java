@@ -13,7 +13,7 @@ public class DeployFrontLegs implements MCRCommand {
 
     public void run() {
         command.run();
-        System.out.println("Deploy Front Legs");
+        //System.out.println("Deploy Front Legs");
     }
 
     public boolean isFinished() {

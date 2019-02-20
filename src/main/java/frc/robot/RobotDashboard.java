@@ -71,7 +71,7 @@ public class RobotDashboard {
 			return;
 		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
 		SmartDashboard.putNumber("PIDerror", pid.getError());
-		SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
+		//SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
 	}
 	
 	public void pushGyro(double angle) {

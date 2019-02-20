@@ -13,7 +13,7 @@ public class DeployRearLegs implements MCRCommand {
 
     public void run() {
         command.run();
-        System.out.println("Deploy Rear Legs");
+      //  System.out.println("Deploy Rear Legs");
     }
 
     public boolean isFinished() {
