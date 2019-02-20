@@ -158,6 +158,7 @@ public class Robot extends TimedRobot {
       cargoHandler.execute();
     }
     dash.pushEdgeSensor(climber.getSensor());
+    System.out.println("Stickler Test - Tim Delete")
   }
 
   @Override
