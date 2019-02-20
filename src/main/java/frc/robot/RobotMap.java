@@ -94,9 +94,9 @@ public class RobotMap {
 		public static final double HATCH_LEVEL_1 = (0 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_2 = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_3 = (56 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double BALL_HEIGHT_1 = (20.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double BALL_HEIGHT_2 = (48.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double BALL_HEIGHT_3 = (76.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_1 = (21.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_2 = (49.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_3 = (77.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final	double kP = 0.003;//start values
 		public static final	double kI = 0;
 		public static final	double kD = 0.08;// start values
