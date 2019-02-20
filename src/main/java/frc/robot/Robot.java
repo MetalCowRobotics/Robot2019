@@ -14,7 +14,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.autonomous.ClimbToLevel2;
@@ -89,6 +88,7 @@ public class Robot extends TimedRobot {
     camera.setResolution(640, 480);
     // start the compressor
     c.setClosedLoopControl(true);
+    dash.pushAuto();
 
     autoChooser = new SendableChooser();
     autoChooser.addObject("ExitHabitatLevel1", new ExitHabitatLevel1());
@@ -125,16 +125,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    isAuto = true;
-    // mission = new ExitHabitatLevel1();
-    // mission = new DriveToSensor(12);
-    // DriveStraightInches driveBackwards = new
-    // DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
-    // DriveStraightInches driveForwards = new
-    // DriveStraightInches(DRIVE_DIRECTION.forward, 48);
-    // driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
-    mission = new ExitHabitatLevel2();
-
+    if (dash.getAuto()) {
+      isAuto = true;
+      mission = new ExitHabitatLevel2();  
+    } 
   }
 
   /**

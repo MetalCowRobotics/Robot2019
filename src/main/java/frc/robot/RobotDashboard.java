@@ -154,4 +154,12 @@ public class RobotDashboard {
 		SmartDashboard.putBoolean("Field Mode", Mode);
 
 	}
+
+	public void pushAuto() {
+		SmartDashboard.putBoolean("Exit Level 2", true);
+	}
+
+	public boolean getAuto() {
+		return SmartDashboard.getBoolean("Exit Level 2", false);
+	}
 }
