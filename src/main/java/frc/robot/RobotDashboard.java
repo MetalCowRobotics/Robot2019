@@ -71,7 +71,7 @@ public class RobotDashboard {
 			return;
 		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
 		SmartDashboard.putNumber("PIDerror", pid.getError());
-		SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
+		//SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
 	}
 	
 	public void pushGyro(double angle) {
@@ -153,5 +153,13 @@ public class RobotDashboard {
 	public void pushFieldMode(Boolean Mode) {
 		SmartDashboard.putBoolean("Field Mode", Mode);
 
+	}
+
+	public void pushAuto() {
+		SmartDashboard.putBoolean("Exit Level 2", true);
+	}
+
+	public boolean getAuto() {
+		return SmartDashboard.getBoolean("Exit Level 2", false);
 	}
 }

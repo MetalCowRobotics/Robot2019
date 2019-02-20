@@ -65,7 +65,7 @@ public class RobotMap {
 		public static final double EJECT_SPEED = -1;
 		// public static final double SLOW_EJECT_SPEED = 0.3;
 		public static final int LEFT_MOTOR_CHANNEL = 3;// CAN
-		//public static final int RIGHT_MOTOR_CHANNEL = 1;// 
+		public static final int RIGHT_MOTOR_CHANNEL = 6;// 
 		//public static final double RAISE_INTAKE_SPEED = -.4;
 		//public static final double LOWER_INTAKE_SPEED = .4;
 		//public static final int ANGLE_MOTOR_CHANNEL = 7; // CAN
@@ -94,9 +94,9 @@ public class RobotMap {
 		public static final double HATCH_LEVEL_1 = (0 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_2 = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_3 = (56 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double BALL_HEIGHT_1 = (20.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double BALL_HEIGHT_2 = (48.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-		public static final double BALL_HEIGHT_3 = (76.3 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_1 = (22.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_2 = (50.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_HEIGHT_3 = (78.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final	double kP = 0.003;//start values
 		public static final	double kI = 0;
 		public static final	double kD = 0.08;// start values
@@ -141,7 +141,7 @@ public class RobotMap {
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
 		public static final Level missionClass = Level.WARNING;
-		public static final Level autoDriveClass = Level.INFO;
+		public static final Level autoDriveClass = Level.WARNING;
 		public static final Level componentBuilderClass = Level.WARNING;
 		public static final Level cargoHandlerClass = Level.WARNING;
 		public static final Level hatchHandlerClass = Level.WARNING;

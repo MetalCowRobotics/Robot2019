@@ -16,12 +16,10 @@ public class DriveToSensor implements MCRCommand {
     private boolean firstTime = true;
     private boolean done = false;
     protected PDController driveController;
-    private SENSOR_DIRECTION direction;
 
     // direction: 1 = forward, -1 = backwards
     public DriveToSensor(SENSOR_DIRECTION direction) {
         logger.setLevel(RobotMap.LogLevels.autoDriveClass);
-        // this.direction = direction;
         switch (direction) {
         case forward:
             dir = 1;
@@ -60,7 +58,6 @@ public class DriveToSensor implements MCRCommand {
     }
 
     private double getCorrection() {
-        // logger.info("Drivetrain angle: " + driveTrain.getAngle());
         return limitCorrection(driveController.calculateAdjustment(drivetrain.getAngle()), RobotMap.DriveWithEncoder.MAX_ADJUSTMENT);
     }
 

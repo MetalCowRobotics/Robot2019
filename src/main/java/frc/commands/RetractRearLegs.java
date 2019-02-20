@@ -17,7 +17,7 @@ public class RetractRearLegs implements MCRCommand {
     
     public void run() {
         command.run();
-        System.out.println("Retract Rear Legs");
+    //    System.out.println("Retract Rear Legs");
     }
     
     public boolean isFinished() {

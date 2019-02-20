@@ -13,12 +13,11 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.autonomous.ClimbToLevel2;
-import frc.autonomous.ExitHabitatLevel1;
 import frc.autonomous.ExitHabitatLevel2;
 import frc.lib14.MCRCommand;
 import frc.systems.CargoHandler;
@@ -56,6 +55,7 @@ public class Robot extends TimedRobot {
   CargoHandler cargoHandler;
   MasterControls controllers;
   Climber climber;
+  PowerDistributionPanel pdp;
 
   private boolean isAuto = false;
 
@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
     controllers = MasterControls.getInstance();
     climbMission = new ClimbToLevel2();
     // dash.initializeDashboard();
-
+    // pdp = new PowerDistributionPanel();
     // calibrate Gyro
     driveTrain.calibrateGyro();
 
@@ -89,11 +89,13 @@ public class Robot extends TimedRobot {
     camera.setResolution(640, 480);
     // start the compressor
     c.setClosedLoopControl(true);
+    dash.pushAuto();
+    // SmartDashboard.putData(pdp);
 
-    autoChooser = new SendableChooser();
-    autoChooser.addObject("ExitHabitatLevel1", new ExitHabitatLevel1());
-    autoChooser.addDefault("ExitHabitatLevel2", new ExitHabitatLevel2());
-    SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+    // autoChooser = new SendableChooser();
+    // autoChooser.addObject("ExitHabitatLevel1", new ExitHabitatLevel1());
+    // autoChooser.addDefault("ExitHabitatLevel2", new ExitHabitatLevel2());
+    // SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
     DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
@@ -125,16 +127,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    isAuto = true;
-    // mission = new ExitHabitatLevel1();
-    // mission = new DriveToSensor(12);
-    // DriveStraightInches driveBackwards = new
-    // DriveStraightInches(DRIVE_DIRECTION.backward, 48.00);
-    // DriveStraightInches driveForwards = new
-    // DriveStraightInches(DRIVE_DIRECTION.forward, 48);
-    // driveForwards = new DriveStraightInches(DRIVE_DIRECTION.forward, v);
-    mission = new ExitHabitatLevel2();
-
+    if (dash.getAuto()) {
+      isAuto = true;
+      mission = new ExitHabitatLevel2();  
+    } 
   }
 
   /**
@@ -164,12 +160,11 @@ public class Robot extends TimedRobot {
       cargoHandler.execute();
     }
     dash.pushEdgeSensor(climber.getSensor());
-    System.out.println("Stickler Test - Tim Delete")
   }
 
   @Override
   public void teleopInit() {
-    climbMission = new ClimbToLevel2();
+
   }
 
   /**

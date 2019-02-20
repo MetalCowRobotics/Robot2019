@@ -45,7 +45,6 @@ public class Elevator {
 	}
 
 	public void execute() {
-		SmartDashboard.putBoolean("DigitalSwitch", isElevatorAtTop());
 		logParameters();
 		if (firstTime) {
 			firstTime = false;
@@ -231,24 +230,38 @@ public class Elevator {
 	private void determineLevel(double level1, double level2, double level3) {
 		if (controller.upLevel()) {
 			if (currentLevel < 3) {
-				currentLevel++;
+				if (hatchMode) {
+					currentLevel++;	
+				} else {
+					if (isElevatorAtBottom()) {
+						currentLevel = 1;
+					} else {
+						currentLevel++;
+					}
+				}
 			}
-			setLevel(level1, level2, level3);
+			setLevelTics(level1, level2, level3);
 		}
 		if (controller.downLevel()) {
 			if (currentLevel > 1) {
 				currentLevel--;
+			} else {
+				if (!hatchMode) {
+					currentLevel = 0;
+				}
 			}
-			setLevel(level1, level2, level3);
+			setLevelTics(level1, level2, level3);
 		}
 	}
 
-	private void setLevel(double level1, double level2, double level3) {
-		if (currentLevel == 1) {
+	private void setLevelTics(double level1, double level2, double level3) {
+		if (0 == currentLevel) {
+			setPositionTics(bottomTics);
+		} else if (1 == currentLevel) {
 			setPositionTics(level1 + bottomTics);
-		} else if (currentLevel == 2) {
+		} else if (2 == currentLevel) {
 			setPositionTics(level2 + bottomTics);
-		} else if (currentLevel == 3) {
+		} else if (3 == currentLevel) {
 			setPositionTics(level3 + bottomTics);
 		}
 	}

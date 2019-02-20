@@ -13,7 +13,8 @@ import frc.robot.RobotMap.Intake;
 
 public class CargoHandler {
 	// both motors will operate off a single motor controller with one being reverse wired
-	private static final SpeedController INTAKE_MOTORS = new MCR_SRX(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
+	private static final SpeedController INTAKE_MOTOR_LEFT = new MCR_SRX(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
+	private static final SpeedController INTAKE_MOTOR_RIGHT = new MCR_SRX(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 	private static final Logger logger = Logger.getLogger(CargoHandler.class.getName());
 	private static final Elevator elevator = Elevator.getInstance();
 	private static final CargoHandler instance = new CargoHandler();
@@ -28,7 +29,8 @@ public class CargoHandler {
 	private CargoHandler() {
 		// Singleton Pattern
 		//((BaseMotorController) INTAKE_MOTORS).configOpenloopRamp(Intake.RAMP_SPEED);
-		((BaseMotorController) INTAKE_MOTORS).setNeutralMode(NeutralMode.Brake);
+		((BaseMotorController) INTAKE_MOTOR_LEFT).setNeutralMode(NeutralMode.Brake);
+		((BaseMotorController) INTAKE_MOTOR_RIGHT).setNeutralMode(NeutralMode.Brake);
 		logger.setLevel(RobotMap.LogLevels.cargoHandlerClass);
 	}
 
@@ -54,18 +56,21 @@ public class CargoHandler {
 		// 	ballIdle();
 		// } else {
 			HatchHandler.getInstance().retract();
-			INTAKE_MOTORS.set(RobotMap.Intake.INTAKE_SPEED);
+			INTAKE_MOTOR_LEFT.set(RobotMap.Intake.INTAKE_SPEED);
+			INTAKE_MOTOR_RIGHT.set(RobotMap.Intake.INTAKE_SPEED);
 		// }
 		
 	}
 
 	private void ballEject() {
-		INTAKE_MOTORS.set(RobotMap.Intake.EJECT_SPEED);
+		INTAKE_MOTOR_LEFT.set(RobotMap.Intake.EJECT_SPEED);
+		INTAKE_MOTOR_RIGHT.set(RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}
 
 	private void ballIdle() {
-		INTAKE_MOTORS.stopMotor();
+		INTAKE_MOTOR_LEFT.stopMotor();
+		INTAKE_MOTOR_RIGHT.stopMotor();
 		currentIntakeState = IntakeState.OFF;
 		// controller.intakeRumbleOff();
 	}

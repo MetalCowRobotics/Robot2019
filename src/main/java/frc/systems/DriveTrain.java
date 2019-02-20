@@ -55,7 +55,6 @@ public class DriveTrain {
 		}
 		double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted * getThrottle();
 		drive.arcadeDrive(speed, controller.direction());
-		SmartDashboard.putNumber("getSelectedSensorPosition", rightFrontMotor.getSelectedSensorPosition());
 		dashboard.pushLeftEncoder(getLeftEncoderTics());
 		dashboard.pushRightEncoder(getRightEncoderTics());
 	}
@@ -121,11 +120,11 @@ public class DriveTrain {
 	}
 
 	public void printRightEncoder() {
-		System.out.println(getRightEncoderTics() + " RightEncoder");
+		//System.out.println(getRightEncoderTics() + " RightEncoder");
 	}
 
 	public void printLeftEncoder() {
-		System.out.println(getLeftEncoderTics() + " LeftEncoder");
+		//System.out.println(getLeftEncoderTics() + " LeftEncoder");
 
 	}
 
