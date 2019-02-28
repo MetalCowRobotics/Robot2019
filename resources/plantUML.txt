@@ -1,0 +1,292 @@
+@startuml
+' add a comment
+'left to right direction
+skinparam shadowing false
+skinparam BackgroundColor << Singleton >> Red
+hide empty members
+title
+ <b>MetalCow Robotics</b> 2019 robot code 
+ Base Structure
+end title
+!define implements(a,b) b <|.. a : implements
+!define uses(a,b) a ..> b : uses
+!define extends(a,b) b <|-- a : extends
+package "robot" {
+  class Robot
+  class RobotMap <<static>>
+  class RobotDashboard <<Singleton >>
+}
+package "systems" {
+  class DriveTrain << Singleton >>
+  class Elevator << Singleton >>
+  class HatchHandler << Singleton >>
+  class CargoHandler << Singleton >>
+  class Climber << Singleton >>
+  class MasterControls <<Singleton >> 
+}
+package "autonomous" {
+  class ClimbToLevel2
+  class ExitHabitatLevel2
+  ClimbToLevel2 -() MCRCommand
+  ExitHabitatLevel2 -() MCRCommand
+  ' to force layout formatting
+  ClimbToLevel2 -[hidden]-> ExitHabitatLevel2
+}
+package "commands" {
+  abstract class TimedCommand 
+  together {
+  class DriveStraightInches -() MCRCommand
+  extends(DriveStraightInches, TimedCommand)
+  class DriveToSensor -() MCRCommand
+  class TurnCommand -() MCRCommand
+  }
+  class CommandPause -() MCRCommand
+  class ClimbCommand -() MCRCommand
+  extends(ClimbCommand, TimedCommand)
+  class DeployFrontLegs -() MCRCommand
+  'MCRCommand ()- DeployFrontLegs
+  class DeployRearLegs -() MCRCommand
+  class RetractFrontLegs -() MCRCommand
+  class RetractRearLegs -() MCRCommand  
+  uses(DeployFrontLegs, ClimbCommand)
+  uses(DeployRearLegs, ClimbCommand)
+  uses(RetractFrontLegs, ClimbCommand)
+  uses(RetractRearLegs, ClimbCommand)
+  ' force the layout formatting
+  CommandPause -[hidden]> TimedCommand
+  DriveToSensor -[hidden]> TurnCommand
+  TurnCommand -[hidden]> CommandPause
+  
+}
+package "lib14" {
+  interface MCRCommand {
+    +void run()
+    +boolean isFInished()
+  }
+  class MCR_SRX
+  class PIDController 
+  class ParallelCommands
+  class SequentialCommands
+  class UtilityMethods <<static>> {
+    +static double copySign(double source, double target)
+    +static boolean between(double value, double lower, double upper)
+    +static double deadZoneCalculation(double input)
+    +static double round(double number, int precision)
+    +static double absMax(double input, double maxValue)
+    +static double absMin(double input, double minValue)
+  }
+  class XboxControllerMetalCow
+  
+  implements(ParallelCommands, MCRCommand)
+  implements(SequentialCommands, MCRCommand)
+  MCR_SRX -() SpeedController
+  XboxControllerMetalCow -() XboxController
+}
+@enduml
+
+@startuml
+skinparam shadowing false
+hide empty members
+title
+ <b>MetalCow Robotics</b> 2019 robot code 
+ class structure (teleop)
+end title
+
+!define call(a,b) a --> b
+!define implements(a,b) b <|.. a
+
+class Robot{
+  +void robotInit()
+  +void autonomousInit()
+  +void teleopInit()
+  +void autonomousPeriodic()
+  +void teleopPeriodic()
+  -void commonPeriodic()	
+}
+class DriveTrain << Singleton >>
+class Elevator << Singleton >>
+class HatchHandler << Singleton >>
+class CargoHandler << Singleton >>
+class Climber << Singleton >>
+class MasterControls <<Singleton >> {
+  +void getSpeed()
+  +void getDirection()
+  +void elevator()
+  +void grab()
+  +void extendArm()
+  +void retractArm()
+}
+
+call(Robot, DriveTrain) : drive
+call(Robot, Elevator) : execute
+call(Robot, HatchHandler) : execute
+call(Robot, CargoHandler) : execute
+call(Robot, Climber) : execute
+call(DriveTrain, MasterControls)
+call(Elevator, MasterControls)
+call(HatchHandler, MasterControls)
+call(CargoHandler, MasterControls)
+call(Climber, MasterControls)
+
+@enduml
+
+call(HatchHandler, Elevator) : setIsHatchMode
+call(CargoHandler, Elevator) : setIsHatchMode
+
+
+@startuml
+skinparam shadowing false
+hide empty members
+title
+ <b>MetalCow Robotics</b> 2019 robot code 
+ class structure (assisted)
+end title
+
+!define call(a,b) a --> b
+!define implements(a,b) b <|.. a
+
+class Robot{
+  +void robotInit()
+  +void autonomousInit()
+  +void teleopInit()
+  +void autonomousPeriodic()
+  +void teleopPeriodic()
+  -void commonPeriodic()	
+}
+class DriveTrain << Singleton >>
+class Climber << Singleton >>
+
+interface MCRCommand
+implements(ExitHabitatLevel2, MCRCommand)
+implements(ClimbToLevel2, MCRCommand)
+
+call(Robot, MCRCommand)
+call(ExitHabitatLevel2, DriveTrain)
+call(ExitHabitatLevel2, Climber)
+call(ClimbToLevel2, DriveTrain)
+call(ClimbToLevel2, Climber)
+
+@enduml
+
+@startuml
+skinparam shadowing false
+hide empty members
+title
+                                                                                                                
+ <b>MetalCow Robotics</b> 2019 robot code 
+ class structure (assisted 2)
+end title
+
+!define call(a,b) a --> b
+!define implements(a,b) b <|.. a
+
+class Robot{
+  +void robotInit()
+  +void autonomousInit()
+  +void teleopInit()
+  +void autonomousPeriodic()
+  +void teleopPeriodic()
+  -void commonPeriodic()	
+}
+class DriveTrain << Singleton >>
+class Climber << Singleton >>
+
+interface MCRCommand {
+  +void run()
+  +boolean isFInished()
+}
+MCRCommand ()- ExitLevel2
+ClimbToLevel2 -() MCRCommand
+
+call(Robot, ExitLevel2) : isAuto
+call(ExitLevel2, DriveTrain)
+call(ExitLevel2, Climber)
+call(Robot, ClimbToLevel2) : climb
+call(ClimbToLevel2, DriveTrain)
+call(ClimbToLevel2, Climber)
+
+@enduml
+
+@startuml
+skinparam shadowing false
+title
+ <b>MetalCow Robotics</b> 2019 robot code 
+ Activity Diagram 
+ Assisted climb to hab level 2
+end title
+start
+:raise front legs;
+repeat
+:drive to sensor;
+repeat while (front wheels not over hab level 2?)
+:lower front legs;
+:raise rear legs;
+:drive forward inches (10);
+fork
+:lower front legs;
+fork again
+:raise rear legs;
+end fork
+:drive forward inches (10);
+stop
+@enduml
+
+@startuml
+skinparam shadowing false
+title
+ <b>MetalCow Robotics</b> 2019 robot code 
+ Activity Diagram 
+ Elevator movement
+end title
+start
+:raise front legs;
+repeat
+:drive to sensor;
+repeat while (front wheels not over hab level 2?)
+:lower front legs;
+:raise rear legs;
+:drive forward inches (10);
+fork
+:lower front legs;
+fork again
+:raise rear legs;
+end fork
+:drive forward inches (10);
+stop
+@enduml
+
+@startuml
+skinparam shadowing false
+title
+ <b>MetalCow Robotics</b> 2019 robot code 
+ Activity Diagram 
+ Elevator switch heights
+end title
+|Elevator|
+start
+if (move up?) then (move up)
+|LevelHandler|
+  if (at top?) then (yes)
+    :leave at cur height;
+  else (no)
+    :raise target height to next level up;
+  endif
+|Elevator|
+endif
+if (move down) then (move down)
+|LevelHandler|
+  if (at botom?) then (true)
+    :leave at cur height;
+  else (false)
+    :lower target height to next level down;
+endif
+|Elevator|
+note right
+  This note is on several
+  lines and can
+  contain <b>HTML</b>
+  ====
+  * Calling the method ""foo()"" is prohibited
+end note
+stop
+@enduml
