@@ -14,7 +14,7 @@ public class ExitHabitatLevel2 implements MCRCommand {
             new DeployRearLegs(1),
             new DriveBackwardsStraight(24,3),
             new RetractRearLegs(),
-            new DriveBackwardsStraight(36,3)
+            new DriveBackwardsStraight(48,3)
         );
     }
 
