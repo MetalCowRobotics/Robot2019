@@ -32,6 +32,7 @@ public class HatchHandler {
     private HatchHandler() {
         // arm.set(DoubleSolenoid.Value.kOff);
         grab();
+        retract();
         logger.setLevel(RobotMap.LogLevels.hatchHandlerClass);
     }
 
