@@ -127,6 +127,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    hatchHandler.grab();
     if (dash.getAuto()) {
       isAuto = true;
       mission = new ExitHabitatLevel2();  

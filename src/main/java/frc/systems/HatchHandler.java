@@ -60,7 +60,7 @@ public class HatchHandler {
         clawStatus = ClawStatus.release;
     }
 
-    private void grab() {
+    public void grab() {
         grabber.set(DoubleSolenoid.Value.kForward);
         clawStatus = ClawStatus.grab;
         elevator.setHatchMode(true);
