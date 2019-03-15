@@ -27,9 +27,11 @@ public class Elevator {
 	private double bottomTics;
 	private double topTics;
 	private PIDController holdPID;
-	public static boolean hatchMode = true;
+	public static boolean isHatchMode = true;
 	private int loggingIterations = 0;
-	private int currentLevel = 1;
+	private LevelManager hatchLevels = new LevelManager(RobotMap.Elevator.HATCH_LEVEL_1, RobotMap.Elevator.HATCH_LEVEL_2, RobotMap.Elevator.HATCH_LEVEL_3);
+	private LevelManager cargoLevels = new LevelManager(RobotMap.Elevator.BALL_PICK_UP, RobotMap.Elevator.BALL_HEIGHT_1, RobotMap.Elevator.SHUTTLE_BALL_HEIGHT, RobotMap.Elevator.BALL_HEIGHT_3);
+	private LevelManager curLevels = hatchLevels;
 
 	private Elevator() {
 		// Singleton Pattern
@@ -58,12 +60,13 @@ public class Elevator {
 			dash.pushElevatorPIDValues();
 		}
 		if (controller.switchHeights()) {
-			hatchMode = !hatchMode;
+			setHatchMode(!isHatchMode);
 		}
-		SmartDashboard.putBoolean("hatchmode", hatchMode);
-		getElevatorTarget(); // check for level up and level down
+		SmartDashboard.putBoolean("hatchmode", isHatchMode);
+		// check for level up and level down
+		setElevatorTarget();
 		if (0 == controller.getElevatorThrottle()) {
-			set_K_values();
+			//set_K_values();
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 		} else {
 			setElevatorSpeed(controller.getElevatorThrottle());
@@ -75,11 +78,18 @@ public class Elevator {
 	}
 
 	public boolean getHatchMode() {
-		return hatchMode;
+		return isHatchMode;
 	}
 
-	public void setHatchMode(boolean mode) {
-		hatchMode = mode;
+	public void setHatchMode(boolean isHatchmode) {
+		if (isHatchmode != isHatchMode) {
+			isHatchMode = isHatchmode;
+			if (isHatchMode) {
+				curLevels = hatchLevels;
+			} else {
+				curLevels = cargoLevels;
+			}
+		}
 	}
 
 	private double limitAdjustment(double adjustment) {
@@ -88,7 +98,7 @@ public class Elevator {
 
 	private void setPositionTics(double tics) {
 		holdPID.setSetPoint(tics);
-		set_K_values();
+		//set_K_values();
 		holdPID.reset();
 	}
 
@@ -156,9 +166,6 @@ public class Elevator {
 	}
 
 	private boolean isElevatorAtTop() {
-		if (!topLimit.get()) {
-			currentLevel = 3;
-		}
 		return !topLimit.get(); // For some reason this is inverted in the hardware, correcting here in software
 	}
 
@@ -167,7 +174,7 @@ public class Elevator {
 			// reset bottom and top measures
 			bottomTics = getEncoderTics();
 			topTics = bottomTics + inchesToTics(RobotMap.Elevator.ELEVATOR_MAX_EXTEND);
-			currentLevel = 1;
+			curLevels.gotoBottom();
 		}
 		return !bottomLimit.get(); // for some reason this is inverted in hardware, correcting here in software
 	}
@@ -195,74 +202,15 @@ public class Elevator {
 		logger.info("Elev PID error:" + holdPID.getError());
 	}
 
-	private void getElevatorTarget() {
-		// need to add a mode to switch between cargo and hatches in execute
-		if (hatchMode) {
-			determineLevel(RobotMap.Elevator.HATCH_LEVEL_1, RobotMap.Elevator.HATCH_LEVEL_2,
-					RobotMap.Elevator.HATCH_LEVEL_3);
-		} else {
-			determineLevel(RobotMap.Elevator.BALL_HEIGHT_1, RobotMap.Elevator.BALL_HEIGHT_2,
-					RobotMap.Elevator.BALL_HEIGHT_3);
-		}
-	}
-
-	// private void determineLevel(double level1, double level2, double level3) {
-	// double fudgeFactor = 50; // if the PID does not get it to height it will
-	// always be lower and never go to the else
-	// logger.info("current distance: " + (getEncoderTics() - bottomTics) + " <> ");
-	// if (controller.upLevel()) {
-	// if ((getEncoderTics() - bottomTics) < (level2 - fudgeFactor)) {
-	// setPositionTics(level2 + bottomTics);
-	// } else {
-	// setPositionTics(level3 + bottomTics);
-	// }
-	// }
-	// if (controller.downLevel()) {
-	// if ((getEncoderTics() - bottomTics) > level2) {
-	// setPositionTics(level2 + bottomTics);
-	// } else {
-	// setPositionTics(level1 + bottomTics);
-	// }
-	// }
-	// }
-	// handling level changes/sets level
-	// level1-3 - Tic count for each level
-	private void determineLevel(double level1, double level2, double level3) {
+	private void setElevatorTarget() {
 		if (controller.upLevel()) {
-			if (currentLevel < 3) {
-				if (hatchMode) {
-					currentLevel++;	
-				} else {
-					if (isElevatorAtBottom()) {
-						currentLevel = 1;
-					} else {
-						currentLevel++;
-					}
-				}
-			}
-			setLevelTics(level1, level2, level3);
+			curLevels.moveUp();
+			setPositionTics(curLevels.getHeightForCurLevel() + bottomTics);
 		}
 		if (controller.downLevel()) {
-			if (currentLevel > 1) {
-				currentLevel--;
-			} else {
-				if (!hatchMode) {
-					currentLevel = 0;
-				}
-			}
-			setLevelTics(level1, level2, level3);
+			curLevels.moveDown();
+			setPositionTics(curLevels.getHeightForCurLevel() + bottomTics);
 		}
 	}
 
-	private void setLevelTics(double level1, double level2, double level3) {
-		if (0 == currentLevel) {
-			setPositionTics(bottomTics);
-		} else if (1 == currentLevel) {
-			setPositionTics(level1 + bottomTics);
-		} else if (2 == currentLevel) {
-			setPositionTics(level2 + bottomTics);
-		} else if (3 == currentLevel) {
-			setPositionTics(level3 + bottomTics);
-		}
-	}
 }

@@ -94,6 +94,7 @@ public class RobotMap {
 		public static final double HATCH_LEVEL_1 = (0 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_2 = (28 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double HATCH_LEVEL_3 = (56 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		public static final double BALL_PICK_UP = (0 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_1 = (22.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_2 = (50.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double BALL_HEIGHT_3 = (78.8 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
@@ -106,6 +107,7 @@ public class RobotMap {
 		public static final double SafeSpeed = 0.4;
 		public static final double SafeZone = (18 / Elevator.INCHES_PER_ROTATION) * Elevator.TICS_PER_ROTATION;
 		public static final double ELEVATOR_MAX_EXTEND = 80;
+		public static final double SHUTTLE_BALL_HEIGHT = 40;
 	}
 
 	public final class Climber {
