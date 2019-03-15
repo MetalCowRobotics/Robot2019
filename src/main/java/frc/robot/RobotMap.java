@@ -21,7 +21,7 @@ public class RobotMap {
 		public static final int RIGHT_MOTOR = 2;
 		public static final int RIGHT_MOTOR_NO_ENCODER = 5;
 		public static final int WHEEL_DIAMETER = 6;
-		public static final double RAMP_SPEED = .8;
+		public static final double RAMP_SPEED = .6;
 	}
 
 	public final class DriveToSensor {

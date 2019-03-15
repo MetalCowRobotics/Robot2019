@@ -9,7 +9,7 @@ import frc.lib14.PIDController;
 
 public class RobotDashboard {
 	private static final Logger logger = Logger.getLogger(RobotDashboard.class.getName());
-	private static frc.robot.RobotDashboard ourInstance = new frc.robot.RobotDashboard();
+	private static frc.robot.RobotDashboard ourInstance = new RobotDashboard();
 	// private DriverStation driverStation;
 	// private PowerDistributionPanel pdp;
 
@@ -32,43 +32,43 @@ public class RobotDashboard {
 	}
 
 	public void pushElevatorPIDValues() {
-		SmartDashboard.putNumber("EkP", RobotMap.Elevator.kP);
-		SmartDashboard.putNumber("EkI", RobotMap.Elevator.kI);
-		SmartDashboard.putNumber("EkD", RobotMap.Elevator.kD);
-		// SmartDashboard.putNumber("Etolerance", RobotMap.Elevator.tolerance);
-		// SmartDashboard.putNumber("Emin output", RobotMap.Elevator.outputMin);
-		// SmartDashboard.putNumber("Emax output", RobotMap.Elevator.outputMax);
+		// SmartDashboard.putNumber("EkP", RobotMap.Elevator.kP);
+		// SmartDashboard.putNumber("EkI", RobotMap.Elevator.kI);
+		// SmartDashboard.putNumber("EkD", RobotMap.Elevator.kD);
 	}
 
 	public double getElevatorKP() {
-		return SmartDashboard.getNumber("EkP", RobotMap.Elevator.kP);
+		return RobotMap.Elevator.kP;
+		// return SmartDashboard.getNumber("EkP", RobotMap.Elevator.kP);
 	}
 
 	public double getElevatorKI() {
-		return SmartDashboard.getNumber("EkI", RobotMap.Elevator.kI);
+		return RobotMap.Elevator.kI;
+		// return SmartDashboard.getNumber("EkI", RobotMap.Elevator.kI);
 	}
 
 	public double getElevatorKD() {
-		return SmartDashboard.getNumber("EkD", RobotMap.Elevator.kD);
+		return RobotMap.Elevator.kD;
+		// return SmartDashboard.getNumber("EkD", RobotMap.Elevator.kD);
 	}
 
-	public double getElevatorTolerance() {
-		return SmartDashboard.getNumber("Etolerance", RobotMap.Elevator.tolerance);
-	}
+	// public double getElevatorTolerance() {
+	// 	return SmartDashboard.getNumber("Etolerance", RobotMap.Elevator.tolerance);
+	// }
 
-	public double getElevatorOutputMin() {
-		return SmartDashboard.getNumber("Emin output", RobotMap.Elevator.outputMin);
-	}
+	// public double getElevatorOutputMin() {
+	// 	return SmartDashboard.getNumber("Emin output", RobotMap.Elevator.outputMin);
+	// }
 
-	public double getElevatorOutputMax() {
-		return SmartDashboard.getNumber("Emax output", RobotMap.Elevator.outputMax);
-	}
+	// public double getElevatorOutputMax() {
+	// 	return SmartDashboard.getNumber("Emax output", RobotMap.Elevator.outputMax);
+	// }
 
 	public void pushElevatorPID(PIDController pid) {
-		if (null == pid)
-			return;
-		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
-		SmartDashboard.putNumber("PIDerror", pid.getError());
+		// if (null == pid)
+		// 	return;
+		// SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
+		// SmartDashboard.putNumber("PIDerror", pid.getError());
 		//SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
 	}
 	
@@ -91,19 +91,21 @@ public class RobotDashboard {
 	// }
 
 	public void pushElevatorTarget(double setPoint) {
-		SmartDashboard.putNumber("elevatorSetPoint", setPoint);
+		// SmartDashboard.putNumber("elevatorSetPoint", setPoint);
 	}
 
 	public void pushElevatorCurPosition(double curPosition) {
-		SmartDashboard.putNumber("elevatorEncoder", curPosition);
+		// SmartDashboard.putNumber("elevatorEncoder", curPosition);
 	}
 
 	public double getElevatorTarget() {
-		return SmartDashboard.getNumber("elevatorSetPoint", 0);
+		// return SmartDashboard.getNumber("elevatorSetPoint", 0);
+		return 0;
 	}
 
 	public double getIntakeEjectSpeed() {
-		return SmartDashboard.getNumber("IntakeEjectSpeed", 0);
+		// return SmartDashboard.getNumber("IntakeEjectSpeed", 0);
+		return 0;
 	}
 	
 	public void pushElevatorBottom(double bottomTics) {
@@ -123,29 +125,32 @@ public class RobotDashboard {
 	}
 
 	public void pushSpeed(){
-		SmartDashboard.putNumber("crawlSpeed", RobotMap.Drivetrain.CRAWL_SPEED);
-		SmartDashboard.putNumber("sprintSpeed", RobotMap.Drivetrain.SPRINT_SPEED);
-		SmartDashboard.putNumber("normalSpeed", RobotMap.Drivetrain.NORMAL_SPEED);
+		// SmartDashboard.putNumber("crawlSpeed", RobotMap.Drivetrain.CRAWL_SPEED);
+		// SmartDashboard.putNumber("sprintSpeed", RobotMap.Drivetrain.SPRINT_SPEED);
+		// SmartDashboard.putNumber("normalSpeed", RobotMap.Drivetrain.NORMAL_SPEED);
 	}
 
 	//Turn commands
 	public void pushTurnPID() {
-		SmartDashboard.putNumber("TkP", RobotMap.TurnDegrees.kP);
-		SmartDashboard.putNumber("TkI", RobotMap.TurnDegrees.kI);
-		SmartDashboard.putNumber("TkD", RobotMap.TurnDegrees.kD);
+		// SmartDashboard.putNumber("TkP", RobotMap.TurnDegrees.kP);
+		// SmartDashboard.putNumber("TkI", RobotMap.TurnDegrees.kI);
+		// SmartDashboard.putNumber("TkD", RobotMap.TurnDegrees.kD);
 	}
 	public double getTurnKP() {
-		return SmartDashboard.getNumber("TkP", RobotMap.Elevator.kP);
+		return RobotMap.Elevator.kP;
+		// return SmartDashboard.getNumber("TkP", RobotMap.Elevator.kP);
 	}
 	public double getTurnKI() {
-		return SmartDashboard.getNumber("TkI", RobotMap.Elevator.kI);
+		return RobotMap.Elevator.kI;
+		// return SmartDashboard.getNumber("TkI", RobotMap.Elevator.kI);
 	}
 	public double getTurnKD() {
-		return SmartDashboard.getNumber("TkD", RobotMap.Elevator.kD);
+		return RobotMap.Elevator.kD;
+		// return SmartDashboard.getNumber("TkD", RobotMap.Elevator.kD);
 	}
 
 	public void pushEdgeSensor(Boolean sensor) {
-		SmartDashboard.putBoolean("EdgeSensor", sensor);
+		// SmartDashboard.putBoolean("EdgeSensor", sensor);
 	}
 
 	public void pushFieldMode(Boolean Mode) {
