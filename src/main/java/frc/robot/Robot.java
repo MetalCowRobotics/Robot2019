@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.autonomous.ClimbToLevel2;
 import frc.autonomous.ExitHabitatLevel2;
 import frc.lib14.MCRCommand;
@@ -38,13 +36,11 @@ import frc.systems.MasterControls;
 public class Robot extends TimedRobot {
   private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
-  SendableChooser autoChooser;
-
   private MCRCommand mission;
   private MCRCommand climbMission;// = new ClimbToLevel2();
 
   // Field Systems
-  private DriverStation driverStation;
+  // private DriverStation driverStation;
   private RobotDashboard dash;
 
   // Robot Systems
@@ -70,7 +66,7 @@ public class Robot extends TimedRobot {
     logger.setLevel(RobotMap.LogLevels.robotClass);
 
     // Initialize Robot
-    driverStation = DriverStation.getInstance();
+    // driverStation = DriverStation.getInstance();
     dash = RobotDashboard.getInstance();
     driveTrain = DriveTrain.getInstance();
     elevator = Elevator.getInstance();

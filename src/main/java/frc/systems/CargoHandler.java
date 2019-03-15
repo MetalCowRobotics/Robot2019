@@ -5,11 +5,9 @@ import java.util.logging.Logger;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import frc.lib14.MCR_SRX;
 import frc.robot.RobotMap;
-import frc.robot.RobotMap.Intake;
 
 public class CargoHandler {
 	// both motors will operate off a single motor controller with one being reverse wired

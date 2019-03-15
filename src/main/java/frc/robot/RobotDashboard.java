@@ -2,18 +2,16 @@ package frc.robot;
 
 import java.util.logging.Logger;
 
-import frc.lib14.PIDController;
-import frc.systems.DriveTrain;
-import frc.systems.Elevator;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
+// import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lib14.PIDController;
 
 public class RobotDashboard {
 	private static final Logger logger = Logger.getLogger(RobotDashboard.class.getName());
 	private static frc.robot.RobotDashboard ourInstance = new frc.robot.RobotDashboard();
-	private DriverStation driverStation;
-	private PowerDistributionPanel pdp;
+	// private DriverStation driverStation;
+	// private PowerDistributionPanel pdp;
 
 	public static frc.robot.RobotDashboard getInstance() {
 		return ourInstance;

@@ -2,9 +2,7 @@ package frc.systems;
 
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib14.UtilityMethods;
 import frc.lib14.XboxControllerMetalCow;
 import frc.robot.RobotDashboard;
@@ -43,9 +41,7 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		return UtilityMethods.deadZoneCalculation(-operator.getRY(), .15);
-		// return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() :
-		// 0;
+		return UtilityMethods.deadZoneCalculation(-operator.getRY(), throttleVariance);
 	}
 
 	public void intakeRumbleOn() {

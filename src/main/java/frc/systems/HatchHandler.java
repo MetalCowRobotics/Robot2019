@@ -3,7 +3,6 @@ package frc.systems;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import frc.robot.RobotDashboard;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.Hatch;
 
@@ -14,8 +13,6 @@ public class HatchHandler {
     private static final HatchHandler instance = new HatchHandler();
     private DoubleSolenoid arm = new DoubleSolenoid(Hatch.ARM_FOWARD, Hatch.ARM_REVERSE);
     private DoubleSolenoid grabber = new DoubleSolenoid(Hatch.GRABBER_FOWARD, Hatch.GRABBER_REVERSE);
-    private RobotDashboard dash = RobotDashboard.getInstance();
-    
 
     enum ArmStatus {
         extended, retracted
@@ -30,7 +27,6 @@ public class HatchHandler {
     private ClawStatus clawStatus = ClawStatus.grab;
 
     private HatchHandler() {
-        // arm.set(DoubleSolenoid.Value.kOff);
         grab();
         logger.setLevel(RobotMap.LogLevels.hatchHandlerClass);
     }
@@ -79,7 +75,6 @@ public class HatchHandler {
     }
 
     // grab and release hatch handler
-    // TODO: Reverse or Forward?
     public void grabClaw() {
         grabber.set(DoubleSolenoid.Value.kReverse);
         clawStatus = ClawStatus.grab;
