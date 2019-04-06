@@ -79,14 +79,15 @@ public class Robot extends TimedRobot {
     cargoHandler = CargoHandler.getInstance();
     controllers = MasterControls.getInstance();
     climbMission = new ClimbToLevel2();
+    mission = new ExitHabitatLevel2();
     // dash.initializeDashboard();
     // pdp = new PowerDistributionPanel();
     // calibrate Gyro
     driveTrain.calibrateGyro();
 
     // start the camera feed
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-    camera.setResolution(640, 480);
+    //UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+    //camera.setResolution(640, 480);
     // start the compressor
     c.setClosedLoopControl(true);
     dash.pushAuto();
@@ -129,8 +130,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     hatchHandler.grab();
     if (dash.getAuto()) {
-      isAuto = true;
-      mission = new ExitHabitatLevel2();  
+      isAuto = true;  
     } 
   }
 
