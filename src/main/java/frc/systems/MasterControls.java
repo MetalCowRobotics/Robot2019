@@ -24,6 +24,7 @@ public class MasterControls {
 		// Intentionally Blank for Singleton
 		logger.setLevel(RobotMap.LogLevels.masterControlsClass);
 	}
+
 	private static final RobotDashboard dash = RobotDashboard.getInstance();
 
 	public static MasterControls getInstance() {
@@ -90,18 +91,18 @@ public class MasterControls {
 		}
 		return false;
 	}
+
 	public boolean isClawToggled() {
 		return operator.getBButton();
 	}
 
 	public boolean isBallIntake() {
-		return operator.getRT()>.2;
+		return operator.getRT() > .2;
 	}
 
 	public boolean isBallEject() {
-		return operator.getLT()>.2;
+		return operator.getLT() > .2;
 	}
-
 
 	public boolean upLevel() {
 		if (fieldMode) {
@@ -131,29 +132,33 @@ public class MasterControls {
 
 	public boolean changeMode() {
 		if (operator.getRawButtonPressed(7)) {
-			fieldMode = !fieldMode; 
+			fieldMode = !fieldMode;
 		}
 		dash.pushFieldMode(fieldMode);
 		return fieldMode;
 	}
+
 	public boolean raiseFront() {
 		if (!fieldMode) {
 			return operator.getYButtonPressed();
 		}
 		return false;
 	}
+
 	public boolean lowerFront() {
 		if (!fieldMode) {
 			return operator.getAButtonPressed();
 		}
 		return false;
 	}
+
 	public boolean autoClimb() {
 		if (!fieldMode) {
 			return operator.getBButton();
 		}
 		return false;
 	}
+
 	public boolean raiseBack() {
 		if (!fieldMode) {
 
@@ -175,5 +180,13 @@ public class MasterControls {
 			}
 		}
 		return false;
+	}
+
+	public boolean shuttleBump() {
+		if (operator.getXButtonPressed()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

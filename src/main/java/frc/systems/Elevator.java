@@ -252,6 +252,9 @@ public class Elevator {
 			}
 			setLevelTics(level1, level2, level3);
 		}
+		if (controller.shuttleBump()){
+			setPosition(RobotMap.Elevator.SHUTTLE_CARGO_HEIGHT);
+		}
 	}
 
 	private void setLevelTics(double level1, double level2, double level3) {

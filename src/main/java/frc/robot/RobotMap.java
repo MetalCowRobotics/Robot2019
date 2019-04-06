@@ -76,6 +76,7 @@ public class RobotMap {
 	}
 
 	public final class Elevator {
+		public static final double SHUTTLE_CARGO_HEIGHT = 41;
 //		public static final double UP_SPEED = 0.2;// motor is reversed
 //		public static final double DOWN_SPEED = -0.8;// motor is reversed
 		public static final double RAMP_SPEED = .8;
