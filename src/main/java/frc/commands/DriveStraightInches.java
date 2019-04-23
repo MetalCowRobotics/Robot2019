@@ -26,7 +26,7 @@ public class DriveStraightInches extends TimedCommand implements MCRCommand {
         initialize(DRIVE_DIRECTION.forward, targetInches);
     }
 
-    public DriveStraightInches(double targetInches, int timeoutSeconds) {
+    public DriveStraightInches(double targetInches, double timeoutSeconds) {
         initialize(DRIVE_DIRECTION.forward, targetInches);
         setTargetTime(timeoutSeconds);
     }
