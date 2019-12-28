@@ -45,14 +45,14 @@ public class ClimbCommand extends TimedCommand implements MCRCommand {
     private void articulateClimber() {
         switch (leg) {
         case front:
-            if (DIRECTIONS.extend==direction) {
+            if (DIRECTIONS.extend == direction) {
                 climber.extendFrontLegs();
             } else {
                 climber.retractFrontLegs();
             }
             break;
         case back:
-            if (DIRECTIONS.extend==direction) {
+            if (DIRECTIONS.extend == direction) {
                 climber.extendBackLegs();
             } else {
                 climber.retractBackLegs();

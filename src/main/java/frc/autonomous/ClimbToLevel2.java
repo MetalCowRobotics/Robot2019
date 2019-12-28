@@ -20,7 +20,7 @@ public class ClimbToLevel2 implements MCRCommand {
             new DriveToSensor(DriveToSensor.SENSOR_DIRECTION.forward),
             new RetractFrontLegs(1), 
             new DeployRearLegs(1),
-            new DriveStraightInches(24, 3), 
+            new DriveStraightInches(22, 2.75), 
             new RetractRearLegs()
         );
     }

@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 
   SendableChooser autoChooser;
 
-  private MCRCommand mission;
+  private MCRCommand mission = new ExitHabitatLevel2();
   private MCRCommand climbMission;// = new ClimbToLevel2();
 
   // Field Systems
@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
     hatchHandler.grab();
     if (dash.getAuto()) {
       isAuto = true;
-      mission = new ExitHabitatLevel2();  
+      // mission = new ExitHabitatLevel2();  
     } 
   }
 

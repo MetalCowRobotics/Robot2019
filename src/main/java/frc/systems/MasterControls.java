@@ -18,7 +18,7 @@ public class MasterControls {
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
 	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(
 			RobotMap.OperatorController.USB_PORT);
-	private boolean fieldMode = true;
+	public boolean fieldMode = true;
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
@@ -44,9 +44,10 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		return UtilityMethods.deadZoneCalculation(-operator.getRY(), .15);
-		// return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() :
-		// 0;
+		if (fieldMode) {
+			return UtilityMethods.deadZoneCalculation(-operator.getRY(), .15);
+		}
+		return 0;
 	}
 
 	public void intakeRumbleOn() {
@@ -183,8 +184,12 @@ public class MasterControls {
 	}
 
 	public boolean shuttleBump() {
-		if (operator.getXButtonPressed()) {
-			return true;
+		if (fieldMode) {
+			if (operator.getXButtonPressed()) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
