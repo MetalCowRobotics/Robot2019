@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,10 +20,15 @@ import frc.robot.RobotMap.Drivetrain;
 public class DriveTrain {
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
-	private static MCR_SRX rightFrontMotor = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR);
-	private static MCR_SRX rightBackMotor = new MCR_SRX(Drivetrain.RIGHT_MOTOR_NO_ENCODER); 
-	private static MCR_SRX leftFrontMotor = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR);
-	private static MCR_SRX leftBackMotor = new MCR_SRX(Drivetrain.LEFT_MOTOR_NO_ENCODER); 
+	// private static MCR_SRX rightFrontMotor = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR);
+	// private static MCR_SRX rightBackMotor = new MCR_SRX(Drivetrain.RIGHT_MOTOR_NO_ENCODER); 
+	// private static MCR_SRX leftFrontMotor = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR);
+	// private static MCR_SRX leftBackMotor = new MCR_SRX(Drivetrain.LEFT_MOTOR_NO_ENCODER); 
+	private static SpeedController rightFrontMotor = new Spark(0);
+	private static SpeedController rightBackMotor = new Spark(1); 
+	private static SpeedController leftFrontMotor = new Spark(3);
+	private static SpeedController leftBackMotor = new Spark(2); 
+
 	// private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor);
 	// private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor);
 	private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor, rightBackMotor); 
@@ -32,15 +39,16 @@ public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
 	
 	private int inverted = 1;
+	private boolean curvatureDrive = false;
 
 	// Singleton
 	protected DriveTrain() {
-		rightFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
-		leftFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
+		// rightFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
+		// leftFrontMotor.configOpenloopRamp(Drivetrain.RAMP_SPEED);
 		//rightBackMotor.configOpenloopRamp(Drivetrain.RAMP;
 		//leftBackMotor.configOpenloopRamp(Drivetrain.RAMP);
-		rightFrontMotor.setNeutralMode(NeutralMode.Brake);
-		leftFrontMotor.setNeutralMode(NeutralMode.Brake);
+		// rightFrontMotor.setNeutralMode(NeutralMode.Brake);
+		// leftFrontMotor.setNeutralMode(NeutralMode.Brake);
 		//rightBackMotor.setNeutralMode(NeutalMode.Break);
 		//rightBackMotor.setNeutralMode(NeutralMode.Brake);
 		logger.setLevel(RobotMap.LogLevels.driveTrainClass);
@@ -112,12 +120,14 @@ public class DriveTrain {
 	}
 
 	private double getLeftEncoderTics() {
-		return leftFrontMotor.getSelectedSensorPosition();
+		// return leftFrontMotor.getSelectedSensorPosition();
+		return 0;
 		
 	}
 
 	private double getRightEncoderTics() {
-		return rightFrontMotor.getSelectedSensorPosition();
+		// return rightFrontMotor.getSelectedSensorPosition();
+		return 0;
 	}
 
 	public void printRightEncoder() {

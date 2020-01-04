@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.lib14.XboxControllerMetalCow;
+import frc.systems.DriveTrain;
+import frc.systems.MasterControls;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,14 +27,16 @@ import frc.lib14.XboxControllerMetalCow;
  */
 // public class Robot extends IterativeRobot {
 public class Robot extends TimedRobot {
-  private static final XboxControllerMetalCow controller = new XboxControllerMetalCow(1);
-	private static SpeedController rightFrontMotor = new Spark(0);
-	private static SpeedController rightBackMotor = new Spark(1); 
-	private static SpeedController leftFrontMotor = new Spark(3);
-	private static SpeedController leftBackMotor = new Spark(2); 
-	private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor, rightBackMotor); 
-	private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
-	private static final DifferentialDrive driveTrain = new DifferentialDrive(LEFT_DRIVE_MOTORS, RIGHT_DRIVE_MOTORS);
+  private static DriveTrain drive = DriveTrain.getInstance();
+  private static MasterControls controller = MasterControls.getInstance();
+  // private static final XboxControllerMetalCow controller = new XboxControllerMetalCow(1);
+	// private static SpeedController rightFrontMotor = new Spark(0);
+	// private static SpeedController rightBackMotor = new Spark(1); 
+	// private static SpeedController leftFrontMotor = new Spark(3);
+	// private static SpeedController leftBackMotor = new Spark(2); 
+	// private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor, rightBackMotor); 
+	// private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
+	// private static final DifferentialDrive driveTrain = new DifferentialDrive(LEFT_DRIVE_MOTORS, RIGHT_DRIVE_MOTORS);
 
   // Field Systems
   private DriverStation driverStation = DriverStation.getInstance();
@@ -100,8 +104,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    driveTrain.arcadeDrive(controller.getLY(), controller.getLX());
+    //driveTrain.arcadeDrive(controller.getLY(), controller.getLX());
     //driveTrain.curvatureDrive(controller.getLY(), controller.getLX(), false);
+    drive.drive();
+
   }
 
   /**
