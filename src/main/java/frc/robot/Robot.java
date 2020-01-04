@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -25,10 +26,10 @@ import frc.lib14.XboxControllerMetalCow;
 // public class Robot extends IterativeRobot {
 public class Robot extends TimedRobot {
   private static final XboxControllerMetalCow controller = new XboxControllerMetalCow(1);
-	private static Spark rightFrontMotor = new Spark(1);
-	private static Spark rightBackMotor = new Spark(2); 
-	private static Spark leftFrontMotor = new Spark(3);
-	private static Spark leftBackMotor = new Spark(4); 
+	private static SpeedController rightFrontMotor = new Spark(0);
+	private static SpeedController rightBackMotor = new Spark(1); 
+	private static SpeedController leftFrontMotor = new Spark(3);
+	private static SpeedController leftBackMotor = new Spark(2); 
 	private static final SpeedControllerGroup RIGHT_DRIVE_MOTORS = new SpeedControllerGroup(rightFrontMotor, rightBackMotor); 
 	private static final SpeedControllerGroup LEFT_DRIVE_MOTORS = new SpeedControllerGroup(leftFrontMotor, leftBackMotor);
 	private static final DifferentialDrive driveTrain = new DifferentialDrive(LEFT_DRIVE_MOTORS, RIGHT_DRIVE_MOTORS);
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+   // rightBackMotor.setInverted(true);
+   // leftBackMotor.setInverted(true);
     // pdp = new PowerDistributionPanel();
     DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
   }
@@ -98,6 +101,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     driveTrain.arcadeDrive(controller.getLY(), controller.getLX());
+    //driveTrain.curvatureDrive(controller.getLY(), controller.getLX(), false);
   }
 
   /**
