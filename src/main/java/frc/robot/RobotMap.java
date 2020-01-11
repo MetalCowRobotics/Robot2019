@@ -13,9 +13,9 @@ public class RobotMap {
 	}
 
 	public static final class Drivetrain {
-		public static final double SPRINT_SPEED = 1;
-		public static final double NORMAL_SPEED = 0.7;
-		public static final double CRAWL_SPEED = .5;
+		public static final double SPRINT_SPEED = .9;
+		public static final double NORMAL_SPEED = 0.85;
+		public static final double CRAWL_SPEED = .8;
 		public static final int LEFT_MOTOR = 15;
 		public static final int LEFT_MOTOR_NO_ENCODER = 4;
 		public static final int RIGHT_MOTOR = 2;
